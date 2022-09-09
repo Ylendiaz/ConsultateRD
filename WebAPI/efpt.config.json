@@ -1,0 +1,83 @@
+﻿{
+   "CodeGenerationMode": 2,
+   "ContextClassName": "consultate_rd_dbContext",
+   "ContextNamespace": null,
+   "DefaultDacpacSchema": null,
+   "FilterSchemas": false,
+   "IncludeConnectionString": false,
+   "ModelNamespace": null,
+   "OutputContextPath": "Data",
+   "OutputPath": "Models",
+   "ProjectRootNamespace": "WebAPI",
+   "Schemas": null,
+   "SelectedHandlebarsLanguage": 0,
+   "SelectedToBeGenerated": 0,
+   "Tables": [
+      {
+         "Name": "[dbo].[centro_medico]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[centro_medico_doctor]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[citas_agendadas]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Dias]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[especialidades]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[especialidades_doctor]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[horarios_doctor]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[info_credito]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[login_tbl]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[usuario_asistente]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[usuario_doctor]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[usuario_paciente]",
+         "ObjectType": 0
+      }
+   ],
+   "UiHint": "jonadb2.consultate_rd_db",
+   "UseBoolPropertiesWithoutDefaultSql": false,
+   "UseDatabaseNames": false,
+   "UseDbContextSplitting": false,
+   "UseFluentApiOnly": true,
+   "UseHandleBars": false,
+   "UseHierarchyId": false,
+   "UseInflector": false,
+   "UseLegacyPluralizer": false,
+   "UseManyToManyEntity": false,
+   "UseNoConstructor": false,
+   "UseNoDefaultConstructor": false,
+   "UseNoNavigations": false,
+   "UseNoObjectFilter": false,
+   "UseNodaTime": false,
+   "UseNullableReferences": false,
+   "UseSchemaFolders": false,
+   "UseSpatial": false
+}
