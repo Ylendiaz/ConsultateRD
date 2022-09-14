@@ -25,7 +25,7 @@ namespace WebAPI.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<InfoCredito>>> GetInfoCredito()
         {
-          if (_context.InfoCredito == null)
+            if (_context.InfoCredito == null)
           {
               return NotFound();
           }

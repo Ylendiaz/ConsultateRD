@@ -19,12 +19,15 @@ namespace WebAPI.Controllers
         public CentroMedicoController(consultate_rd_dbContext context)
         {
             _context = context;
+
         }
 
         // GET: api/CentroMedico
         [HttpGet]
         public async Task<ActionResult<IEnumerable<CentroMedico>>> GetCentroMedico()
         {
+            
+
           if (_context.CentroMedico == null)
           {
               return NotFound();

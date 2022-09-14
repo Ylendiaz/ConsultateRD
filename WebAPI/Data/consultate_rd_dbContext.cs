@@ -2,6 +2,7 @@
 #nullable disable
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 using WebAPI.Models;
@@ -12,6 +13,7 @@ namespace WebAPI.Data
     {
         public consultate_rd_dbContext()
         {
+           //this.ChangeTracker.LazyLoadingEnabled = false;
         }
 
         public consultate_rd_dbContext(DbContextOptions<consultate_rd_dbContext> options)
@@ -32,8 +34,12 @@ namespace WebAPI.Data
         public virtual DbSet<UsuarioDoctor> UsuarioDoctor { get; set; }
         public virtual DbSet<UsuarioPaciente> UsuarioPaciente { get; set; }
 
+       //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) => optionsBuilder.UseLazyLoadingProxies().UseSqlServer("DefaultConnection");
+
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+
             modelBuilder.Entity<CentroMedico>(entity =>
             {
                 entity.ToTable("centro_medico", "dbo");

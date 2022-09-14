@@ -12,6 +12,8 @@ namespace WebAPI.Models
             UsuarioDoctor = new HashSet<UsuarioDoctor>();
         }
 
+
+
         public int InfoCreditoId { get; set; }
         public string NombreCredito { get; set; }
         public string NumeroTarjetaCredito { get; set; }
