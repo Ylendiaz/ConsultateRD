@@ -6,7 +6,7 @@ import AppNavigatorLogin from "./screens/NavigatorLogin";
 
 export default function App() {
   return (
-        //<AppNavigator />
+   // <AppNavigator />
    <View style={styles.container}>
       <AppNavigatorLogin />
       <StatusBar style="auto" />

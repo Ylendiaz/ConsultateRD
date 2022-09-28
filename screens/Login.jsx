@@ -1,21 +1,26 @@
 import React, { Component } from "react";
 import {Image,TextInput, ImageBackground, StyleSheet, Button, Text, View } from 'react-native';
 import StyledButton from '../components/StyledButton/Btn';
+import AppNavigator from './Navigator';
 
 
+const SignIn = () => {
+
+  }
+  
 
 const Login=({navigation}) =>{
     return<>
 
         <View style={styles.container}>
 
-            <Image style = {styles.logo} source={require('../assets/vacunateRD-logo.png')} />
+            <Image style = {styles.logo} source={require('../assets/Consultate-RD-logo.png')} />
 
             <View style={styles.loginBox}>
 
                 <View style= {styles.inputsCotainer}>
                     <TextInput placeholderTextColor={'gray'} placeholder="Email" label = "Email" style={styles.input} ></TextInput>
-                    <TextInput placeholderTextColor={'gray'} placeholder="Contraseña" label = "Password" style={styles.input} ></TextInput>
+                    <TextInput placeholderTextColor={'gray'} placeholder="Contraseña" label = "Password" secureTextEntry={true} style={styles.input} ></TextInput>
                 </View>
                 
                 <View style= {styles.buttonsContainer}>
@@ -25,7 +30,7 @@ const Login=({navigation}) =>{
                     </View>
 
                     <View style={{height:"50%", width:"100%"}}>
-                        <StyledButton txtColor="#ffffff" content = "Register" bgColor="#68CCC0" onPress={() => navigation.navigate('Home')}></StyledButton>
+                        <StyledButton txtColor="#ffffff" content = "Register" bgColor="#68CCC0" onPress={() => navigation.navigate('Registrarse')}></StyledButton>
                     </View>
                     
                 </View>
@@ -42,7 +47,7 @@ export default Login;
 const styles = StyleSheet.create(
 {
     logo:{
-        width:200,
+        width:300,
         height:200,
         
     },
@@ -68,6 +73,11 @@ const styles = StyleSheet.create(
         backgroundColor:"white",
         padding:'5%',
         gap:25,
+        shadowColor: '#171717',
+        shadowOffset: {width: -2, height: 4},
+        shadowOpacity: 2,
+        shadowRadius: 3,
+        
     },
 
     inputsCotainer:{
@@ -81,7 +91,8 @@ const styles = StyleSheet.create(
     buttonsContainer:{
         gap:20, 
         width:"80%", 
-        padding:"5%"
+        padding:"5%",
+        
     },
    
 
@@ -97,6 +108,10 @@ const styles = StyleSheet.create(
         flexDirection:'row',
         borderRadius:30,
         padding:10,
+
+        shadowColor: '#171717',
+        shadowOffset: {width: 1, height: 1},
+        shadowOpacity: 2,
 
     },
 });
