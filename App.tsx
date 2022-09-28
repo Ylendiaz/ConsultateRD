@@ -1,10 +1,14 @@
+import React from "react";
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
+import AppNavigator from './screens/Navigator';
+import AppNavigatorLogin from "./screens/NavigatorLogin";
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
+        //<AppNavigator />
+   <View style={styles.container}>
+      <AppNavigatorLogin />
       <StatusBar style="auto" />
     </View>
   );
@@ -13,8 +17,9 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#ffffff',
     alignItems: 'center',
     justifyContent: 'center',
+
   },
 });
