@@ -1,16 +1,16 @@
 import React, { Component } from "react";
 import {StyleSheet, Button, Text, View } from 'react-native';
-import AppNavigator from './Navigator';
+import AppNavigator from '../../navigator/Navigator';
 
 
-const DoctoresScreen = ({navigation}) => {
+const PerfilScreen = ({navigation}) => {
     return<>
     {/* <AppNavigator /> */}
     <View style={{height:100, width:100}}>
-        <Text>Pantalla de busqueda de doctores</Text>
+        <Text>Pantalla de perfil</Text>
     </View>
     </>
     
 }
 
-export default DoctoresScreen;
+export default PerfilScreen;

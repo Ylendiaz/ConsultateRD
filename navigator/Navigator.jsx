@@ -2,13 +2,10 @@ import React from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { useNavigation } from "@react-navigation/native";
-import Login from "./Login";
-import DoctoresScreen from "./DoctoresScreen";
-import Home from "./Home";
-import Perfil from "./Perfil";
-import GestionCita from "./GestionCita";
-// import { Header } from "react-native/Libraries/NewAppScreen";
+import DoctoresScreen from "../screens/busqueda/DoctoresScreen";
+import HomeScreen from "../screens/home/HomeScreen";
+import PerfilScreen from "../screens/perfil/PerfilScreen";
+import GestionCitaScreen from "../screens/citas/GestionCitaScreen";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -16,7 +13,7 @@ const Tab = createBottomTabNavigator();
 function HomeStack(){
     return(
             <Stack.Navigator initialRouteName="Home">
-                <Stack.Screen name="Home" component={Home} options={{headerShown: false}}/> 
+                <Stack.Screen name="Home" component={HomeScreen} options={{headerShown: false}}/> 
             </Stack.Navigator>
     );
 }
@@ -32,7 +29,7 @@ function DoctoresStack(){
 function GestionCitaStack(){
     return(
             <Stack.Navigator>
-                <Stack.Screen name="GestionCita" component={GestionCita} options={{headerShown: false}}/> 
+                <Stack.Screen name="GestionCita" component={GestionCitaScreen} options={{headerShown: false}}/> 
             </Stack.Navigator>
     );
 }
@@ -40,7 +37,7 @@ function GestionCitaStack(){
 function PerfilStack(){
     return(
             <Stack.Navigator>
-                <Stack.Screen name="Perfil" component={Perfil} options={{headerShown: false}}/> 
+                <Stack.Screen name="Perfil" component={PerfilScreen} options={{headerShown: false}}/> 
             </Stack.Navigator>
     );
 }

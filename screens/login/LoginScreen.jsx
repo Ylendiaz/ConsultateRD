@@ -1,20 +1,14 @@
 import React, { Component } from "react";
 import {Image,TextInput, ImageBackground, StyleSheet, Button, Text, View } from 'react-native';
-import StyledButton from '../components/StyledButton/Btn';
-import AppNavigator from './Navigator';
+import StyledButton from '../../components/StyledButton/Btn';
 
 
-const SignIn = () => {
-
-  }
-  
-
-const Login=({navigation}) =>{
+const LoginScreen=({navigation}) =>{
     return<>
 
         <View style={styles.container}>
 
-            <Image style = {styles.logo} source={require('../assets/Consultate-RD-logo.png')} />
+            <Image style = {styles.logo} source={require('../../assets/Consultate-RD-logo.png')} />
 
             <View style={styles.loginBox}>
 
@@ -42,7 +36,7 @@ const Login=({navigation}) =>{
     </>
 }
 
-export default Login;
+export default LoginScreen;
 
 const styles = StyleSheet.create(
 {
@@ -95,9 +89,6 @@ const styles = StyleSheet.create(
         
     },
    
-
-    
-
     input: {
         textColor: "gray",
         fontFamily:"JetBrains Mono",

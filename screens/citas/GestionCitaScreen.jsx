@@ -1,16 +1,15 @@
 import React, { Component } from "react";
 import {StyleSheet, Button, Text, View } from 'react-native';
-import AppNavigator from './Navigator';
+import AppNavigator from '../../navigator/Navigator';
 
 
-const Perfil = ({navigation}) => {
+const GestionCitaScreen = ({navigation}) => {
     return<>
-    {/* <AppNavigator /> */}
     <View style={{height:100, width:100}}>
-        <Text>Pantalla de perfil</Text>
+        <Text>Pantalla de gestion de citas</Text>
     </View>
     </>
     
 }
 
-export default Perfil;
+export default GestionCitaScreen;
