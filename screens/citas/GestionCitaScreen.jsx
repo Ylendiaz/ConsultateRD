@@ -6,7 +6,7 @@ import AppNavigator from '../../navigator/Navigator';
 const GestionCitaScreen = ({navigation}) => {
     return<>
     <View style={{height:100, width:100}}>
-        <Text>Pantalla de gestion de citas</Text>
+        <Text>Gestion de citas SCREEN</Text>
     </View>
     </>
     
