@@ -48,7 +48,7 @@ function MyTabs(){
 
 export default function AppNavigator(){
     return(
-        <NavigationContainer>
+        <NavigationContainer independent={true}>
                 <MyTabs />
         </NavigationContainer>
           

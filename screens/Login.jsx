@@ -26,7 +26,7 @@ const Login=({navigation}) =>{
                 <View style= {styles.buttonsContainer}>
 
                     <View style={{height:"50%", width:"100%"}}>
-                        <StyledButton txtColor="#ffffff" content = "Log in" bgColor="#68CCC0" onPress={() => navigation.navigate('Home')}></StyledButton>
+                        <StyledButton txtColor="#ffffff" content = "Log in" bgColor="#68CCC0" onPress={() => navigation.navigate('HomeTab')}></StyledButton>
                     </View>
 
                     <View style={{height:"50%", width:"100%"}}>
