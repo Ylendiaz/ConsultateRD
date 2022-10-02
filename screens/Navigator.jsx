@@ -7,6 +7,7 @@ import Login from "./Login";
 import DoctoresScreen from "./DoctoresScreen";
 import Home from "./Home";
 import Perfil from "./Perfil";
+import GestionCita from "./GestionCita";
 // import { Header } from "react-native/Libraries/NewAppScreen";
 
 const Stack = createNativeStackNavigator();
@@ -15,7 +16,7 @@ const Tab = createBottomTabNavigator();
 function HomeStack(){
     return(
             <Stack.Navigator initialRouteName="Home">
-                <Stack.Screen name="Home" component={Home} options={{title : "Home Screen"}}/> 
+                <Stack.Screen name="Home" component={Home} options={{headerShown: false}}/> 
             </Stack.Navigator>
     );
 }
@@ -23,7 +24,15 @@ function HomeStack(){
 function DoctoresStack(){
     return(
             <Stack.Navigator>
-                <Stack.Screen name="DoctoresScreen" component={DoctoresScreen} options={{title : "Doctores Screen"}}/> 
+                <Stack.Screen name="DoctoresScreen" component={DoctoresScreen} options={{headerShown: false}}/> 
+            </Stack.Navigator>
+    );
+}
+
+function GestionCitaStack(){
+    return(
+            <Stack.Navigator>
+                <Stack.Screen name="GestionCita" component={GestionCita} options={{headerShown: false}}/> 
             </Stack.Navigator>
     );
 }
@@ -31,7 +40,7 @@ function DoctoresStack(){
 function PerfilStack(){
     return(
             <Stack.Navigator>
-                <Stack.Screen name="Perfil" component={Perfil} options={{title : "Perfil Screen"}}/> 
+                <Stack.Screen name="Perfil" component={Perfil} options={{headerShown: false}}/> 
             </Stack.Navigator>
     );
 }
@@ -39,9 +48,10 @@ function PerfilStack(){
 function MyTabs(){
     return(
         <Tab.Navigator initialRouteName="Home">
-            <Tab.Screen name="HomeMenu" component={HomeStack} options={{headerShown: false}}/>
-            <Tab.Screen name="PerfilMenu" component={DoctoresStack} options={{headerShown: false}}/>
-            <Tab.Screen name="DoctoresMenu" component={PerfilStack} options={{headerShown: false}}/>
+            <Tab.Screen name="Home" component={HomeStack} />
+            <Tab.Screen name="Buscar" component={DoctoresStack} />
+            <Tab.Screen name="Citas" component={GestionCitaStack} />
+            <Tab.Screen name="Perfil" component={PerfilStack} />
         </Tab.Navigator>
     );
 }
