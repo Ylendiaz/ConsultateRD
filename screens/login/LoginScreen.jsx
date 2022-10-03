@@ -1,14 +1,15 @@
 import React, { Component } from "react";
-import {Image,TextInput, ImageBackground, StyleSheet, Button, Text, View } from 'react-native';
+import {Image,TextInput, ImageBackground, StyleSheet, Button, Text, View, KeyboardAvoidingView } from 'react-native';
 import StyledButton from '../../components/StyledButton/Btn';
 
 
 const LoginScreen=({navigation}) =>{
     return<>
-
         <View style={styles.container}>
 
             <Image style = {styles.logo} source={require('../../assets/Consultate-RD-logo.png')} />
+
+            <Text style = {styles.textlogo}>Consultate RD</Text>
 
             <View style={styles.loginBox}>
 
@@ -39,19 +40,26 @@ export default LoginScreen;
 
 const styles = StyleSheet.create(
 {
-    logo:{
-        width:300,
-        height:200,
-        marginTop:30
-    },
-
     container:{
         flex: 1,
         alignItems:'center',
         backgroundColor:"#68CCC0",
         width:'100%',
         height:'100%',
+        paddingTop:'18%'
+    },
 
+    logo:{
+        width:300,
+        height:200,
+        marginTop:30
+    },
+
+    textlogo:{
+        fontSize: 30,
+        fontWeight:'bold',
+        marginTop: 10,
+        marginBottom:15
     },
 
     loginBox:{
@@ -60,7 +68,7 @@ const styles = StyleSheet.create(
         gap:50,
         width: "80%", 
         height: 400,
-        borderRadius: "25px", 
+        borderRadius: 25, 
         backgroundColor:"white",
         padding:'5%',
         shadowColor: '#171717',
@@ -94,7 +102,7 @@ const styles = StyleSheet.create(
         backgroundColor:"#e6e6fa",
         justifyContent:'center',
         flexDirection:'row',
-        borderRadius:5,
+        borderRadius:10,
         padding:15,
         shadowColor: '#171717',
         shadowOffset: {width: 1, height: 1},
