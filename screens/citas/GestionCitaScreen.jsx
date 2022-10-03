@@ -47,16 +47,12 @@ const GestionCitaScreen = () => {
             'Noviembre',
             'Diciembre',
           ]}
-          previousTitle="Previous"
-          nextTitle="Next"
+          previousTitle="Anterior"
+          nextTitle="Siguiente"
           todayBackgroundColor="#e6ffe6"
           selectedDayColor="#66ff33"
           selectedDayTextColor="#000000"
           scaleFactor={375}
-          textStyle={{
-            fontFamily: 'Calibri',
-            color: '#000000',
-          }}
           onDateChange={onDateChange}
         />
         <View style={styles.textStyle}>
