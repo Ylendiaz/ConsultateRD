@@ -12,26 +12,25 @@ const LoginScreen=({navigation}) =>{
 
             <View style={styles.loginBox}>
 
-                <View style= {styles.inputsCotainer}>
+                <View style= {styles.inputsContainer}>
                     <TextInput placeholderTextColor={'gray'} placeholder="Email" label = "Email" style={styles.input} ></TextInput>
                     <TextInput placeholderTextColor={'gray'} placeholder="Contraseña" label = "Password" secureTextEntry={true} style={styles.input} ></TextInput>
                 </View>
                 
                 <View style= {styles.buttonsContainer}>
 
-                    <View style={{height:"50%", width:"100%"}}>
+                    <View style={{height:50, width:"100%"}}>
                         <StyledButton txtColor="#ffffff" content = "Log in" bgColor="#68CCC0" onPress={() => navigation.navigate('HomeTab')}></StyledButton>
                     </View>
 
-                    <View style={{height:"50%", width:"100%"}}>
-                        <StyledButton txtColor="#ffffff" content = "Register" bgColor="#68CCC0" onPress={() => navigation.navigate('Registrarse')}></StyledButton>
+                    <View style={{height:50, width:"100%",marginTop:15}}>
+                        <StyledButton txtColor="#ffffff" content = "Registrarse" bgColor="#68CCC0" onPress={() => navigation.navigate('Registrarse')}></StyledButton>
                     </View>
                     
                 </View>
                 
              </View>
-
-        </View>
+       </View>
         
     </>
 }
@@ -43,66 +42,64 @@ const styles = StyleSheet.create(
     logo:{
         width:300,
         height:200,
-        
+        marginTop:30
     },
 
     container:{
         flex: 1,
-        alignSelf: "center",
         alignItems:'center',
-        justifyContent: 'center',
         backgroundColor:"#68CCC0",
-        width:'100vw',
-        height:'100vh',
-        gap:50,
+        width:'100%',
+        height:'100%',
+
     },
 
     loginBox:{
+        justifyContent:"center",
         alignItems:'center',
-        justifyContent:'center', 
-   
-        width: "90%", 
-        height: "55%",
+        gap:50,
+        width: "80%", 
+        height: 400,
         borderRadius: "25px", 
         backgroundColor:"white",
         padding:'5%',
-        gap:25,
         shadowColor: '#171717',
         shadowOffset: {width: -2, height: 4},
         shadowOpacity: 2,
         shadowRadius: 3,
+        marginTop:20,
+        marginBottom:20
         
     },
 
-    inputsCotainer:{
-        gap:20, 
+    inputsContainer:{
+        justifyContent: "center",
+        width:"100%",
+        height:"50%",
+        alignItems:'center'
+
+    },
+    buttonsContainer:{
+        justifyContent: "center",
         width:"100%",
         height:"50%",
         alignItems:'center',
         padding:"5%"
-
-    },
-    buttonsContainer:{
-        gap:20, 
-        width:"80%", 
-        padding:"5%",
-        
     },
    
     input: {
         textColor: "gray",
-        fontFamily:"JetBrains Mono",
         width: "90%", 
-        height: "100%",
+        height: 50,
         backgroundColor:"#e6e6fa",
         justifyContent:'center',
         flexDirection:'row',
-        borderRadius:30,
-        padding:10,
-
+        borderRadius:5,
+        padding:15,
         shadowColor: '#171717',
         shadowOffset: {width: 1, height: 1},
         shadowOpacity: 2,
+        marginTop:15
 
     },
 });
