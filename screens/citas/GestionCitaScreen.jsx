@@ -47,8 +47,8 @@ const GestionCitaScreen = () => {
             'Noviembre',
             'Diciembre',
           ]}
-          previousTitle="Previous"
-          nextTitle="Next"
+          previousTitle="Anterior"
+          nextTitle="Siguiente"
           todayBackgroundColor="#e6ffe6"
           selectedDayColor="#66ff33"
           selectedDayTextColor="#000000"
