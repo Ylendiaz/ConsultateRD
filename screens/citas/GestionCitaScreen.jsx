@@ -53,10 +53,6 @@ const GestionCitaScreen = () => {
           selectedDayColor="#66ff33"
           selectedDayTextColor="#000000"
           scaleFactor={375}
-          textStyle={{
-            fontFamily: 'Calibri',
-            color: '#000000',
-          }}
           onDateChange={onDateChange}
         />
         <View style={styles.textStyle}>
