@@ -1,7 +1,7 @@
 import React, {Component, useState } from "react";
 import {Image, StyleSheet, Text, View, KeyboardAvoidingView } from 'react-native';
 import StyledButton from '../../components/StyledButton/Btn';
-import 'bootstrap/dist/css/bootstrap.min.css';
+//import 'bootstrap/dist/css/bootstrap.min.css';
 import Cookies from "universal-cookie";
 import axios from "axios";
 import md5 from 'md5';
@@ -68,18 +68,18 @@ const LoginScreen=({navigation}) =>{
             <View style={styles.loginBox}>
 
                 <View style= {styles.inputsContainer}>
-                    <input name = "username" placeholdertextcolor={'gray'} placeholder="Correo"  style={styles.input} onChange={handleChange}></input>
-                    <input type="password" placeholdertextcolor={'gray'} placeholder="Contraseña" name = "password"  style={styles.input} onChange={handleChange}></input>
+                    {/* <input name = "username" placeholdertextcolor={'gray'} placeholder="Correo"  style={styles.input} onChange={handleChange}></input>
+                    <input type="password" placeholdertextcolor={'gray'} placeholder="Contraseña" name = "password"  style={styles.input} onChange={handleChange}></input> */}
                 </View>
                 
                 <View style= {styles.buttonsContainer}>
 
                     <View style={{height:50, width:"100%"}}>
-                        <StyledButton txtColor="#ffffff" content = "Log in" bgColor="#68CCC0" onPress={() => iniciarSesion()}></StyledButton>
+                        <StyledButton txtColor="#ffffff" content = "Log in" bgColor="#68CCC0" radius = "100" onPress={() => iniciarSesion()}></StyledButton>
                     </View>
 
                     <View style={{height:50, width:"100%",marginTop:15}}>
-                        <StyledButton txtColor="#ffffff" content = "Registrarse" bgColor="#68CCC0" onPress={() => navigation.navigate('HomeTab')}></StyledButton>
+                        <StyledButton txtColor="#ffffff" content = "Registrarse" bgColor="#68CCC0" radius = "100" onPress={() => navigation.navigate('Registrarse')}></StyledButton>
                         {/* <StyledButton txtColor="#ffffff" content = "Registrarse" bgColor="#68CCC0" onPress={() => navigation.navigate('Registrarse')}></StyledButton> */}
                     </View>
                     
