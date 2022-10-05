@@ -120,5 +120,19 @@ namespace WebAPI.Controllers
         {
             return (_context.UsuarioDoctor?.Any(e => e.DoctorId == id)).GetValueOrDefault();
         }
+
+        // GET: api/UsuarioDoctoresContent
+        [HttpGet("GetDoctoresContent")]
+        public async Task<ActionResult<UsuarioDoctor>> GetUsuarioDoctorContent()
+        {
+            var usuarioDoctor = await _context.UsuarioDoctor
+                .Where(c => c.DoctorId == c.DoctorId)
+                .Include(c => c.EspecialidadesDoctor)
+                .Include(c => c.CentroMedicoDoctor)
+                .ToListAsync();
+
+            return Ok(usuarioDoctor);
+        }
+
     }
 }
