@@ -68,18 +68,23 @@ const LoginScreen=({navigation}) =>{
             <View style={styles.loginBox}>
 
                 <View style= {styles.inputsContainer}>
+<<<<<<< HEAD
                     {/* <input name = "username" placeholdertextcolor={'gray'} placeholder="Correo"  style={styles.input} onChange={handleChange}></input> */}
                     {/* <input type="password" placeholdertextcolor={'gray'} placeholder="Contraseña" name = "password"  style={styles.input} onChange={handleChange}></input> */}
+=======
+                    {/* <input name = "username" placeholdertextcolor={'gray'} placeholder="Correo"  style={styles.input} onChange={handleChange}></input>
+                    <input type="password" placeholdertextcolor={'gray'} placeholder="Contraseña" name = "password"  style={styles.input} onChange={handleChange}></input> */}
+>>>>>>> dbe115e18a89cc377863d67215f9bd5538e5afcc
                 </View>
                 
                 <View style= {styles.buttonsContainer}>
 
                     <View style={{height:50, width:"100%"}}>
-                        <StyledButton txtColor="#ffffff" content = "Log in" bgColor="#68CCC0" onPress={() => iniciarSesion()}></StyledButton>
+                        <StyledButton txtColor="#ffffff" content = "Log in" bgColor="#68CCC0" radius = "100" onPress={() => iniciarSesion()}></StyledButton>
                     </View>
 
                     <View style={{height:50, width:"100%",marginTop:15}}>
-                        <StyledButton txtColor="#ffffff" content = "Registrarse" bgColor="#68CCC0" onPress={() => navigation.navigate('HomeTab')}></StyledButton>
+                        <StyledButton txtColor="#ffffff" content = "Registrarse" bgColor="#68CCC0" radius = "100" onPress={() => navigation.navigate('Registrarse')}></StyledButton>
                         {/* <StyledButton txtColor="#ffffff" content = "Registrarse" bgColor="#68CCC0" onPress={() => navigation.navigate('Registrarse')}></StyledButton> */}
                     </View>
                     

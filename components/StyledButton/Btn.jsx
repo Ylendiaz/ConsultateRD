@@ -4,12 +4,12 @@ import styles from './BtnStyles';
 
 const StyledButton = (props) => {
 
-  const { content, bgColor, onPress, txtColor } = props;
+  const { content, bgColor, onPress, txtColor, radius } = props;
 
   return (
 
       <TouchableOpacity 
-      style={[styles.button, { backgroundColor: bgColor}]}
+      style={[styles.button, { backgroundColor: bgColor}, {borderRadius: radius}]}
       onPress={() => onPress()}
       >
         <Text style={[styles.text, { color: txtColor }]}>{content}</Text>
