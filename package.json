@@ -44,5 +44,9 @@
     "@types/react-native": "~0.69.1",
     "typescript": "~4.3.5"
   },
+  "infoPlist": {
+    "NSAppTransportSecurity": "This app uses the camera to scan barcodes on event tickets."
+  },
   "private": true
+  
 }

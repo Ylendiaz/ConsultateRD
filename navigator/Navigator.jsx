@@ -49,13 +49,8 @@ function MyTabs(){
     return(
         <Tab.Navigator initialRouteName="Home">
             <Tab.Screen name="Home" component={HomeStack} />
-            <Tab.Screen name="Buscar" component={DoctoresStack} />
-
-            {/* cookies.get('rol') */}
-
-        {cookies.get('rol') == 'true' ? <Tab.Screen name="Citas" component={GestionCitaStack} /> : null}
-
-
+            <Tab.Screen name="Buscar" component={DoctoresStack} options={{headerShown: false}}/>
+            {cookies.get('rol') == 'true' ? <Tab.Screen name="Citas" component={GestionCitaStack} /> : null}
             <Tab.Screen name="Perfil" component={PerfilStack} />
         </Tab.Navigator>
     );
