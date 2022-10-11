@@ -68,13 +68,8 @@ const LoginScreen=({navigation}) =>{
             <View style={styles.loginBox}>
 
                 <View style= {styles.inputsContainer}>
-<<<<<<< HEAD
                     {/* <input name = "username" placeholdertextcolor={'gray'} placeholder="Correo"  style={styles.input} onChange={handleChange}></input> */}
                     {/* <input type="password" placeholdertextcolor={'gray'} placeholder="Contraseña" name = "password"  style={styles.input} onChange={handleChange}></input> */}
-=======
-                    {/* <input name = "username" placeholdertextcolor={'gray'} placeholder="Correo"  style={styles.input} onChange={handleChange}></input>
-                    <input type="password" placeholdertextcolor={'gray'} placeholder="Contraseña" name = "password"  style={styles.input} onChange={handleChange}></input> */}
->>>>>>> dbe115e18a89cc377863d67215f9bd5538e5afcc
                 </View>
                 
                 <View style= {styles.buttonsContainer}>
