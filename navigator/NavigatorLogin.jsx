@@ -4,10 +4,13 @@ import { NavigationContainer } from "@react-navigation/native";
 import LoginScreen from "../screens/login/LoginScreen";
 import RegistrarseScreen from "../screens/login/RegistrarseScreen";
 import AppNavigator from "./Navigator";
+import Cookies from "universal-cookie";
 
 const Stack = createNativeStackNavigator();
+const cookies = new Cookies();
 
 function MyStack(){
+    
     return(
             <Stack.Navigator initialRouteName="Login">
                 <Stack.Screen name="Login" component={LoginScreen} options={{headerShown: false}}/>
@@ -18,7 +21,9 @@ function MyStack(){
 }
 
 export default function AppNavigatorLogin(){
+
     return(
+        
         <NavigationContainer independent={true}>
             <MyStack />
         </NavigationContainer>

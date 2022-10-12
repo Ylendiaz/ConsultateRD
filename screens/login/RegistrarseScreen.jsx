@@ -166,12 +166,8 @@ const styles = StyleSheet.create(
             width: '100%',
             justifyContent: 'center',
             marginTop: 30
-            //backgroundColor: "blue",
-        },
 
-        // inputText:{
-        //     marginTop: 20
-        // },
+        },
 
         input: {
             textColor: "gray",

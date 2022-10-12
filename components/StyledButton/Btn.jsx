@@ -9,7 +9,7 @@ const StyledButton = (props) => {
   return (
 
       <TouchableOpacity 
-      style={[styles.button, { backgroundColor: bgColor}, {borderRadius: radius}]}
+      style={[styles.button, { backgroundColor: bgColor}, {borderRadius: parseInt(radius) }]}
       onPress={() => onPress()}
       >
         <Text style={[styles.text, { color: txtColor }]}>{content}</Text>
