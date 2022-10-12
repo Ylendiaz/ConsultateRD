@@ -2,7 +2,7 @@ import React, {Component, useState } from "react";
 import {Image, StyleSheet, Text, View, KeyboardAvoidingView, TextInput } from 'react-native';
 import StyledButton from '../../components/StyledButton/Btn';
 //import 'bootstrap/dist/css/bootstrap.min.css';
-import Cookies from "universal-cookie";
+//import Cookies from "universal-cookie";
 import axios from "axios";
 import md5 from 'md5';
 
@@ -10,8 +10,8 @@ import md5 from 'md5';
 
 const LoginScreen=({navigation}) =>{
 
-    const baseUrl="https://localhost:7000/api/LoginTbls";
-    const cookies = new Cookies();
+    /*const baseUrl="https://localhost:7000/api/LoginTbls";
+    //const cookies = new Cookies();
 
     const [form,setForm]= useState({
         username:'',
@@ -56,7 +56,7 @@ const LoginScreen=({navigation}) =>{
         .catch(error=>{
             console.log(error);
         })
-    }
+    }*/
 
     return<>
         <View style={styles.container}>

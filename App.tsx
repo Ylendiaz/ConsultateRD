@@ -4,14 +4,15 @@ import { StyleSheet, Text, View } from 'react-native';
 import AppNavigatorLogin from "./navigator/NavigatorLogin";
 import AppNavigator from ".//navigator/Navigator";
 import DoctoresScreen from "./screens/busqueda/DoctoresScreen";
+import GestionCitaScreen from "./screens/citas/GestionCitaScreen";
 
 export default function App() {
   return (
-      <AppNavigator></AppNavigator>
-    // <View style={styles.container}>
-    //   <AppNavigatorLogin />
-    //   <StatusBar style="auto" />
-    // </View>
+      //<AppNavigator></AppNavigator>
+      <View style={styles.container}>
+      <AppNavigatorLogin />
+      <StatusBar style="auto" />
+    </View>
   );
 }
 
