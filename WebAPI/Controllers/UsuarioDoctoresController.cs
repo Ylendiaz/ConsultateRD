@@ -127,8 +127,8 @@ namespace WebAPI.Controllers
         {
             var usuarioDoctor = await _context.UsuarioDoctor
                 .Where(c => c.DoctorId == c.DoctorId)
-                .Include(c => c.EspecialidadesDoctor)
-                .Include(c => c.CentroMedicoDoctor)
+                .Include(c => c.EspecialidadesDoctor).ThenInclude(t => t.Especialidad).AsNoTracking()
+                .Include(c => c.CentroMedicoDoctor).ThenInclude(t => t.CentroMedico).AsNoTracking()
                 .ToListAsync();
 
             return Ok(usuarioDoctor);
