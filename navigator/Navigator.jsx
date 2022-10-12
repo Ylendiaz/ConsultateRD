@@ -12,7 +12,7 @@ import DisponibilidadDoctorScreen from "../screens/busqueda/DisponibilidadDoctor
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
-const cookies = new Cookies();
+//const cookies = new Cookies();
 
 
 function HomeStack(){

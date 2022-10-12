@@ -1,12 +1,45 @@
-import React, {useState} from 'react';
-import {SafeAreaView, StyleSheet, View, Text, FlatList, TouchableOpacity, Button, StatusBar} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {SafeAreaView, Scrollview,StyleSheet, View, Text, FlatList, TouchableOpacity, Button, StatusBar} from 'react-native';
 import CalendarPickerModal from 'react-native-calendar-picker';
 import { withSafeAreaInsets } from 'react-native-safe-area-context';
-
+import GestionCita_Get from '../../API/GestionCita_Get';
+import Paciente from '../../API/Paciente';
  
 const GestionCitaScreen = () => {
   const [selectedStartDate, setSelectedStartDate] = useState(null);
   const [selectedEndDate, setSelectedEndDate] = useState(null);
+  
+  
+  const [CitasData, SetCitasData] = useState([]);
+  const [filterCitasData, setFilterCitasData] = useState([]);
+  const [dataCita, setDataCita] = useState([]);
+
+
+  function citasAgendadas() {
+    const js = GestionCita_Get;
+    useEffect(() => {
+        SetCitasData(js);
+        setFilterCitasData(js);
+    }, [])
+    return citasAgendadas;
+}
+
+const ci = Paciente;
+    useEffect(() => {
+        setDataCita(ci);
+    }, [])
+
+// function citasAgendadas() {
+//   const js = Paciente;
+//   useEffect(() => {
+//       SetCitasData(js);
+//       setFilterCitasData(js);
+//   }, [])
+//   return citasAgendadas;
+// }
+  
+const citasList = citasAgendadas();
+
   
   const renderItem = ({ item }) => (
     <Item title={item.title} />
@@ -33,66 +66,8 @@ const GestionCitaScreen = () => {
     </TouchableOpacity>
   );
   
-  const DATA = [
-    {
-      id: '1',
-      title: '10:00 am - 10:30 am  \n ______________________________________\n -------------------- \n -------------------- \n --------------------',
-    },
-    {
-      id: '2',
-      title: '10:30 am - 11:00 am  \n ______________________________________\n -------------------- \n -------------------- \n --------------------',
-    },
-    {
-      id: '3',
-      title: '11:00 am - 11:30 am  \n ______________________________________\n -------------------- \n -------------------- \n --------------------',
-    },
-    {
-      id: '4',
-      title: '11:30 am - 12:00 pm  \n ______________________________________\n -------------------- \n -------------------- \n --------------------',
-    },
-    {
-      id: '5',
-      title: '12:00 pm - 12:30 pm  \n ______________________________________\n -------------------- \n -------------------- \n --------------------',
-    },
-    {
-      id: '6',
-      title: '12:30 pm - 01:00 pm \n ______________________________________\n -------------------- \n -------------------- \n --------------------',
-    },
-    {
-      id: '7',
-      title: '01:00 pm - 01:30 pm  \n ______________________________________\n -------------------- \n -------------------- \n --------------------',
-    },
-    {
-      id: '8',
-      title: '01:30 pm - 02:00 pm  \n ______________________________________\n -------------------- \n -------------------- \n --------------------',
-    },
-    {
-      id: '9',
-      title: '02:00 pm - 02:30 pm  \n ______________________________________\n -------------------- \n -------------------- \n --------------------',
-    },
-    {
-      id: '10',
-      title: '02:30 pm - 03:00 pm  \n ______________________________________\n -------------------- \n -------------------- \n --------------------',
-    },
-    {
-      id: '11',
-      title: '03:00 pm - 03:30 pm  \n ______________________________________\n -------------------- \n -------------------- \n --------------------',
-    },
-    {
-      id: '12',
-      title: '03:30 pm - 04:00 pm  \n ______________________________________\n -------------------- \n -------------------- \n --------------------',
-    },
-    {
-      id: '13',
-      title: '04:00 pm - 04:30 pm  \n ______________________________________\n -------------------- \n -------------------- \n --------------------',
-    },
-    {
-      id: '14',
-      title: '04:30 pm - 05:00 pm  \n ______________________________________\n -------------------- \n -------------------- \n --------------------',
-    },
+  
 
-
-  ];
 
   return (
     
@@ -148,11 +123,13 @@ const GestionCitaScreen = () => {
       <AppButton title="Citas Programadas"/>
       </View>
         <FlatList
-            data={DATA}
-            renderItem={renderItem}
+            data={filterCitasData}
+            //renderItem={renderItem}
+            renderItem= {({item}) => <Text style = {styles.item}>{dataCita.find(x => x.pacienteId == item.pacienteId).nombrePaciente}{dataCita.find(x => x.pacienteId == item.pacienteId).apellidoPaciente}       {item.citasHoraInicio} - {item.citaHoraCierre}</Text>}
             keyExtractor={item => item.id} 
+            
         />
-      
+    
       </View>
     </SafeAreaView>
   );
