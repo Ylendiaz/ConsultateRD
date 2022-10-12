@@ -7,11 +7,11 @@ import DoctoresScreen from "./screens/busqueda/DoctoresScreen";
 
 export default function App() {
   return (
-    //  <AppNavigator></AppNavigator>
-    <View style={styles.container}>
-      <AppNavigatorLogin />
-      <StatusBar style="auto" />
-    </View>
+      <AppNavigator></AppNavigator>
+    // <View style={styles.container}>
+    //   <AppNavigatorLogin />
+    //   <StatusBar style="auto" />
+    // </View>
   );
 }
 
