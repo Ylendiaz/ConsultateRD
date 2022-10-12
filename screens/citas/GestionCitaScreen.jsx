@@ -127,7 +127,7 @@ const citasList = citasAgendadas();
             //renderItem={renderItem}
             renderItem= {({item}) => (
             <TouchableOpacity>
-               <Text style = {styles.item}>{dataCita.find(x => x.pacienteId == item.pacienteId).nombrePaciente}{dataCita.find(x => x.pacienteId == item.pacienteId).apellidoPaciente}       {item.citasHoraInicio} - {item.citaHoraCierre}</Text>
+               <Text style = {styles.item}>{dataCita.find(x => x.pacienteId == item.pacienteId).nombrePaciente}   {dataCita.find(x => x.pacienteId == item.pacienteId).apellidoPaciente}       {item.citasHoraInicio} - {item.citaHoraCierre}</Text>
             </TouchableOpacity>)}
             keyExtractor={item => item.id} 
         />
@@ -142,7 +142,7 @@ export default GestionCitaScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: 30,
+    paddingTop: 0,
     backgroundColor: '#ffffff',
     padding: 16,
   },
