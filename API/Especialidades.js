@@ -7,8 +7,41 @@ export default [
     
     {
         especialidadId: 2,
-        nombreEspecialidad: "Endocrinologo",
+        nombreEspecialidad: "Endocrinología",
         especialidadesDoctor: []
    
+    },
+    
+    {
+        especialidadId: 3,
+        nombreEspecialidad: "Geriátría",
+        especialidadesDoctor: []
+    
+    },
+    
+    {
+        especialidadId: 4,
+        nombreEspecialidad: "Pediatría",
+        especialidadesDoctor: []
+    
+    },
+    
+    {
+        especialidadId: 5,
+        nombreEspecialidad: "Cardiología",
+        especialidadesDoctor: []
+    },
+    
+    {
+        especialidadId: 6,
+        nombreEspecialidad: "Oftalmología",
+        especialidadesDoctor: []
+    },
+    
+    {
+        especialidadId: 7,
+        nombreEspecialidad: "Urología",
+        especialidadesDoctor: []
     }
+    
 ]
