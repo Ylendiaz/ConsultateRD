@@ -6,11 +6,11 @@ import DoctoresScreen from "../screens/busqueda/DoctoresScreen";
 import HomeScreen from "../screens/home/HomeScreen";
 import PerfilScreen from "../screens/perfil/PerfilScreen";
 import GestionCitaScreen from "../screens/citas/GestionCitaScreen";
-import Cookies from "universal-cookie";
+//import Cookies from "universal-cookie";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
-const cookies = new Cookies();
+//const cookies = new Cookies();
 
 
 function HomeStack(){
@@ -50,7 +50,7 @@ function MyTabs(){
         <Tab.Navigator initialRouteName="Home">
             <Tab.Screen name="Home" component={HomeStack} />
             <Tab.Screen name="Buscar" component={DoctoresStack} options={{headerShown: false}}/>
-            {cookies.get('rol') == 'true' ? <Tab.Screen name="Citas" component={GestionCitaStack} /> : null}
+            {'true' == 'true' ? <Tab.Screen name="Citas" component={GestionCitaStack} /> : null}
             <Tab.Screen name="Perfil" component={PerfilStack} />
         </Tab.Navigator>
     );

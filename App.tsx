@@ -9,10 +9,11 @@ import GestionCitaScreen from "./screens/citas/GestionCitaScreen";
 export default function App() {
   return (
       //<AppNavigator></AppNavigator>
-      <View style={styles.container}>
-      <AppNavigatorLogin />
-      <StatusBar style="auto" />
-    </View>
+    //   <View style={styles.container}>
+    //   <AppNavigatorLogin />
+    //   <StatusBar style="auto" />
+    // </View>
+    <GestionCitaScreen></GestionCitaScreen>
   );
 }
 

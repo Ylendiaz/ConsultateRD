@@ -2,7 +2,7 @@ import React, { Component, useEffect, useLayoutEffect, useState } from "react";
 import { StyleSheet, Button, Text, View, ScrollView, Image, TextInput } from 'react-native';
 import { SafeAreaView } from "react-native-safe-area-context";
 import AppNavigator from '../../navigator/Navigator';
-import axios from "axios";
+//import axios from "axios";
 import { AntDesign } from '@expo/vector-icons';
 import { Avatar } from "@rneui/themed";
 
