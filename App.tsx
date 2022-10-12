@@ -14,6 +14,7 @@ export default function App() {
       <AppNavigatorLogin />
       <StatusBar style="auto" />
     </View>
+    
     //<CitasInfoScreen></CitasInfoScreen>
   );
 }

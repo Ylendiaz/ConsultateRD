@@ -107,7 +107,7 @@ const DoctoresScreen = ({ navigation }) => {
                                 <View style={styles.listViewContent}>
                                     <Avatar rounded size={60} source={require("../../assets/avatar.png")}></Avatar>
                                     <View style={styles.listTextView}>
-                                        <Text style={{color:"#35AABA", fontSize:"16", marginBottom:8}}>{item.nombreDoctor} {item.apellidoDoctor}</Text>
+                                        <Text style={{color:"#35AABA",  marginBottom:8}}>{item.nombreDoctor} {item.apellidoDoctor}</Text>
                                         <Text key={item.centroMedicoDoctor[index]} style={{marginBottom:5}}>
                                             {dataEspecialidad.find(x => x.EspecialidadId == item.EspecialidadId).nombreEspecialidad}
                                         </Text>
