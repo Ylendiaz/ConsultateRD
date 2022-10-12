@@ -125,11 +125,13 @@ const citasList = citasAgendadas();
         <FlatList
             data={filterCitasData}
             //renderItem={renderItem}
-            renderItem= {({item}) => <Text style = {styles.item}>{dataCita.find(x => x.pacienteId == item.pacienteId).nombrePaciente}{dataCita.find(x => x.pacienteId == item.pacienteId).apellidoPaciente}       {item.citasHoraInicio} - {item.citaHoraCierre}</Text>}
+            renderItem= {({item}) => (
+            <TouchableOpacity>
+               <Text style = {styles.item}>{dataCita.find(x => x.pacienteId == item.pacienteId).nombrePaciente}{dataCita.find(x => x.pacienteId == item.pacienteId).apellidoPaciente}       {item.citasHoraInicio} - {item.citaHoraCierre}</Text>
+            </TouchableOpacity>)}
             keyExtractor={item => item.id} 
-            
         />
-    
+
       </View>
     </SafeAreaView>
   );
