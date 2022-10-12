@@ -65,6 +65,18 @@ const citasList = citasAgendadas();
       <Text style={styles.appButtonText}>{title}</Text>
     </TouchableOpacity>
   );
+
+  const AppButton1 = ({ onPress, title }) => (
+    <TouchableOpacity onPress={onPress} style={styles.appButtonContainer1}>
+      <Text style={styles.appButtonText1}>{title}</Text>
+    </TouchableOpacity>
+  );
+
+  const AppButton2 = ({ onPress, title }) => (
+    <TouchableOpacity onPress={onPress} style={styles.appButtonContainer2}>
+      <Text style={styles.appButtonText1}>{title}</Text>
+    </TouchableOpacity>
+  );
   
   
 
@@ -72,52 +84,6 @@ const citasList = citasAgendadas();
   return (
     
     <SafeAreaView style={styles.container}>
-      <View style={styles.container}>
-          <CalendarPickerModal
-          startFromMonday={true}
-          minDate={new Date(2018, 1, 1)}
-          maxDate={new Date(2050, 6, 3)}
-          weekdays={
-            [
-              'Lun', 
-              'Mar', 
-              'Mier', 
-              'Jue', 
-              'Vier', 
-              'Sab', 
-              'Dom'
-            ]}
-          months={[
-            'Enero',
-            'Febrero',
-            'Marzo',
-            'Abril',
-            'Mayo',
-            'Junio',
-            'Julio',
-            'Agosto',
-            'Septiembre',
-            'Octubre',
-            'Noviembre',
-            'Diciembre',
-          ]}
-          previousTitle="Anterior"
-          nextTitle="Siguiente"
-          todayBackgroundColor="#e6ffe6"
-          selectedDayColor="#66ff33"
-          selectedDayTextColor="#000000"
-          scaleFactor={375}
-          onDateChange={onDateChange}
-        />
-        {/* <View style={styles.textStyle}>
-          <Text style={styles.textStyle}>
-            Selected Start Date :
-          </Text>
-          <Text style={styles.textStyle}>
-            {selectedStartDate ? selectedStartDate.toString() : ''}
-          </Text>
-        </View> */}
-      </View>
       <View style={styles.container1}>
       <View style={styles.item2}> 
       <AppButton title="Citas Programadas"/>
@@ -125,13 +91,13 @@ const citasList = citasAgendadas();
         <FlatList
             data={filterCitasData}
             //renderItem={renderItem}
-            renderItem= {({item}) => (
-            <TouchableOpacity>
-               <Text style = {styles.item}>{dataCita.find(x => x.pacienteId == item.pacienteId).nombrePaciente}{dataCita.find(x => x.pacienteId == item.pacienteId).apellidoPaciente}       {item.citasHoraInicio} - {item.citaHoraCierre}</Text>
-            </TouchableOpacity>)}
+            renderItem= {({item}) => <Text style = {styles.item}>{dataCita.find(x => x.pacienteId == item.pacienteId).nombrePaciente}   {dataCita.find(x => x.pacienteId == item.pacienteId).apellidoPaciente}       {item.citasHoraInicio} - {item.citaHoraCierre}</Text>}
             keyExtractor={item => item.id} 
         />
-
+         
+      <AppButton1 title="Modificar cita"/>
+      <AppButton2 title="Cancelar cita"/>
+    
       </View>
     </SafeAreaView>
   );
@@ -179,6 +145,24 @@ const styles = StyleSheet.create({
     marginVertical: 8,
     marginHorizontal: 16,
   },
+  appButtonContainer1: {
+    elevation: 2,
+    backgroundColor: "black",
+    padding: 15,
+    borderRadius: 70,
+    marginVertical: 10,
+    marginHorizontal: 35,
+    fontSize: 15
+  },
+  appButtonContainer2: {
+    elevation: 4,
+    backgroundColor: "darkred",
+    padding: 15,
+    borderRadius: 70,
+    marginVertical: 50,
+    marginHorizontal: 35,
+    fontSize: 15
+  },
   appButtonText: {
     fontSize: 20,
     color: "white",
@@ -186,6 +170,13 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     textTransform: "uppercase"
   },
+  appButtonText1: {
+    fontSize: 15,
+    color: "white",
+    alignSelf: "center",
+    textTransform: "uppercase"
+  },
+  
   title: {
     fontSize: 15,
     textAlign: 'center'
