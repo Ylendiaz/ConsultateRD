@@ -1,5 +1,5 @@
 import React, { Component, useEffect, useLayoutEffect, useState } from "react";
-import { StyleSheet, Button, Text, View, ScrollView, Image, TextInput } from 'react-native';
+import { StyleSheet, Button, Text, View, ScrollView, Image, TextInput, TouchableOpacity } from 'react-native';
 import { SafeAreaView } from "react-native-safe-area-context";
 import AppNavigator from '../../navigator/Navigator';
 //import axios from "axios";
@@ -83,8 +83,11 @@ const DoctoresScreen = ({ navigation }) => {
     const doctoresList = listaDoctores();
     //console.log(doctoresList);
 
+
+    const [centro, setCentro] = useState([]);
+
     return <>
-        <SafeAreaView style={{ backgroundColor: "#68CCC0" }} >
+        <SafeAreaView style={{ backgroundColor: "#68CCC0",  height: "100%"  }} >
             <View style={{ alignItems: 'center' }}>
                 <View style={styles.searchBar}>
                     <AntDesign name="search1" size={15} style={{ marginHorizontal: 10 }}></AntDesign>
@@ -100,7 +103,7 @@ const DoctoresScreen = ({ navigation }) => {
                 {
                     doctoresList.map((item, index) => {
                         return (
-                            <View key={index} style={styles.listView}>
+                            <TouchableOpacity key={index} style={styles.listView} onPress={() => navigation.navigate('InfoDoctor', {item})}>
                                 <View style={styles.listViewContent}>
                                     <Avatar rounded size={60} source={require("../../assets/avatar.png")}></Avatar>
                                     <View style={styles.listTextView}>
@@ -113,7 +116,7 @@ const DoctoresScreen = ({ navigation }) => {
                                         </Text>
                                     </View>
                                 </View>
-                            </View>
+                            </TouchableOpacity>
                         )
                     })
                 }
