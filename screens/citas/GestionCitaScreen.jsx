@@ -134,18 +134,18 @@ const GestionCitaScreen = () => {
           scaleFactor={375}
           onDateChange={onDateChange}
         />
-        <View style={styles.textStyle}>
+        {/* <View style={styles.textStyle}>
           <Text style={styles.textStyle}>
             Selected Start Date :
           </Text>
           <Text style={styles.textStyle}>
             {selectedStartDate ? selectedStartDate.toString() : ''}
           </Text>
-        </View>
+        </View> */}
       </View>
       <View style={styles.container1}>
       <View style={styles.item2}> 
-      <AppButton title="Citas Programadas" />
+      <AppButton title="Citas Programadas"/>
       </View>
         <FlatList
             data={DATA}
@@ -178,7 +178,7 @@ const styles = StyleSheet.create({
   container1: {
     flex: 1,
     backgroundColor: '#68CCC0',
-    marginTop: StatusBar.currentHeight || 95,
+    marginTop: StatusBar.currentHeight || 75,
     padding: 25, 
   },
   item: {
@@ -211,4 +211,5 @@ const styles = StyleSheet.create({
     fontSize: 15,
     textAlign: 'center'
   },
+  
 });
