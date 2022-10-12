@@ -7,7 +7,7 @@ const PerfilScreen = ({navigation}) => {
     return<>
     {/* <AppNavigator /> */}
     <View style={{height:100, width:100}}>
-        <Text>Pantalla de perfil</Text>
+        <Text></Text>
     </View>
     </>
     

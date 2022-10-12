@@ -64,7 +64,7 @@ function MyTabs() {
             <Tab.Screen name="Home" component={HomeStack} />
             <Tab.Screen name="Buscar" component={DoctoresStack} options={{ headerShown: false }} />
             {'true' == 'true' ? <Tab.Screen name="Citas" component={GestionCitaStack} /> : null}
-            {/* <Tab.Screen name="Perfil" component={PerfilStack} /> */}
+            <Tab.Screen name="Perfil" component={PerfilStack} />
         </Tab.Navigator>
     );
 }
