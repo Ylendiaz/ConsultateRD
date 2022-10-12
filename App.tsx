@@ -5,15 +5,16 @@ import AppNavigatorLogin from "./navigator/NavigatorLogin";
 import AppNavigator from ".//navigator/Navigator";
 import DoctoresScreen from "./screens/busqueda/DoctoresScreen";
 import GestionCitaScreen from "./screens/citas/GestionCitaScreen";
+import CitasInfoScreen from  "./screens/citasInfo/CitasInfoScreen";
 
 export default function App() {
   return (
       //<AppNavigator></AppNavigator>
-    //   <View style={styles.container}>
-    //   <AppNavigatorLogin />
-    //   <StatusBar style="auto" />
-    // </View>
-    <GestionCitaScreen></GestionCitaScreen>
+      <View style={styles.container}>
+      <AppNavigatorLogin />
+      <StatusBar style="auto" />
+    </View>
+    //<CitasInfoScreen></CitasInfoScreen>
   );
 }
 
