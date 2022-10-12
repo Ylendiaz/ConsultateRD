@@ -1,5 +1,5 @@
 import React, {Component, useState } from "react";
-import {Image, StyleSheet, Text, View, KeyboardAvoidingView } from 'react-native';
+import {Image, StyleSheet, Text, View, KeyboardAvoidingView, TextInput } from 'react-native';
 import StyledButton from '../../components/StyledButton/Btn';
 //import 'bootstrap/dist/css/bootstrap.min.css';
 import Cookies from "universal-cookie";
@@ -68,8 +68,8 @@ const LoginScreen=({navigation}) =>{
             <View style={styles.loginBox}>
 
                 <View style= {styles.inputsContainer}>
-                    {/* <input name = "username" placeholdertextcolor={'gray'} placeholder="Correo"  style={styles.input} onChange={handleChange}></input> */}
-                    {/* <input type="password" placeholdertextcolor={'gray'} placeholder="Contraseña" name = "password"  style={styles.input} onChange={handleChange}></input> */}
+                    <TextInput name = "username" placeholdertextcolor={'gray'} placeholder="Correo"  style={styles.input} onChange={handleChange}></TextInput>
+                    <TextInput type="password" placeholdertextcolor={'gray'} placeholder="Contraseña" name = "password"  style={styles.input} onChange={handleChange}></TextInput>
                 </View>
                 
                 <View style= {styles.buttonsContainer}>
@@ -122,7 +122,7 @@ const styles = StyleSheet.create(
         alignItems:'center',
         gap:50,
         width: "80%", 
-        height: 400,
+        height: "50%",
         borderRadius: 25, 
         backgroundColor:"white",
         padding:'5%',
