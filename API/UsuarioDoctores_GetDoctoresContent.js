@@ -3,7 +3,7 @@ export default [
         doctorId: 8,
         imagenDoctor: null,
         loginId: 1,
-        nombreDoctor: "Mario",
+        nombreDoctor: "Mario Alejandro",
         apellidoDoctor: "Galán",
         telefonoDoctor: "8295223552",
         sexoDoctor: 'M',
@@ -50,7 +50,14 @@ export default [
         infoCredito: null,
         login: null,
         usuarioAsistente: null,
-        centroMedicoDoctor: [],
+        centroMedicoDoctor: [
+            {
+                centroMedicoDoctorId: 2,
+                doctorId: 9,
+                centroMedicoId: 2,
+                centroMedico: null
+            }
+        ],
         citasAgendadas: [],
         especialidadesDoctor: [
             {
