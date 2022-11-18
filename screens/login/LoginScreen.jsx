@@ -9,7 +9,7 @@ import AppNavigator from "../../navigator/Navigator"; //page stack
 
 // API
 import LoginTbls_GetLoginTblsContent from "../../API/LoginTbls_GetLoginTblsContent";
-import { ListItem } from "@rneui/base";
+//import { ListItem } from "@rneui/base";
 
 
 

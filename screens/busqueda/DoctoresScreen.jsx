@@ -4,7 +4,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import AppNavigator from '../../navigator/Navigator';
 //import axios from "axios";
 import { AntDesign } from '@expo/vector-icons';
-import { Avatar } from "@rneui/themed";
+//import { Avatar } from "@rneui/themed";
 
 
 // API
@@ -105,7 +105,7 @@ const DoctoresScreen = ({ navigation }) => {
                         return (
                             <TouchableOpacity key={index} style={styles.listView} onPress={() => navigation.navigate('InfoDoctor', {item})}>
                                 <View style={styles.listViewContent}>
-                                    <Avatar rounded size={60} source={require("../../assets/avatar.png")}></Avatar>
+                                    {/* <Avatar rounded size={60} source={require("../../assets/avatar.png")}></Avatar> */}
                                     <View style={styles.listTextView}>
                                         <Text style={{color:"#35AABA",  marginBottom:8}}>{item.nombreDoctor} {item.apellidoDoctor}</Text>
                                         <Text key={item.centroMedicoDoctor[index]} style={{marginBottom:5}}>
