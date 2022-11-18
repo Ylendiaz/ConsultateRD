@@ -5,7 +5,7 @@ import { withSafeAreaInsets } from 'react-native-safe-area-context';
 import GestionCita_Get from '../../API/GestionCita_Get';
 import Paciente from '../../API/Paciente';
  
-const GestionCitaScreen = () => {
+const GestionCitaScreen = ({ navigation }) => {
   const [selectedStartDate, setSelectedStartDate] = useState(null);
   const [selectedEndDate, setSelectedEndDate] = useState(null);
   
@@ -86,7 +86,7 @@ const citasList = citasAgendadas();
     <SafeAreaView style={styles.container}>
       <View style={styles.container1}>
       <View style={styles.item2}> 
-      <AppButton title="Citas Programadas"/>
+      <AppButton title="Información de la cita"/>
       </View>
         <FlatList
             data={filterCitasData}
@@ -123,7 +123,6 @@ const styles = StyleSheet.create({
   container1: {
     flex: 1,
     backgroundColor: '#68CCC0',
-    marginTop: StatusBar.currentHeight || 75,
     padding: 25, 
   },
   item: {

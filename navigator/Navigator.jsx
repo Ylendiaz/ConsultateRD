@@ -9,6 +9,7 @@ import GestionCitaScreen from "../screens/citas/GestionCitaScreen";
 import Cookies from "universal-cookie";
 import InfoDoctorScreen from "../screens/busqueda/InfoDoctorScreen";
 import DisponibilidadDoctorScreen from "../screens/busqueda/DisponibilidadDoctorScreen";
+import CitasInfoScreen from "../screens/citas/CitasInfoScreen";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -37,17 +38,11 @@ function GestionCitaStack() {
     return (
         <Stack.Navigator>
             <Stack.Screen name="GestionCita" component={GestionCitaScreen} options={{ headerShown: false }} />
-        </Stack.Navigator>
-    );
-}
-
-function CitasInfo() {
-    return (
-        <Stack.Navigator>
             <Stack.Screen name="CitasInfo" component={CitasInfoScreen} options={{ headerShown: false }} />
         </Stack.Navigator>
     );
 }
+
 
 function PerfilStack() {
     return (

@@ -5,7 +5,7 @@ import { withSafeAreaInsets } from 'react-native-safe-area-context';
 import GestionCita_Get from '../../API/GestionCita_Get';
 import Paciente from '../../API/Paciente';
  
-const GestionCitaScreen = () => {
+const GestionCitaScreen = ({navigation}) => {
   const [selectedStartDate, setSelectedStartDate] = useState(null);
   const [selectedEndDate, setSelectedEndDate] = useState(null);
   
@@ -126,7 +126,7 @@ const citasList = citasAgendadas();
             data={filterCitasData}
             //renderItem={renderItem}
             renderItem= {({item}) => (
-            <TouchableOpacity>
+            <TouchableOpacity onPress={() => navigation.navigate('CitasInfo')}>
                <Text style = {styles.item}>{dataCita.find(x => x.pacienteId == item.pacienteId).nombrePaciente}   {dataCita.find(x => x.pacienteId == item.pacienteId).apellidoPaciente}       {item.citasHoraInicio} - {item.citaHoraCierre}</Text>
             </TouchableOpacity>)}
             keyExtractor={item => item.id} 
