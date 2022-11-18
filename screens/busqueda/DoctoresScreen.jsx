@@ -14,23 +14,23 @@ import Especialidades from "../../API/Especialidades";
 
 const DoctoresScreen = ({ navigation }) => {
 
-    // const [data, setData] = useState([]);
-    // const [filteredData, setFilteredData] = useState([]);
-    // useEffect(()=> {
-    //     fetchData('https://localhost:7000/api/UsuarioDoctores/GetDoctoresContent');
-    // }, []) 
+    const [apidata, apisetData] = useState([]);
+    const [apifilteredData, apisetFilteredData] = useState([]);
+    useEffect(()=> {
+        fetchData('https://consultaterd.azurewebsites.net/api/UsuarioDoctores/GetDoctoresContent');
+    }, []) 
 
-    // const fetchData = async (url) => {
-    //     try{
-    //         const response = await fetch(url);
-    //         const json = await response.json();
-    //         setData(json);
-    //         setFilteredData(json);
-    //         console.log(json);
-    //     } catch (error){
-    //         console.error(error);
-    //     }
-    // };
+    const fetchData = async (url) => {
+        try{
+            const response = await fetch(url);
+            const json = await response.json();
+            apisetData(json);
+            apisetFilteredData(json);
+            console.log(json);
+        } catch (error){
+            console.error(error);
+        }
+    };
 
     // Get data
     const [data, setData] = useState([]);
