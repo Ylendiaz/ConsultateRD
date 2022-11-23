@@ -42,6 +42,9 @@ const LoginScreen = ({ navigation }) => {
                 if (response.length < 1) {
                     alert('contraseña o usuario incorrecto, intentelo denuevo');
                 }
+                else if(response.status == 404){
+                    alert('There was an error connecting to the server');
+                }
                 else {
                     alert('Bienvenido');
                     console.log(response);
