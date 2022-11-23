@@ -50,6 +50,22 @@ namespace WebAPI.Controllers
             return loginTbl;
         }
 
+        // GET: api/LoginTbls/IniciarSecion
+        [HttpGet("{username}/{password}")]
+        public ActionResult<List<LoginTbl>> GetIniciarSesion(string username, string password) //dos parametros username y password
+        {
+            //trata de buscar en la tabla una entrada en la que coincidan el username con el parametro de correo y el password con el UsuarioContraseña
+            var loginTbl = _context.LoginTbl.Where(usuario => usuario.CorreoElectronico.Equals(username) && usuario.UsuarioContraseña.Equals(password)).ToList();
+
+            //si no encontro entrada en la tabla que coincida retorna not found
+            if (_context.LoginTbl == null)
+            {
+                return NotFound();
+            }
+
+            return loginTbl;
+        }
+
         // PUT: api/LoginTbls/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
