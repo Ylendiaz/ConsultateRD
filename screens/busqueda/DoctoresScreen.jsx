@@ -1,93 +1,72 @@
 import React, { Component, useEffect, useLayoutEffect, useState } from "react";
 import { StyleSheet, Button, Text, View, ScrollView, Image, TextInput, TouchableOpacity } from 'react-native';
 import { SafeAreaView } from "react-native-safe-area-context";
+import SearchableDropdown from 'react-native-searchable-dropdown';
 import AppNavigator from '../../navigator/Navigator';
 //import axios from "axios";
-import { AntDesign } from '@expo/vector-icons';
+import { AntDesign, MaterialCommunityIcons } from '@expo/vector-icons';
 //import { Avatar } from "@rneui/themed";
 
-
-// API
-import UsuarioDoctores_GetDoctoresContent from "../../API/UsuarioDoctores_GetDoctoresContent";
-import CentroMedico from "../../API/CentroMedico";
-import Especialidades from "../../API/Especialidades";
 
 const DoctoresScreen = ({ navigation }) => {
 
     const [apidata, apisetData] = useState([]);
     const [apifilteredData, apisetFilteredData] = useState([]);
-    useEffect(()=> {
+
+    useEffect(() => {
         fetchData('https://consultaterd.azurewebsites.net/api/UsuarioDoctores/GetDoctoresContent');
-    }, []) 
+    }, [])
 
     const fetchData = async (url) => {
-        try{
+        try {
             const response = await fetch(url);
             const json = await response.json();
             apisetData(json);
             apisetFilteredData(json);
-            console.log(json);
-        } catch (error){
+            // console.log(json);
+
+        } catch (error) {
             console.error(error);
         }
     };
 
-    // Get data
-    const [data, setData] = useState([]);
-    const [filteredData, setFilteredData] = useState([]);
-
     // Search
     const [search, setSearch] = useState("");
-
-    // Funcion para capturar la data del archivo y ponerlo en un Estado
-    function listaDoctores() {
-        const js = UsuarioDoctores_GetDoctoresContent;
-        useEffect(() => {
-            setData(js);
-            setFilteredData(js);
-        }, [])
-        return filteredData;
-    }
-
-    // 
-    const [dataCentro, setDataCentro] = useState([]);
-    const cm = CentroMedico;
-    useEffect(() => {
-        setDataCentro(cm);
-    }, [])
-    // 
-    const [dataEspecialidad, setDataEspecialidad] = useState([]);
-    const es = Especialidades;
-    useEffect(() => {
-        setDataEspecialidad(es);
-    }, [])
 
     // Funcion para filtrar la data por Nombre y/o apellido
     const SearchFilter = (text) => {
         if (text) {
-            const newData = data.filter((item) => {
+            const newData = apidata.filter((item) => {
                 const itemData = item.nombreDoctor ? item.nombreDoctor.toUpperCase()
                     : ''.toUpperCase();
                 const textData = text.toUpperCase();
                 return itemData.indexOf(textData) > -1;
             })
-            setFilteredData(newData);
+            apisetFilteredData(newData);
             setSearch(text);
         } else {
-            setFilteredData(data);
+            apisetFilteredData(apidata);
             setSearch(text);
         }
     }
 
-    // console.log(UsuarioDoctores_GetDoctoresContent);
-    const doctoresList = listaDoctores();
-    //console.log(doctoresList);
+    const [selected, setSelected] = useState("");
+    const items = [
+        { id: 1, name: 'angellist' },
+        { id: 2, name: 'codepen' },
+        { id: 3, name: 'envelope' },
+        { id: 4, name: 'etsy' },
+        { id: 5, name: 'facebook' },
+        { id: 6, name: 'foursquare' },
+        { id: 7, name: 'github-alt' },
+        { id: 8, name: 'github' },
+        { id: 9, name: 'gitlab' },
+        { id: 10, name: 'instagram' },
+    ];
 
-
-    const [centro, setCentro] = useState([]);
 
     return <>
-        <SafeAreaView style={{ backgroundColor: "#68CCC0",  height: "100%"  }} >
+        <SafeAreaView style={{ backgroundColor: "#68CCC0", height: "100%" }} >
             <View style={{ alignItems: 'center' }}>
                 <View style={styles.searchBar}>
                     <AntDesign name="search1" size={15} style={{ marginHorizontal: 10 }}></AntDesign>
@@ -95,25 +74,95 @@ const DoctoresScreen = ({ navigation }) => {
                 </View>
                 <View style={styles.textFiltroView}>
                     <Text style={{ color: '#817777', marginBottom: 5 }}>Filtros: </Text>
-                    {/* <AntDesign name="search1" size={15} style={{ marginHorizontal: 10 }}></AntDesign> */}
+                    <TouchableOpacity style={{}}>
+                        <MaterialCommunityIcons name="filter-off" size={20} color={'#D01B1B'} style={{ marginHorizontal: 10 }}></MaterialCommunityIcons>
+                    </TouchableOpacity>
+                </View>
+                <View style={{ width: "90%" }}>
+                    <Text style={{ color: '#FFFFFF', marginBottom: 1 }}>Especialidad: </Text>
+                    <SearchableDropdown
+                        onTextChange={(text) => console.log(text)}
+                        selectedItems={selected}
+                        onItemSelect={(item) => setSelected(item)}
+                        containerStyle={{ padding: 0 }}
+                        textInputStyle={{
+                            padding: 8,
+                            borderWidth: 1,
+                            borderColor: '#ccc',
+                            backgroundColor: '#FAF7F6',
+                            borderRadius: 8,
+                            marginVertical: 5
+                        }}
+                        itemStyle={{
+                            padding: 15,
+                            marginTop: 0,
+                            backgroundColor: '#FAF9F8',
+                            borderColor: '#bbb',
+                            borderWidth: 1,
+                        }}
+                        itemTextStyle={{ color: '#222', }}
+                        itemsContainerStyle={{ maxHeight: '75%', }}
+                        items={items}
+                        placeholder="Seleccione..."
+                        resetValue={false}
+                        underlineColorAndroid="transparent"
+                    />
+                </View>
+                <View style={{ width: "90%", borderBottomWidth: 1, borderColor: "#817777", marginBottom: 15 }}>
+                    <Text style={{ color: '#FFFFFF', marginBottom: 1 }}>Centro Médico: </Text>
+                    <SearchableDropdown
+                        onTextChange={(text) => console.log(text)}
+                        selectedItems={selected}
+                        onItemSelect={(item) => setSelected(item)}
+                        containerStyle={{ padding: 0 }}
+                        textInputStyle={{
+                            padding: 8,
+                            borderWidth: 1,
+                            borderColor: '#ccc',
+                            backgroundColor: '#FAF7F6',
+                            marginBottom: 15,
+                            borderRadius: 8,
+                            marginVertical: 5
+
+                        }}
+                        itemStyle={{
+                            padding: 15,
+                            marginTop: 0,
+                            backgroundColor: '#FAF9F8',
+                            borderColor: '#bbb',
+                            borderWidth: 1,
+                        }}
+                        itemTextStyle={{ color: '#222', }}
+                        itemsContainerStyle={{ maxHeight: '75%', }}
+                        items={items}
+                        placeholder="Seleccione..."
+                        resetValue={false}
+                        underlineColorAndroid="transparent"
+                    />
                 </View>
             </View>
 
             <ScrollView style={{ backgroundColor: '#FFFFFF', height: "100%" }}>
                 {
-                    doctoresList.map((item, index) => {
+                    apifilteredData.map((item, index) => {
                         return (
-                            <TouchableOpacity key={index} style={styles.listView} onPress={() => navigation.navigate('InfoDoctor', {item})}>
+
+                            <TouchableOpacity key={item.doctorId} style={styles.listView} onPress={() => navigation.navigate('InfoDoctor', { item })}>
                                 <View style={styles.listViewContent}>
-                                    {/* <Avatar rounded size={60} source={require("../../assets/avatar.png")}></Avatar> */}
+                                    <Image style={{ resizeMode: 'cover', height: 60, width: 60, borderRadius: 50 }}
+                                        source={require("../../assets/avatar.png")}></Image>
                                     <View style={styles.listTextView}>
-                                        <Text style={{color:"#35AABA",  marginBottom:8}}>{item.nombreDoctor} {item.apellidoDoctor}</Text>
-                                        <Text key={item.centroMedicoDoctor[index]} style={{marginBottom:5}}>
-                                            {dataEspecialidad.find(x => x.EspecialidadId == item.EspecialidadId).nombreEspecialidad}
-                                        </Text>
-                                        <Text key={item.centroMedicoDoctor[index]}>
-                                            {dataCentro.find(x => x.CentroMedicoId == item.centroMedicoId).centroMedicoNombre}
-                                        </Text>
+                                        <Text style={{ color: "#35AABA", marginBottom: 8 }}>{item.nombreDoctor} {item.apellidoDoctor}</Text>
+                                        {item.especialidadesDoctor.map(data => (
+                                            <Text key={item.doctorId} style={{ marginBottom: 5 }}>
+                                                {data.especialidad.nombreEspecialidad}
+                                            </Text>
+                                        ))}
+                                        {item.centroMedicoDoctor.map(data => (
+                                            <Text key={item.doctorId} style={{ marginBottom: 5 }}>
+                                                {data.centroMedico.centroMedicoNombre}
+                                            </Text>
+                                        ))}
                                     </View>
                                 </View>
                             </TouchableOpacity>
@@ -150,11 +199,12 @@ const styles = StyleSheet.create(
         textFiltroView: {
             alignItems: 'center',
             marginTop: 10,
-            marginBottom: 20,
+            marginBottom: 10,
             width: "90%",
             flexDirection: 'row',
             borderBottomWidth: 1,
-            borderColor: "#817777"
+            borderColor: "#817777",
+            justifyContent:'space-between'
         },
 
         listView: {

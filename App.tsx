@@ -9,7 +9,7 @@ import CitasInfoScreen from  "./screens/citas/CitasInfoScreen";
 
 export default function App() {
   return (
-      // <AppNavigator></AppNavigator>
+    //  <AppNavigator></AppNavigator>
       <View style={styles.container}>
       <AppNavigatorLogin />
       <StatusBar style="auto" />
