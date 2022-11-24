@@ -1,8 +1,9 @@
-import React, { Component, useEffect, useLayoutEffect, useState } from "react";
+import React, { Component, useEffect, useLayoutEffect, useState, useRef } from "react";
 import { StyleSheet, Button, Text, View, ScrollView, Image, TextInput, TouchableOpacity } from 'react-native';
-import { SafeAreaView } from "react-native-safe-area-context";
+import { SafeAreaView, SafeAreaProvider } from "react-native-safe-area-context";
 import SearchableDropdown from 'react-native-searchable-dropdown';
 import AppNavigator from '../../navigator/Navigator';
+import SelectList from 'react-native-dropdown-select-list';
 //import axios from "axios";
 import { AntDesign, MaterialCommunityIcons } from '@expo/vector-icons';
 //import { Avatar } from "@rneui/themed";
@@ -10,8 +11,10 @@ import { AntDesign, MaterialCommunityIcons } from '@expo/vector-icons';
 
 const DoctoresScreen = ({ navigation }) => {
 
+    // ----------------Consumir API tabla Usuario Doctores-----------------
     const [apidata, apisetData] = useState([]);
     const [apifilteredData, apisetFilteredData] = useState([]);
+    // const isLoading = useRef(true);
 
     useEffect(() => {
         fetchData('https://consultaterd.azurewebsites.net/api/UsuarioDoctores/GetDoctoresContent');
@@ -23,20 +26,65 @@ const DoctoresScreen = ({ navigation }) => {
             const json = await response.json();
             apisetData(json);
             apisetFilteredData(json);
-            // console.log(json);
+
+        } catch (error) {
+            console.error(error);
+        }
+        // finally {
+        //     isLoading.current = false;
+        // }
+    };
+
+    //-------------Consumir API tabla Centros Medicos--------------------
+    const [apidataCentros, apisetDataCentros] = useState([]);
+    const [selectedCentro, setSelectedCentro] = useState("");
+
+    useEffect(() => {
+        fetchDataCentros('https://consultaterd.azurewebsites.net/api/CentroMedico');
+    }, [])
+
+    const fetchDataCentros = async (url) => {
+        try {
+            const response = await fetch(url);
+            const json = await response.json();
+            const newarray = json.map((item) => {
+                return { key: item.centroMedicoId, value: item.centroMedicoNombre }
+            })
+            apisetDataCentros(newarray);
 
         } catch (error) {
             console.error(error);
         }
     };
 
-    // Search
+    //-------------Consumir API tabla Especialidades--------------------
+    const [apidataEspecialidad, apisetDataEspecialidad] = useState([]);
+    const [selectedEspecialidad, setSelectedEspecialidad] = useState("");
+
+    useEffect(() => {
+        fetchDataEspecialidad('https://consultaterd.azurewebsites.net/api/Especialidades');
+    }, [])
+
+    const fetchDataEspecialidad = async (url) => {
+        try {
+            const response = await fetch(url);
+            const json = await response.json();
+            const newarray = json.map((item) => {
+                return { key: item.especialidadId, value: item.nombreEspecialidad }
+            })
+            apisetDataEspecialidad(newarray);
+
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
+    //------------ Funcion para filtrar la data por Nombre y/o apellido
     const [search, setSearch] = useState("");
 
-    // Funcion para filtrar la data por Nombre y/o apellido
     const SearchFilter = (text) => {
         if (text) {
-            const newData = apidata.filter((item) => {
+            const newData = apifilteredData.filter((item) => {
                 const itemData = item.nombreDoctor ? item.nombreDoctor.toUpperCase()
                     : ''.toUpperCase();
                 const textData = text.toUpperCase();
@@ -50,20 +98,21 @@ const DoctoresScreen = ({ navigation }) => {
         }
     }
 
-    const [selected, setSelected] = useState("");
-    const items = [
-        { id: 1, name: 'angellist' },
-        { id: 2, name: 'codepen' },
-        { id: 3, name: 'envelope' },
-        { id: 4, name: 'etsy' },
-        { id: 5, name: 'facebook' },
-        { id: 6, name: 'foursquare' },
-        { id: 7, name: 'github-alt' },
-        { id: 8, name: 'github' },
-        { id: 9, name: 'gitlab' },
-        { id: 10, name: 'instagram' },
-    ];
+     // ------------ Funcion para filtrar por Especialidades
+     const FilterEspecialidad = () => {
+        const newData = apifilteredData.filter(item => 
+            item.especialidadesDoctor.map(data => data.especialidadId) == selectedEspecialidad
+        )
+        apisetFilteredData(newData);
+    }
 
+    // ------------ Funcion para filtrar por Centros Medicos
+    const FilterCentros = () => {
+        const newData = apifilteredData.filter(item => 
+            item.centroMedicoDoctor.map(data => data.centroMedicoId) == selectedCentro
+        )
+        apisetFilteredData(newData);
+    }
 
     return <>
         <SafeAreaView style={{ backgroundColor: "#68CCC0", height: "100%" }} >
@@ -80,69 +129,59 @@ const DoctoresScreen = ({ navigation }) => {
                 </View>
                 <View style={{ width: "90%" }}>
                     <Text style={{ color: '#FFFFFF', marginBottom: 1 }}>Especialidad: </Text>
-                    <SearchableDropdown
-                        onTextChange={(text) => console.log(text)}
-                        selectedItems={selected}
-                        onItemSelect={(item) => setSelected(item)}
-                        containerStyle={{ padding: 0 }}
-                        textInputStyle={{
-                            padding: 8,
-                            borderWidth: 1,
-                            borderColor: '#ccc',
-                            backgroundColor: '#FAF7F6',
-                            borderRadius: 8,
-                            marginVertical: 5
-                        }}
-                        itemStyle={{
-                            padding: 15,
-                            marginTop: 0,
-                            backgroundColor: '#FAF9F8',
-                            borderColor: '#bbb',
-                            borderWidth: 1,
-                        }}
-                        itemTextStyle={{ color: '#222', }}
-                        itemsContainerStyle={{ maxHeight: '75%', }}
-                        items={items}
-                        placeholder="Seleccione..."
-                        resetValue={false}
-                        underlineColorAndroid="transparent"
-                    />
+                    <View>
+                        <SelectList
+                            setSelected={setSelectedEspecialidad}
+                            data={apidataEspecialidad}
+                            onSelect={() => FilterEspecialidad()}
+                            search={true}
+                            inputStyles={{ color: '#ccc' }}
+                            boxStyles={{
+                                padding: 8,
+                                borderWidth: 1,
+                                borderColor: '#ccc',
+                                backgroundColor: '#FAF7F6',
+                                marginBottom: 10,
+                                borderRadius: 8,
+                                marginVertical: 5
+                            }}
+                            dropdownStyles={{ borderColor: '#ccc', backgroundColor: '#F6F6F6', marginBottom: 15 }}
+                            dropdownItemStyles={{ borderBottomWidth: 1, borderColor: '#ccc', }}
+                            placeholder='Seleccione...' />
+                    </View>
                 </View>
                 <View style={{ width: "90%", borderBottomWidth: 1, borderColor: "#817777", marginBottom: 15 }}>
                     <Text style={{ color: '#FFFFFF', marginBottom: 1 }}>Centro Médico: </Text>
-                    <SearchableDropdown
-                        onTextChange={(text) => console.log(text)}
-                        selectedItems={selected}
-                        onItemSelect={(item) => setSelected(item)}
-                        containerStyle={{ padding: 0 }}
-                        textInputStyle={{
-                            padding: 8,
-                            borderWidth: 1,
-                            borderColor: '#ccc',
-                            backgroundColor: '#FAF7F6',
-                            marginBottom: 15,
-                            borderRadius: 8,
-                            marginVertical: 5
+                    <View>
+                        <SelectList
+                            setSelected={setSelectedCentro}
+                            data={apidataCentros}
+                            onSelect={() => FilterCentros()}
+                            search={true}
+                            inputStyles={{ color: '#ccc' }}
+                            boxStyles={{
+                                padding: 8,
+                                borderWidth: 1,
+                                borderColor: '#ccc',
+                                backgroundColor: '#FAF7F6',
+                                marginBottom: 15,
+                                borderRadius: 8,
+                                marginVertical: 5,
+                            }}
+                            dropdownStyles={{ borderColor: '#ccc', backgroundColor: '#F6F6F6', marginBottom: 15 }}
+                            dropdownItemStyles={{ borderBottomWidth: 1, borderColor: '#ccc', }}
+                            placeholder='Seleccione...' />
 
-                        }}
-                        itemStyle={{
-                            padding: 15,
-                            marginTop: 0,
-                            backgroundColor: '#FAF9F8',
-                            borderColor: '#bbb',
-                            borderWidth: 1,
-                        }}
-                        itemTextStyle={{ color: '#222', }}
-                        itemsContainerStyle={{ maxHeight: '75%', }}
-                        items={items}
-                        placeholder="Seleccione..."
-                        resetValue={false}
-                        underlineColorAndroid="transparent"
-                    />
+                    </View>
                 </View>
             </View>
 
             <ScrollView style={{ backgroundColor: '#FFFFFF', height: "100%" }}>
+                {/* {isLoading == true ?
+                    <View style={{alignSelf: "center", justifyContent: 'center', backgroundColor:'blue'}}>
+                        <Image source={require('../../assets/loading_image.gif')} style={{ resizeMode: "cover", width: 50, height: 50 }}></Image>
+                    </View> : null} */}
+
                 {
                     apifilteredData.map((item, index) => {
                         return (
@@ -204,7 +243,7 @@ const styles = StyleSheet.create(
             flexDirection: 'row',
             borderBottomWidth: 1,
             borderColor: "#817777",
-            justifyContent:'space-between'
+            justifyContent: 'space-between'
         },
 
         listView: {
@@ -226,7 +265,7 @@ const styles = StyleSheet.create(
 
         listTextView: {
             marginLeft: 15
-        }
+        },
 
     }
 )
