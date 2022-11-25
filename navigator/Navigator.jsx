@@ -62,11 +62,11 @@ export default function AppNavigator(navigation) {
         <NavigationContainer independent={true}>
 
             <Tab.Navigator initialRouteName="Home">
-                <Tab.Screen name="Home" component={HomeStack} />
-                <Tab.Screen name="Buscar" component={DoctoresStack} options={{ headerShown: false }} />
+                <Tab.Screen name="Home" component={HomeStack} inicialParams={{userInfo: route}}/>
+                <Tab.Screen name="Buscar" component={DoctoresStack} options={{ headerShown: false }} inicialParams={{userInfo: route, age:45}}/>
                 {/* solamente si es doctor carga gestion de citas */}
-                {route.params.rol == true ? <Tab.Screen name="Citas" component={GestionCitaStack} /> : null}
-                <Tab.Screen name="Perfil" component={PerfilStack} />
+                {route.params.rol == true ? <Tab.Screen name="Citas" component={GestionCitaStack} inicialParams={{userInfo: route}} /> : null}
+                <Tab.Screen name="Perfil" component={PerfilStack} inicialParams={{userInfo: route}}/>
             </Tab.Navigator>
 
         </NavigationContainer>

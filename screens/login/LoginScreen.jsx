@@ -1,4 +1,4 @@
-import React, { Component, useState } from "react";
+import React, { Component, useEffect, useState } from "react";
 import { Image, StyleSheet, Text, View, KeyboardAvoidingView, TextInput } from 'react-native';
 import StyledButton from '../../components/StyledButton/Btn';
 import Cookies from "universal-cookie";
@@ -18,39 +18,45 @@ const LoginScreen = ({ navigation }) => {
     const [username, setName] = useState(''); //get the input (username) of user
     const [password, setPass] = useState(''); //get the input (password) of user
 
-    console.log(username, password)
-
-
-    //(passing a username and password to compare)
-    // const getLoginInfo = (user, pass) => {
-    //     return LoginTbls_GetLoginTblsContent.find(data => data.correoElectronico == user && data.usuarioContraseña == pass)
-    // };
 
     const url = 'https://consultaterd.azurewebsites.net/api/LoginTbls/' + `${username}/${password}`;
+    // const url = 'https://localhost:7000/api/LoginTbls/' + `${username}/${password}`;
+
 
 
     // when you click the login button
     const iniciarSesion = async () => {
 
-        await fetch(url)
-            .then(response => {
-                // const data = response.json();
-                console.log(response);
-                return response;
-            })
-            .then(response => {
-                if (response.length < 1) {
-                    alert('contraseña o usuario incorrecto, intentelo denuevo');
-                }
-                else if(response.status == 404){
-                    alert('There was an error connecting to the server');
-                }
-                else {
-                    alert('Bienvenido');
-                    console.log(response);
-                    navigation.navigate("HomeTab", response);
-                }
-            })
+        try{ //if the user was found
+
+            const response = await fetch(url); //fetch the request response from the server
+            const json = await response.json(); //create a json file of that response (the data)
+            const userInfo= await json[0]; // save in a variable the the info of this specific user
+
+            // console.log(userInfo);
+
+            if(username == "" || password ==""){ //if username is not missing but the password is and the other way around
+                alert('Ingrese correo y contraseña');
+            }
+            else if (response.status == 404) { //if the request to the server failed and there was no response (404)
+
+                alert('Ocurrio un error al tratar de comunicarse con el servidor');
+            }
+            else if (userInfo != null) { //if there was a user found
+
+                // console.log(userInfo);
+                alert('Bienvenido');//welcome
+                navigation.navigate("HomeTab", userInfo);// go to home screen and pass the user's info as parameter
+                
+            }
+            else{ //username or password are incorrect (was not found on database)
+                alert('contraseña o usuario incorrecto, intentelo denuevo');
+            }
+
+
+        }catch{//if username and password is missing
+            alert('Ingrese correo y contraseña');
+        }
 
 
     }
