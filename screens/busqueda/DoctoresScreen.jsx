@@ -98,21 +98,33 @@ const DoctoresScreen = ({ navigation }) => {
         }
     }
 
-     // ------------ Funcion para filtrar por Especialidades
-     const FilterEspecialidad = () => {
-        const newData = apifilteredData.filter(item => 
-            item.especialidadesDoctor.map(data => data.especialidadId) == selectedEspecialidad
-        )
-        apisetFilteredData(newData);
+    // ------------ Funcion para filtrar por Especialidades
+    const FilterEspecialidad = () => {
+        if (selectedEspecialidad != "") {
+            const newData = apifilteredData.filter(item =>
+                item.especialidadesDoctor.map(data => data.especialidadId) == selectedEspecialidad
+            )
+            apisetFilteredData(newData);
+        }
     }
 
     // ------------ Funcion para filtrar por Centros Medicos
     const FilterCentros = () => {
-        const newData = apifilteredData.filter(item => 
-            item.centroMedicoDoctor.map(data => data.centroMedicoId) == selectedCentro
-        )
-        apisetFilteredData(newData);
+        if (selectedCentro != "") {
+            const newData = apifilteredData.filter(item =>
+                item.centroMedicoDoctor.map(data => data.centroMedicoId) == selectedCentro
+            )
+            apisetFilteredData(newData);
+        }
     }
+
+    // ------------ Funcion para quitar los filtros (No funciona)
+    const QuitarFiltros = () => {
+        apisetFilteredData(apidata);
+        setSelectedEspecialidad("");
+        setSelectedCentro("");
+    }
+
 
     return <>
         <SafeAreaView style={{ backgroundColor: "#68CCC0", height: "100%" }} >
@@ -123,7 +135,7 @@ const DoctoresScreen = ({ navigation }) => {
                 </View>
                 <View style={styles.textFiltroView}>
                     <Text style={{ color: '#817777', marginBottom: 5 }}>Filtros: </Text>
-                    <TouchableOpacity style={{}}>
+                    <TouchableOpacity style={{}} onPress={() => QuitarFiltros()}>
                         <MaterialCommunityIcons name="filter-off" size={20} color={'#D01B1B'} style={{ marginHorizontal: 10 }}></MaterialCommunityIcons>
                     </TouchableOpacity>
                 </View>
@@ -131,10 +143,11 @@ const DoctoresScreen = ({ navigation }) => {
                     <Text style={{ color: '#FFFFFF', marginBottom: 1 }}>Especialidad: </Text>
                     <View>
                         <SelectList
-                            setSelected={setSelectedEspecialidad}
+                            setSelected={(val) => setSelectedEspecialidad(val)}
                             data={apidataEspecialidad}
                             onSelect={() => FilterEspecialidad()}
                             search={true}
+                            //defaultOption={{ key: '0', value: 'Seleccione...' }}
                             inputStyles={{ color: '#ccc' }}
                             boxStyles={{
                                 padding: 8,
@@ -158,6 +171,7 @@ const DoctoresScreen = ({ navigation }) => {
                             data={apidataCentros}
                             onSelect={() => FilterCentros()}
                             search={true}
+                            //defaultOption={{ key: '0', value: 'Seleccione...' }}
                             inputStyles={{ color: '#ccc' }}
                             boxStyles={{
                                 padding: 8,
@@ -188,8 +202,8 @@ const DoctoresScreen = ({ navigation }) => {
 
                             <TouchableOpacity key={item.doctorId} style={styles.listView} onPress={() => navigation.navigate('InfoDoctor', { item })}>
                                 <View style={styles.listViewContent}>
-                                    <Image style={{ resizeMode: 'cover', height: 60, width: 60, borderRadius: 50 }}
-                                        source={require("../../assets/avatar.png")}></Image>
+                                    {item.imagenDoctor == null ? <Image style={{ resizeMode: 'cover', height: 60, width: 60, borderRadius: 50 }} source={require("../../assets/avatar.png")}></Image>
+                                        : <Image style={{ resizeMode: 'cover', height: 60, width: 60, borderRadius: 50 }} source={{ uri: foto }}></Image>}
                                     <View style={styles.listTextView}>
                                         <Text style={{ color: "#35AABA", marginBottom: 8 }}>{item.nombreDoctor} {item.apellidoDoctor}</Text>
                                         {item.especialidadesDoctor.map(data => (
