@@ -3,7 +3,7 @@ import { StyleSheet, Button, Text, View, ScrollView, Image, TextInput, Touchable
 import { SafeAreaView, SafeAreaProvider } from "react-native-safe-area-context";
 import SearchableDropdown from 'react-native-searchable-dropdown';
 import AppNavigator from '../../navigator/Navigator';
-import SelectList from 'react-native-dropdown-select-list';
+import {SelectList} from 'react-native-dropdown-select-list';
 //import axios from "axios";
 import { AntDesign, MaterialCommunityIcons } from '@expo/vector-icons';
 //import { Avatar } from "@rneui/themed";

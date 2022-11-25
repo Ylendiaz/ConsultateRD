@@ -9,6 +9,8 @@ import GestionCitaScreen from "../screens/citas/GestionCitaScreen";
 import InfoDoctorScreen from "../screens/busqueda/InfoDoctorScreen";
 import DisponibilidadDoctorScreen from "../screens/busqueda/DisponibilidadDoctorScreen";
 import CitasInfoScreen from "../screens/citas/CitasInfoScreen";
+import { Entypo, Ionicons, MaterialCommunityIcons, AntDesign } from '@expo/vector-icons';
+
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -61,12 +63,37 @@ export default function AppNavigator(navigation) {
     return (
         <NavigationContainer independent={true}>
 
-            <Tab.Navigator initialRouteName="Home">
-                <Tab.Screen name="Home" component={HomeStack} inicialParams={{userInfo: route}}/>
-                <Tab.Screen name="Buscar" component={DoctoresStack} options={{ headerShown: false }} inicialParams={{userInfo: route, age:45}}/>
+            <Tab.Navigator initialRouteName="Home"
+                screenOptions={{
+                    tabBarActiveTintColor: '#8BC1B8',
+                    tabBarInactiveTintColor: '#B8B3B3',
+                    tabBarStyle: { backgroundColor: '#232020' },
+                }}>
+
+                <Tab.Screen name="Home" component={HomeStack} inicialParams={{ userInfo: route }}
+                    options={{
+                        tabBarIcon: ({ color, size }) => (<Entypo name="home" size={size} color={color} />)
+                    }} />
+
+                <Tab.Screen name="Buscar" component={DoctoresStack} inicialParams={{ userInfo: route, age: 45 }}
+                    options={{
+                        headerShown: false,
+                        tabBarIcon: ({ color, size }) => (<MaterialCommunityIcons name="account-search" size={size} color={color} />)
+                    }} />
+
                 {/* solamente si es doctor carga gestion de citas */}
-                {route.params.rol == true ? <Tab.Screen name="Citas" component={GestionCitaStack} inicialParams={{userInfo: route}} /> : null}
-                <Tab.Screen name="Perfil" component={PerfilStack} inicialParams={{userInfo: route}}/>
+                {route.params.rol == true
+                    ? <Tab.Screen name="Citas" component={GestionCitaStack} inicialParams={{ userInfo: route }}
+                        options={{
+                            headerShown: false,
+                            tabBarIcon: ({ color, size }) => (<AntDesign name="calendar" size={size} color={color} />)
+                        }} />
+                    : null}
+
+                <Tab.Screen name="Perfil" component={PerfilStack} inicialParams={{ userInfo: route }}
+                    options={{
+                        tabBarIcon: ({ color, size }) => (<Ionicons name="person" size={size} color={color} />)
+                    }} />
             </Tab.Navigator>
 
         </NavigationContainer>
