@@ -12,7 +12,7 @@ export default function App() {
   return (
     //  <AppNavigator></AppNavigator>
       <View style={styles.container}>
-      <AppNavigator />
+      <AppNavigatorLogin />
       <StatusBar style="auto" />
     </View>
     //<CitasInfoScreen></CitasInfoScreen>

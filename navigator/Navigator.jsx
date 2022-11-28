@@ -93,6 +93,7 @@ export default function AppNavigator(navigation) {
 
                 <Tab.Screen name="Perfil" component={PerfilStack} inicialParams={{ userInfo: route }}
                     options={{
+                        headerShown: false,
                         tabBarIcon: ({ color, size }) => (<Ionicons name="person" size={size} color={color} />)
                     }} />
             </Tab.Navigator>

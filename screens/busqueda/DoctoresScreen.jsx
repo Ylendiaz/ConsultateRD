@@ -4,9 +4,7 @@ import { SafeAreaView, SafeAreaProvider } from "react-native-safe-area-context";
 import SearchableDropdown from 'react-native-searchable-dropdown';
 import AppNavigator from '../../navigator/Navigator';
 import { SelectList } from 'react-native-dropdown-select-list';
-//import axios from "axios";
 import { AntDesign, MaterialCommunityIcons } from '@expo/vector-icons';
-//import { Avatar } from "@rneui/themed";
 
 
 const DoctoresScreen = ({ navigation }) => {
@@ -17,7 +15,6 @@ const DoctoresScreen = ({ navigation }) => {
         data: [],
         isLoading: true
     });
-    // const isLoading = useRef(true);
 
     useEffect(() => {
         fetchData('https://consultaterd.azurewebsites.net/api/UsuarioDoctores/GetDoctoresContent');
@@ -36,9 +33,6 @@ const DoctoresScreen = ({ navigation }) => {
         } catch (error) {
             console.error(error);
         }
-        // finally {
-        //     isLoading.current = false;
-        // }
     };
 
     //-------------Consumir API tabla Centros Medicos--------------------
@@ -96,10 +90,10 @@ const DoctoresScreen = ({ navigation }) => {
                 const textData = text.toUpperCase();
                 return itemData.indexOf(textData) > -1;
             })
-            apisetFilteredData({data: newData});
+            apisetFilteredData({ data: newData });
             setSearch(text);
         } else {
-            apisetFilteredData({data: newData});
+            apisetFilteredData({ data: apidata });
             setSearch(text);
         }
     }
@@ -110,7 +104,7 @@ const DoctoresScreen = ({ navigation }) => {
             const newData = apifilteredData.data.filter(item =>
                 item.especialidadesDoctor.map(data => data.especialidadId) == selectedEspecialidad
             )
-            apisetFilteredData({data: newData});
+            apisetFilteredData({ data: newData });
         }
     }
 
@@ -120,13 +114,13 @@ const DoctoresScreen = ({ navigation }) => {
             const newData = apifilteredData.data.filter(item =>
                 item.centroMedicoDoctor.map(data => data.centroMedicoId) == selectedCentro
             )
-            apisetFilteredData({data: newData});
+            apisetFilteredData({ data: newData });
         }
     }
 
     // ------------ Funcion para quitar los filtros (No funciona)
     const QuitarFiltros = () => {
-        apisetFilteredData({data: apidata});
+        apisetFilteredData({ data: apidata });
         setSelectedEspecialidad("");
         setSelectedCentro("");
     }
@@ -200,7 +194,7 @@ const DoctoresScreen = ({ navigation }) => {
 
             <ScrollView style={{ backgroundColor: '#FFFFFF', height: "100%" }}>
                 {apifilteredData.isLoading == true ?
-                    <View style={{alignSelf: "center", justifyContent: 'center', marginTop: 50}}>
+                    <View style={{ alignSelf: "center", justifyContent: 'center', marginTop: 50 }}>
                         <Image source={require('../../assets/loading_image.gif')} style={{ resizeMode: "cover", width: 25, height: 25 }}></Image>
                     </View> : null}
 
@@ -210,8 +204,8 @@ const DoctoresScreen = ({ navigation }) => {
 
                             <TouchableOpacity key={item.doctorId} style={styles.listView} onPress={() => navigation.navigate('InfoDoctor', { item })}>
                                 <View style={styles.listViewContent}>
-                                    {item.imagenDoctor == null ? <Image style={{ resizeMode: 'cover', height: 60, width: 60, borderRadius: 50 }} source={require("../../assets/avatar.png")}></Image>
-                                        : <Image style={{ resizeMode: 'cover', height: 60, width: 60, borderRadius: 50 }} source={{ uri: foto }}></Image>}
+                                    {item.imagenDoctor == null ? <Image style={styles.viewFoto} source={require("../../assets/avatar.png")}></Image>
+                                        : <Image style={styles.viewFoto} source={{ uri: foto }}></Image>}
                                     <View style={styles.listTextView}>
                                         <Text style={{ color: "#35AABA", marginBottom: 8 }}>{item.nombreDoctor} {item.apellidoDoctor}</Text>
                                         {item.especialidadesDoctor.map(data => (
@@ -240,9 +234,6 @@ export default DoctoresScreen;
 
 const styles = StyleSheet.create(
     {
-        container: {
-        },
-
         searchBar: {
             alignItems: 'center',
             marginTop: 20,
@@ -271,11 +262,21 @@ const styles = StyleSheet.create(
         listView: {
             marginHorizontal: 15,
             marginTop: 15,
+            marginBottom: 5,
             backgroundColor: "#FFFFFF",
             borderRadius: 5,
-            shadowColor: '#171717',
-            shadowOffset: { width: 1, height: 1 },
-            shadowOpacity: 2,
+            borderBottomWidth: 1,
+            borderTopWidth: 1,
+            //borderWidth: 1,
+            borderColor: 'rgba(6, 6, 6, 0.5)',
+            shadowColor: "#7E8C8A",
+            shadowOffset: {
+                width: 0,
+                height: 4,
+            },
+            shadowOpacity: 0.32,
+            shadowRadius: 5.84,
+            elevation: 9,
         },
 
         listViewContent: {
@@ -288,6 +289,12 @@ const styles = StyleSheet.create(
         listTextView: {
             marginLeft: 15
         },
+        viewFoto:{
+            resizeMode: 'cover', 
+            height: 60,
+            width: 60, 
+            borderRadius: 50
+        }
 
     }
 )

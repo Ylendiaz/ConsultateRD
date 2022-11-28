@@ -7,7 +7,6 @@ import { withSafeAreaInsets } from 'react-native-safe-area-context';
 const HomeScreen = () => {
 
 
-
   return (
     <SafeAreaView style={{ backgroundColor: "#68CCC0", height: "100%" }} >
       <View style={styles.viewInicio}>
@@ -30,11 +29,11 @@ const styles = StyleSheet.create({
     backgroundColor: "#65D1B7",
     height: 200,
     borderBottomWidth: 1,
-    borderColor: '#7E8C8A',
-    shadowColor: "#7E8C8A",
+    borderColor: '#65D1B7',
+    shadowColor: "#000",
     shadowOffset: {
       width: 0,
-      height: 4,
+      height: 2,
     },
     shadowOpacity: 0.32,
     shadowRadius: 5.84,
