@@ -72,6 +72,7 @@ export default function AppNavigator(navigation) {
 
                 <Tab.Screen name="Home" component={HomeStack} inicialParams={{ userInfo: route }}
                     options={{
+                        headerShown: false,
                         tabBarIcon: ({ color, size }) => (<Entypo name="home" size={size} color={color} />)
                     }} />
 

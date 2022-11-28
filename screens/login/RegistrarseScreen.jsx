@@ -105,6 +105,7 @@ const RegistrarseScreen = ({ navigation }) => {
                                     boxStyles={styles.inputList}
                                     dropdownStyles={{ borderColor: '#ccc', backgroundColor: '#e6e6fa', marginBottom: 15 }}
                                     dropdownItemStyles={{}}
+                                    notFoundText=""
                                     placeholder='Sexo' />
                             </View>
                             <TextInput placeholderTextColor={'gray'} placeholder="Fecha de Nacimiento" label="FechaNacimiento" style={styles.input} ></TextInput>
@@ -148,6 +149,7 @@ const RegistrarseScreen = ({ navigation }) => {
                                     boxStyles={styles.inputList}
                                     dropdownStyles={{ borderColor: '#ccc', backgroundColor: '#e6e6fa', marginBottom: 15 }}
                                     dropdownItemStyles={{}}
+                                    notFoundText=""
                                     placeholder='Sexo' />
                             </View>
                             <TextInput placeholderTextColor={'gray'} placeholder="Fecha de Nacimiento" label="FechaNacimiento" style={styles.input} ></TextInput>
@@ -166,6 +168,7 @@ const RegistrarseScreen = ({ navigation }) => {
                                     boxStyles={styles.inputList}
                                     dropdownStyles={{ borderColor: '#ccc', backgroundColor: '#e6e6fa', marginBottom: 15 }}
                                     dropdownItemStyles={{}}
+                                    notFoundText=""
                                     placeholder='Centro Médico' />
                             </View>
                             <View style={{ width: "80%" }}>
@@ -179,6 +182,7 @@ const RegistrarseScreen = ({ navigation }) => {
                                     dropdownStyles={{ borderColor: '#ccc', backgroundColor: '#e6e6fa', marginBottom: 15 }}
                                     labelStyles={{color: 'gray'}}
                                     label="Especialidades"
+                                    notFoundText=""
                                     placeholder='Especialidades'
                                 />
                             </View>

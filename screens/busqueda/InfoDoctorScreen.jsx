@@ -31,34 +31,37 @@ const InfoDoctorScreen = ({ navigation, route }) => {
     return <>
         <View style={{ backgroundColor: "blue", width: "100%", height: "100%" }}>
             <View style={{ backgroundColor: "#68CCC0", alignItems: 'center' }}>
-                {imagenDoctor == null ? <Image style={{ resizeMode: 'cover', height: 150, width: 300, borderWidth: 1, marginVertical: 25, borderRadius: 25 }} source={require("../../assets/avatar.png")}></Image>
-                    : <Image style={{ resizeMode: 'cover', height: 150, width: 300, borderWidth: 1, marginVertical: 25, borderRadius: 25 }} source={{ uri: foto }}></Image>}
+                {imagenDoctor == null ? <Image style={styles.foto} source={require("../../assets/avatar.png")}></Image>
+                    : <Image style={styles.foto} source={{ uri: foto }}></Image>}
             </View>
             <ScrollView style={{ backgroundColor: "#509F8C", height: "100%" }}>
-                <View style={{ alignItems: "center" }}>
-                    <Text style={{ marginTop: 20, fontSize: 25 }}>{nombreDoctor} {apellidoDoctor}</Text>
+                <View style={{ alignItems: "center",  justifyContent: 'center' }}>
+                    <Text style={{ marginTop: 20, fontSize: 20, marginBottom: 10, fontWeight:'bold'}}>
+                        {nombreDoctor} {apellidoDoctor} 
+                    </Text>
+                    <View style={{ marginBottom: 10, borderBottomWidth: 1, borderColor: "black", width:150 }}></View>
                     {especialidadesDoctor.map(data => (
-                        <Text key={doctorId} style={{ marginBottom: 5 }}>
+                        <Text key={data.doctorId} style={{  marginTop: 5, fontSize: 16, marginBottom: 10, }}>
                             {data.especialidad.nombreEspecialidad}
                         </Text>
                     ))}
                     {centroMedicoDoctor.map(data => (
-                        <Text key={doctorId} style={{ marginBottom: 5 }}>
+                        <Text key={data.doctorId} style={{ fontSize: 16, marginBottom: 10, }}>
                             {data.centroMedico.centroMedicoNombre}
                         </Text>
                     ))}
-                    <Text style={{ marginTop: 5, fontSize: 18 }}>Teléfono: {telefonoDoctor}</Text>
-                    <View style={{ backgroundColor: "#68CCC0", alignItems: 'center', width: "80%", marginVertical: 10, borderRadius: 15 }}>
-                        <Text>Disponibilidad</Text>
-                        <View style={{ backgroundColor: "#68CCC0", alignItems: 'center', width: "100%", flexDirection: 'row', borderRadius: 15, flexWrap: 'wrap', justifyContent: 'center' }}>
+                    <Text style={{ marginTop: 5, fontSize: 16, marginBottom: 15, }}>Teléfono: {telefonoDoctor}</Text>
+                    <View style={{ backgroundColor: "#68CCC0", alignItems: 'center', width: "80%", marginVertical: 10, borderRadius: 50, borderWidth: 1, borderColor: "black", }}>
+                        <Text style={{ marginTop: 5, fontSize: 14, marginBottom: 5, }}>Disponibilidad</Text>
+                        <View style={{ backgroundColor: "#68CCC0", alignItems: 'center', width: "100%", flexDirection: 'row', borderRadius: 80, flexWrap: 'wrap', justifyContent: 'center', marginBottom: 15,}}>
                             {dia.map((item) => {
                                 return <>
-                                    <View style={{ alignItems: 'center', justifyContent: 'center' }}>
+                                    <View key={item.key} style={{ alignItems: 'center', justifyContent: 'center' }}>
                                         <TouchableOpacity style={[
                                             diasapi.filter(element => element.dia_id == item.key).map(obj => { return obj.dia_id }) == item.key
                                                 ? styles.circleDayOn
                                                 : styles.circleDayOff]}>
-                                            <Text>{item.dia}</Text>
+                                            <Text style={{ marginVertical: 5, marginHorizontal: 5, fontSize: 13, fontStyle:'italic'}}>{item.dia}</Text>
                                         </TouchableOpacity>
                                     </View>
                                 </>
@@ -66,7 +69,7 @@ const InfoDoctorScreen = ({ navigation, route }) => {
                         </View>
                     </View>
 
-                    <View style={{ height: 50, width: "70%", marginVertical: 50 }}>
+                    <View style={{ height: 50, width: "70%", marginVertical: 20 }}>
                         <StyledButton txtColor="#ffffff" content="Agendar Cita" bgColor="#88CC68" radius="100" onPress={() => navigation.navigate('DisponibilidadDoctor')}></StyledButton>
                     </View>
                 </View>
@@ -81,18 +84,28 @@ export default InfoDoctorScreen;
 const styles = StyleSheet.create(
     {
         circleDayOn: {
-            backgroundColor: "green",
+            backgroundColor: "#42855B",
             padding: 5,
-            marginVertical: 10,
+            marginVertical: 5,
             borderRadius: 15,
-            marginHorizontal: 10
+            marginHorizontal: 5
         },
         circleDayOff: {
-            backgroundColor: "red",
+            backgroundColor: "#E64848",
             padding: 5,
-            marginVertical: 10,
+            marginVertical: 5,
             borderRadius: 15,
-            marginHorizontal: 10
+            marginHorizontal: 5
         },
+        foto: {
+            resizeMode: 'cover',
+            height: 180,
+            width: 300,
+            borderWidth: 1,
+            marginVertical: 25,
+            borderRadius: 25,
+            borderBottomWidth: 1,
+            borderColor: "black",
+        }
     }
 )

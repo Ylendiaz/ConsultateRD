@@ -3,7 +3,7 @@ import { StyleSheet, Button, Text, View, ScrollView, Image, TextInput, Touchable
 import { SafeAreaView, SafeAreaProvider } from "react-native-safe-area-context";
 import SearchableDropdown from 'react-native-searchable-dropdown';
 import AppNavigator from '../../navigator/Navigator';
-import {SelectList} from 'react-native-dropdown-select-list';
+import { SelectList } from 'react-native-dropdown-select-list';
 //import axios from "axios";
 import { AntDesign, MaterialCommunityIcons } from '@expo/vector-icons';
 //import { Avatar } from "@rneui/themed";
@@ -13,7 +13,10 @@ const DoctoresScreen = ({ navigation }) => {
 
     // ----------------Consumir API tabla Usuario Doctores-----------------
     const [apidata, apisetData] = useState([]);
-    const [apifilteredData, apisetFilteredData] = useState([]);
+    const [apifilteredData, apisetFilteredData] = useState({
+        data: [],
+        isLoading: true
+    });
     // const isLoading = useRef(true);
 
     useEffect(() => {
@@ -25,7 +28,10 @@ const DoctoresScreen = ({ navigation }) => {
             const response = await fetch(url);
             const json = await response.json();
             apisetData(json);
-            apisetFilteredData(json);
+            apisetFilteredData({
+                data: json,
+                isLoading: false
+            });
 
         } catch (error) {
             console.error(error);
@@ -84,16 +90,16 @@ const DoctoresScreen = ({ navigation }) => {
 
     const SearchFilter = (text) => {
         if (text) {
-            const newData = apifilteredData.filter((item) => {
+            const newData = apifilteredData.data.filter((item) => {
                 const itemData = item.nombreDoctor ? item.nombreDoctor.toUpperCase()
                     : ''.toUpperCase();
                 const textData = text.toUpperCase();
                 return itemData.indexOf(textData) > -1;
             })
-            apisetFilteredData(newData);
+            apisetFilteredData({data: newData});
             setSearch(text);
         } else {
-            apisetFilteredData(apidata);
+            apisetFilteredData({data: newData});
             setSearch(text);
         }
     }
@@ -101,26 +107,26 @@ const DoctoresScreen = ({ navigation }) => {
     // ------------ Funcion para filtrar por Especialidades
     const FilterEspecialidad = () => {
         if (selectedEspecialidad != "") {
-            const newData = apifilteredData.filter(item =>
+            const newData = apifilteredData.data.filter(item =>
                 item.especialidadesDoctor.map(data => data.especialidadId) == selectedEspecialidad
             )
-            apisetFilteredData(newData);
+            apisetFilteredData({data: newData});
         }
     }
 
     // ------------ Funcion para filtrar por Centros Medicos
     const FilterCentros = () => {
         if (selectedCentro != "") {
-            const newData = apifilteredData.filter(item =>
+            const newData = apifilteredData.data.filter(item =>
                 item.centroMedicoDoctor.map(data => data.centroMedicoId) == selectedCentro
             )
-            apisetFilteredData(newData);
+            apisetFilteredData({data: newData});
         }
     }
 
     // ------------ Funcion para quitar los filtros (No funciona)
     const QuitarFiltros = () => {
-        apisetFilteredData(apidata);
+        apisetFilteredData({data: apidata});
         setSelectedEspecialidad("");
         setSelectedCentro("");
     }
@@ -160,6 +166,7 @@ const DoctoresScreen = ({ navigation }) => {
                             }}
                             dropdownStyles={{ borderColor: '#ccc', backgroundColor: '#F6F6F6', marginBottom: 15 }}
                             dropdownItemStyles={{ borderBottomWidth: 1, borderColor: '#ccc', }}
+                            notFoundText=""
                             placeholder='Seleccione...' />
                     </View>
                 </View>
@@ -184,6 +191,7 @@ const DoctoresScreen = ({ navigation }) => {
                             }}
                             dropdownStyles={{ borderColor: '#ccc', backgroundColor: '#F6F6F6', marginBottom: 15 }}
                             dropdownItemStyles={{ borderBottomWidth: 1, borderColor: '#ccc', }}
+                            notFoundText=""
                             placeholder='Seleccione...' />
 
                     </View>
@@ -191,13 +199,13 @@ const DoctoresScreen = ({ navigation }) => {
             </View>
 
             <ScrollView style={{ backgroundColor: '#FFFFFF', height: "100%" }}>
-                {/* {isLoading == true ?
-                    <View style={{alignSelf: "center", justifyContent: 'center', backgroundColor:'blue'}}>
-                        <Image source={require('../../assets/loading_image.gif')} style={{ resizeMode: "cover", width: 50, height: 50 }}></Image>
-                    </View> : null} */}
+                {apifilteredData.isLoading == true ?
+                    <View style={{alignSelf: "center", justifyContent: 'center', marginTop: 50}}>
+                        <Image source={require('../../assets/loading_image.gif')} style={{ resizeMode: "cover", width: 25, height: 25 }}></Image>
+                    </View> : null}
 
                 {
-                    apifilteredData.map((item, index) => {
+                    apifilteredData.data.map((item, index) => {
                         return (
 
                             <TouchableOpacity key={item.doctorId} style={styles.listView} onPress={() => navigation.navigate('InfoDoctor', { item })}>
