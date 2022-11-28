@@ -1,15 +1,12 @@
-import React, { Component, useState } from "react";
+import React, { Component, useEffect, useState } from "react";
 import { Image, StyleSheet, Text, View, KeyboardAvoidingView, TextInput } from 'react-native';
 import StyledButton from '../../components/StyledButton/Btn';
-//import 'bootstrap/dist/css/bootstrap.min.css';
 import Cookies from "universal-cookie";
-// import axios from "axios";
-// import md5 from 'md5';
 import AppNavigator from "../../navigator/Navigator"; //page stack
 
 // API
 import LoginTbls_GetLoginTblsContent from "../../API/LoginTbls_GetLoginTblsContent";
-//import { ListItem } from "@rneui/base";
+
 
 
 
@@ -17,55 +14,52 @@ import LoginTbls_GetLoginTblsContent from "../../API/LoginTbls_GetLoginTblsConte
 
 const LoginScreen = ({ navigation }) => {
 
-    
 
     const [username, setName] = useState(''); //get the input (username) of user
     const [password, setPass] = useState(''); //get the input (password) of user
 
 
-    //this returns the object of all the user information if its found in DB (passing a username and password to compare)
-    const getLoginInfo = (user, pass) => {
-        return LoginTbls_GetLoginTblsContent.find(data => data.correoElectronico == user && data.usuarioContraseña == pass)
-    };
+    const url = 'https://consultaterd.azurewebsites.net/api/LoginTbls/' + `${username}/${password}`;
+    // const url = 'https://localhost:7000/api/LoginTbls/' + `${username}/${password}`;
 
-    //here we save the data of the user that was verified
-    const usuarioBuscado = getLoginInfo(username, password);
-    // handleClick = () => {
+
+
     // when you click the login button
-    const handleClick = () => {
-        //instancia de cookies
-        const cookies = new Cookies();
+    const iniciarSesion = async () => {
 
-        //if the user was not found in db or it had the wrong password or username alert -> try again
-        if (usuarioBuscado == undefined) {
-            alert('Incorrent username or password, try again');
+        try{ //if the user was found
 
-        } //if it found data with those credencials let them in
-        else {
+            const response = await fetch(url); //fetch the request response from the server
+            const json = await response.json(); //create a json file of that response (the data)
+            const userInfo= await json[0]; // save in a variable the the info of this specific user
 
-            console.log(usuarioBuscado);
-           
+            // console.log(userInfo);
 
-            // cookies.set('correo', usuarioBuscado.correoElectronico, { path: '/' });
-            // cookies.set('estadoLogin', usuarioBuscado.estadoLogin, { path: '/' });
-            // cookies.set('loginId', usuarioBuscado.loginId, { path: '/' });
-            // cookies.set('rol', usuarioBuscado.rol, { path: '/' });
-            // cookies.set('usuarioContraseña', usuarioBuscado.usuarioContraseña, { path: '/' });
+            if(username == "" || password ==""){ //if username is not missing but the password is and the other way around
+                alert('Ingrese correo y contraseña');
+            }
+            else if (response.status == 404) { //if the request to the server failed and there was no response (404)
 
-            // console.log(cookies.get('rol') +" - "+ typeof(cookies.get('rol')));
-            alert('Bienvenido');
+                alert('Ocurrio un error al tratar de comunicarse con el servidor');
+            }
+            else if (userInfo != null) { //if there was a user found
 
-            navigation.setParams({
-                user: usuarioBuscado,
-              });
-            
-            // <AppNavigator></AppNavigator>
-            navigation.navigate('HomeTab',usuarioBuscado);
+                // console.log(userInfo);
+                alert('Bienvenido');//welcome
+                navigation.navigate("HomeTab", userInfo);// go to home screen and pass the user's info as parameter
+                
+            }
+            else{ //username or password are incorrect (was not found on database)
+                alert('contraseña o usuario incorrecto, intentelo denuevo');
+            }
 
+
+        }catch{//if username and password is missing
+            alert('Ingrese correo y contraseña');
         }
+
+
     }
-
-
 
     return <>
 
@@ -81,11 +75,11 @@ const LoginScreen = ({ navigation }) => {
                     <TextInput name="username" placeholdertextcolor={'gray'} placeholder="Correo" style={styles.input} onChangeText={(val1) => setName(val1)}></TextInput>
                     <TextInput type="password" placeholdertextcolor={'gray'} placeholder="Contraseña" name="password" style={styles.input} onChangeText={(val2) => setPass(val2)}></TextInput>
                 </View>
-                {/* onChange={handleChange} */}
+
                 <View style={styles.buttonsContainer}>
 
                     <View style={{ height: 50, width: "100%" }}>
-                        <StyledButton txtColor="#ffffff" content="Log in" bgColor="#68CCC0" radius="100" onPress={() => handleClick()}></StyledButton>
+                        <StyledButton txtColor="#ffffff" content="Log in" bgColor="#68CCC0" radius="100" onPress={() => iniciarSesion()}></StyledButton>
                     </View>
 
                     <View style={{ height: 50, width: "100%", marginTop: 15 }}>
@@ -99,55 +93,6 @@ const LoginScreen = ({ navigation }) => {
         </View>
 
     </>
-
-
-    // const baseUrl="https://localhost:7000/api/LoginTbls";
-    // const cookies = new Cookies();
-
-    // const [form,setForm]= useState({
-    //     username:'',
-    //     password:'',
-    // });
-
-    // const handleChange=(event) => {
-    //     const {name, value} = event.target;
-    //     setForm((prevState) =>{
-    //         return{
-    //             ...prevState,
-    //             [name]:value,
-    //         };
-    //     });
-
-    // }
-
-    // console.log(form);
-
-    // const iniciarSesion=async()=>{
-    //     await axios.get(baseUrl+`/${form.username}/${form.password}`)
-    //     .then(response=>{
-    //         return response.data;
-    //     }).then(response=>{
-    //         if(response.length >0){
-    //             var respuesta = response[0];
-    //             cookies.set('loginId',respuesta.loginId, {path:'/'});
-    //             cookies.set('rol',respuesta.rol, {path:'/'});
-    //             cookies.set('correoElectronico',respuesta.correoElectronico, {path:'/'});
-    //             cookies.set('usuarioContraseña',respuesta.usuarioContraseña, {path:'/'});
-    //             cookies.set('estadoLogin',respuesta.estadoLogin, {path:'/'});
-    //             cookies.set('usuarioDoctor',respuesta.usuarioDoctor, {path:'/'});
-
-    //             navigation.navigate('HomeTab');
-
-    //         }
-    //         else{
-    //             alert('El usuario o la contraseña no son correctos');
-    //         }
-    //     })
-
-    //     .catch(error=>{
-    //         console.log(error);
-    //     })
-    // }
 
 
 }
