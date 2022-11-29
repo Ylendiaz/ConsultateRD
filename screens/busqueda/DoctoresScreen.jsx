@@ -127,7 +127,7 @@ const DoctoresScreen = ({ navigation }) => {
 
 
     return <>
-        <SafeAreaView style={{ backgroundColor: "#68CCC0", height: "100%" }} >
+        <View style={{ backgroundColor: "#68CCC0", height: "100%" }} >
             <View style={{ alignItems: 'center' }}>
                 <View style={styles.searchBar}>
                     <AntDesign name="search1" size={15} style={{ marginHorizontal: 10 }}></AntDesign>
@@ -225,7 +225,7 @@ const DoctoresScreen = ({ navigation }) => {
                     })
                 }
             </ScrollView>
-        </SafeAreaView>
+        </View>
     </>
 
 }
@@ -236,7 +236,7 @@ const styles = StyleSheet.create(
     {
         searchBar: {
             alignItems: 'center',
-            marginTop: 20,
+            marginTop: 60,
             width: "90%",
             flexDirection: 'row',
             borderRadius: 100,

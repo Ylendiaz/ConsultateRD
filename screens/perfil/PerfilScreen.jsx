@@ -10,7 +10,7 @@ const PerfilScreen = (navigation) => {
 
 
     return <>
-        <SafeAreaView style={{ backgroundColor: "#509F8C", height: "100%" }} >
+        <View style={{ backgroundColor: "#509F8C", height: "100%" }} >
             <View style={styles.viewTopPerfil}>
                 <Text style={styles.textPerfil}>Perfil</Text>
                 <Image style={styles.viewFoto} source={require("../../assets/avatar.png")}></Image>
@@ -39,7 +39,7 @@ const PerfilScreen = (navigation) => {
 
             </View>
 
-        </SafeAreaView>
+        </View>
     </>
 
 }

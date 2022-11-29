@@ -243,19 +243,28 @@ const styles = StyleSheet.create(
             flexDirection: 'row',
             borderRadius: 10,
             padding: 15,
-            shadowColor: '#171717',
-            shadowOffset: { width: 1, height: 1 },
-            shadowOpacity: 2,
+            borderWidth: 1,
+            borderColor: "#ccc",
             marginTop: 15
         },
+
+        // input: {
+        //     textColor: "rgba(255, 255, 255, 0.7)",
+        //     width: "80%",
+        //     height: 50,
+        //     backgroundColor: "rgba(255, 255, 255, 0.16)",
+        //     flexDirection: 'row',
+        //     borderRadius: 10,
+        //     borderWidth: 3,
+        //     borderColor: "rgba(255, 255, 255, 0.7)",
+        //     padding: 15,
+        //     marginTop: 15
+        // },
 
         inputList: {
             textColor: "gray",
             backgroundColor: "#e6e6fa",
             borderRadius: 10,
-            shadowColor: '#171717',
-            shadowOffset: { width: 1, height: 1 },
-            shadowOpacity: 2,
             marginTop: 15
         },
         checkboxContainer: {

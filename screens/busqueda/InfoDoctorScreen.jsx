@@ -6,11 +6,32 @@ import AppNavigator from '../../navigator/Navigator';
 
 const InfoDoctorScreen = ({ navigation, route }) => {
 
+    //Informacion del doctor que fue seleccionado
     const { doctorId, imagenDoctor, loginId, nombreDoctor, apellidoDoctor, telefonoDoctor,
         sexoDoctor, fechaNacimientoDoctor, infoCreditoId, intervaloCitas, centroMedicoDoctor, especialidadesDoctor
         , horariosDoctor } = route.params.item;
 
-    // Mientras la api viene
+    //-------------Consumir API tabla HorariosDoctors--------------------
+    const [apidataHorarios, apisetDataHorarios] = useState([]);
+
+    useEffect(() => {
+        fetchDataEspecialidad('https://consultaterd.azurewebsites.net/api/HorariosDoctors');
+    }, [])
+
+    const fetchDataEspecialidad = async (url) => {
+        try {
+            const response = await fetch(url);
+            const json = await response.json();
+            //console.log(json);
+            const newarray = json.filter(item => item.doctorId == doctorId);
+            apisetDataHorarios(newarray);
+
+        } catch (error) {
+            console.error(error);
+        }
+    };
+    
+        // Mientras la api viene
     const diasapi = [
         { horario_id: 1, dia_id: 1 },
         { horario_id: 3, dia_id: 3 },
@@ -70,7 +91,7 @@ const InfoDoctorScreen = ({ navigation, route }) => {
                     </View>
 
                     <View style={{ height: 50, width: "70%", marginVertical: 20 }}>
-                        <StyledButton txtColor="#ffffff" content="Agendar Cita" bgColor="#88CC68" radius="100" onPress={() => navigation.navigate('DisponibilidadDoctor')}></StyledButton>
+                        <StyledButton txtColor="#ffffff" content="Agendar Cita" bgColor="#88CC68" radius="100" onPress={() => navigation.navigate('DisponibilidadDoctor', { apidataHorarios })}></StyledButton>
                     </View>
                 </View>
             </ScrollView>
