@@ -1,5 +1,5 @@
-import React, {Component, useEffect, useLayoutEffect, useState} from 'react';
-import {SafeAreaView, ScrollView, StyleSheet, View, Text, FlatList, TouchableOpacity, Button, StatusBar} from 'react-native';
+import React, { Component, useEffect, useLayoutEffect, useState } from 'react';
+import { SafeAreaView, ScrollView, StyleSheet, View, Text, FlatList, TouchableOpacity, Button, StatusBar } from 'react-native';
 import CalendarPickerModal from 'react-native-calendar-picker';
 //import { SafeAreaView } from "react-native-safe-area-context";
 import { withSafeAreaInsets } from 'react-native-safe-area-context';
@@ -19,8 +19,8 @@ const GestionCitaScreen = ({}) => {
     const [search, setSearch] = useState("");
 
 
-    const [apidata, apisetData] = useState([]);
-    const [apifilteredData, apisetFilteredData] = useState([]);
+  const [apidata, apisetData] = useState([]);
+  const [apifilteredData, apisetFilteredData] = useState([]);
 
     useEffect(() => {
     //     fetchData('https://consultaterd.azurewebsites.net/api/UsuarioPacientes');
@@ -36,20 +36,20 @@ const GestionCitaScreen = ({}) => {
             apisetFilteredData(url);
              console.log(url);
 
-        } catch (error) {
-            console.error(error);
-        }
-    };
-  
-
-    function citasAgendadas() {
-      const js = GestionCita_Get;
-      useEffect(() => {
-          SetCitasData(js);
-          setFilterCitasData(js);
-      }, [])
-      return citasAgendadas;
+    } catch (error) {
+      console.error(error);
     }
+  };
+
+
+  function citasAgendadas() {
+    const js = GestionCita_Get;
+    useEffect(() => {
+      SetCitasData(js);
+      setFilterCitasData(js);
+    }, [])
+    return citasAgendadas;
+  }
 
     // const ci = Paciente;
     //   useEffect(() => {
@@ -57,18 +57,18 @@ const GestionCitaScreen = ({}) => {
     // }, [])
 
 
-    const citasList = citasAgendadas();
+  const citasList = citasAgendadas();
 
-  
-    const renderItem = ({ item }) => (
-      <Item title={item.title} />
-    );
- 
-    const Item = ({ title }) => (
-      <View style={styles.item}>
-        <Text style={styles.title}>{title}</Text>
-      </View>
-    );
+
+  const renderItem = ({ item }) => (
+    <Item title={item.title} />
+  );
+
+  const Item = ({ title }) => (
+    <View style={styles.item}>
+      <Text style={styles.title}>{title}</Text>
+    </View>
+  );
 
     const onDateChange = (date, type) => {
       if (type === 'END_DATE') {
@@ -108,22 +108,22 @@ const GestionCitaScreen = ({}) => {
     // }
 
 
-    return (
-    
+  return (
+
     <SafeAreaView style={styles.container}>
       <View style={styles.container}>
-          <CalendarPickerModal
+        <CalendarPickerModal
           startFromMonday={true}
           minDate={new Date(2018, 1, 1)}
           maxDate={new Date(2050, 6, 3)}
           weekdays={
             [
-              'Lun', 
-              'Mar', 
-              'Mier', 
-              'Jue', 
-              'Vier', 
-              'Sab', 
+              'Lun',
+              'Mar',
+              'Mier',
+              'Jue',
+              'Vier',
+              'Sab',
               'Dom'
             ]}
           months={[
@@ -154,7 +154,7 @@ const GestionCitaScreen = ({}) => {
           </Text>
           <Text style={styles.textStyle}>
             {selectedStartDate ? selectedStartDate.toString() : ''}
-            
+
           </Text>
         </View>}
       </View>
@@ -172,13 +172,13 @@ const GestionCitaScreen = ({}) => {
 
 
 export default GestionCitaScreen;
- 
+
 const styles = StyleSheet.create({
   container: {
     //flex: 1,
     paddingTop: 25,
     //backgroundColor: '#ffffff',
-    
+
   },
   textStyle: {
     marginTop: 10,
@@ -192,8 +192,8 @@ const styles = StyleSheet.create({
     flex: 0,
     backgroundColor: '#68CCC0',
     marginTop: StatusBar.currentHeight || 35,
-    padding: 25, 
-    paddingTop: 25, 
+    padding: 25,
+    paddingTop: 25,
   },
   // item: {
   //   backgroundColor: '#FFFFFF',
@@ -233,19 +233,19 @@ const styles = StyleSheet.create({
     shadowColor: '#171717',
     shadowOffset: { width: 1, height: 1 },
     shadowOpacity: 2,
-},
+  },
 
-listViewContent: {
+  listViewContent: {
     //flexDirection: 'row',
     alignItems: 'center',
     alignSelf: "center",
     marginHorizontal: 15,
     marginVertical: 15
-},
+  },
 
-// listTextView: {
-//     marginLeft: 15
-// }
+  // listTextView: {
+  //     marginLeft: 15
+  // }
 
-  
+
 });
