@@ -4,13 +4,6 @@ import StyledButton from '../../components/StyledButton/Btn';
 import Cookies from "universal-cookie";
 import AppNavigator from "../../navigator/Navigator"; //page stack
 
-// API
-import LoginTbls_GetLoginTblsContent from "../../API/LoginTbls_GetLoginTblsContent";
-
-
-
-
-
 
 const LoginScreen = ({ navigation }) => {
 

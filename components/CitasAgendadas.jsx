@@ -3,8 +3,6 @@ import {SafeAreaView, ScrollView, StyleSheet, View, Text, FlatList, TouchableOpa
 import CalendarPickerModal from 'react-native-calendar-picker';
 //import { SafeAreaView } from "react-native-safe-area-context";
 import { withSafeAreaInsets } from 'react-native-safe-area-context';
-import Paciente from '../API/Paciente';
-
 
 
 const CitasAgendadas = (props) => {
