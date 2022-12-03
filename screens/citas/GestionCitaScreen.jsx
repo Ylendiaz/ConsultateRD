@@ -4,34 +4,37 @@ import CalendarPickerModal from 'react-native-calendar-picker';
 //import { SafeAreaView } from "react-native-safe-area-context";
 import { withSafeAreaInsets } from 'react-native-safe-area-context';
 import GestionCita_Get from '../../API/GestionCita_Get';
-import Paciente from '../../API/Paciente';
+// import Paciente from '../../API/Paciente';
 import AppNavigator from '../../navigator/Navigator';
-
-const GestionCitaScreen = ({ }) => {
-  const [selectedStartDate, setSelectedStartDate] = useState(null);
-  const [selectedEndDate, setSelectedEndDate] = useState(null);
-
-
-  const [CitasData, SetCitasData] = useState([]);
-  const [filterCitasData, setFilterCitasData] = useState([]);
-  const [dataCita, setDataCita] = useState([]);
-  const [search, setSearch] = useState("");
+import CitasAgendadas from '../../components/CitasAgendadas';
+ 
+const GestionCitaScreen = ({}) => {
+    const [selectedStartDate, setSelectedStartDate] = useState(null);
+    const [selectedEndDate, setSelectedEndDate] = useState(null);
+    
+    
+    const [CitasData, SetCitasData] = useState([]);
+    const [filterCitasData, setFilterCitasData] = useState([]);
+    const [dataCita, setDataCita] = useState([]);
+    const [search, setSearch] = useState("");
 
 
   const [apidata, apisetData] = useState([]);
   const [apifilteredData, apisetFilteredData] = useState([]);
 
-  useEffect(() => {
-    fetchData('https://consultaterd.azurewebsites.net/api/UsuarioPacientes');
-  }, [])
+    useEffect(() => {
+    //     fetchData('https://consultaterd.azurewebsites.net/api/UsuarioPacientes');
+    // }, [])
+    fetchData(GestionCita_Get);
+    }, [])
 
-  const fetchData = async (url) => {
-    try {
-      const response = await fetch(url);
-      const json = await response.json();
-      apisetData(json);
-      apisetFilteredData(json);
-      console.log(json);
+    const fetchData = async (url) => {
+        try {
+            //const response = await fetch(url);
+            //const json = await response.json();
+            apisetData(url);
+            apisetFilteredData(url);
+             console.log(url);
 
     } catch (error) {
       console.error(error);
@@ -48,10 +51,10 @@ const GestionCitaScreen = ({ }) => {
     return citasAgendadas;
   }
 
-  const ci = Paciente;
-  useEffect(() => {
-    setDataCita(ci);
-  }, [])
+    // const ci = Paciente;
+    //   useEffect(() => {
+    //       setDataCita(ci);
+    // }, [])
 
 
   const citasList = citasAgendadas();
@@ -67,38 +70,42 @@ const GestionCitaScreen = ({ }) => {
     </View>
   );
 
-  const onDateChange = (date, type) => {
-    if (type === 'END_DATE') {
-      setSelectedEndDate(date);
-    } else {
-      setSelectedEndDate(null);
-      setSelectedStartDate(date);
-    }
-  };
+    const onDateChange = (date, type) => {
+      if (type === 'END_DATE') {
+        setSelectedEndDate(date);
+      } else {
+        setSelectedEndDate(null);
+        setSelectedStartDate(date);
+        if(type)
+        {}
+      }
+    };
 
-  const AppButton = ({ onPress, title }) => (
-    <TouchableOpacity onPress={onPress} style={styles.appButtonContainer}>
-      <Text style={styles.appButtonText}>{title}</Text>
-    </TouchableOpacity>
-  );
-
-
-  // Funcion para filtrar las citas por fecha
-  const SearchFilter = (text) => {
-    if (text) {
-      const newData = apidata.filter((item) => {
-        const itemData = item.nombrePaciente ? item.nombrePaciente.toUpperCase()
-          : ''.toUpperCase();
-        const textData = text.toUpperCase();
-        return itemData.indexOf(textData) > -1;
-      })
-      apisetFilteredData(newData);
-      setSearch(text);
-    } else {
-      apisetFilteredData(apidata);
-      setSearch(text);
-    }
-  }
+    const AppButton = ({ onPress, title }) => (
+      <TouchableOpacity onPress={onPress} style={styles.appButtonContainer}>
+        <Text style={styles.appButtonText}>{title}</Text>
+      </TouchableOpacity>
+    );
+  
+    
+      // Funcion para filtrar las citas por fecha
+    //   const SearchFilter = (text) => {
+    //     if (text) {
+    //         const newData = apidata.filter((item) => {
+    //             // const itemData = item.nombrePaciente ? item.nombrePaciente.toUpperCase()
+    //             //     : ''.toUpperCase();
+    //                const itemData = {GestionCita_Get}
+                
+    //                 const textData = text.toUpperCase();
+    //             return itemData.indexOf(textData) > -1;
+    //         })
+    //         apisetFilteredData(newData);
+    //         setSearch(text);
+    //     } else {
+    //         apisetFilteredData(apidata);
+    //         setSearch(text);
+    //     }
+    // }
 
 
   return (
@@ -152,31 +159,13 @@ const GestionCitaScreen = ({ }) => {
         </View>}
       </View>
       <View style={styles.container1}>
-        <View style={styles.item2}>
-          <AppButton title="Citas Programadas" />
-        </View>
-
-        <ScrollView style={{ backgroundColor: '#68CCC0', height: "100%" }}>
-          {
-            apifilteredData.map((item, index) => {
-              return (
-
-                <TouchableOpacity key={item.pacienteId} style={styles.listView} onPress={() => navigation.navigate('InfoCita', { item })}>
-                  <View style={styles.listViewContent}>
-
-                    <View style={styles.listTextView}>
-                      <Text style={{ color: "black", marginBottom: 8 }}>{item.nombrePaciente} {item.apellidoPaciente}</Text>
-
-
-                    </View>
-                  </View>
-                </TouchableOpacity>
-              )
-            })
-          }
-        </ScrollView>
-
+      <View style={styles.item2}> 
+      <AppButton title="Citas Programadas"/>
       </View>
+      <CitasAgendadas citas ={apifilteredData}></CitasAgendadas>
+        
+      
+            </View>
     </SafeAreaView>
   );
 };
