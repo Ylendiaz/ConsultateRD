@@ -4,41 +4,23 @@ export default [
         diaId: 1,
         doctorId: 8,
         centroMedicoId: 12,
-        horaInicio: {
-            hours: 9,
-            minutes: 0
-        },
-        horaCierre: {
-            hours: 12,
-            minutes: 0
-        },
+        horaInicio: "09:00",
+        horaCierre: "12:00"
     },
     {
         horarioId: 2,
         diaId: 2,
         doctorId: 8,
         centroMedicoId: 12,
-        horaInicio: {
-            hours: 9,
-            minutes: 0
-        },
-        horaCierre: {
-            hours: 12,
-            minutes: 0
-        },
+        horaInicio: "07:00",
+        horaCierre: "10:00"
     },
     {
         horarioId: 3,
         diaId: 2,
         doctorId: 9,
         centroMedicoId: 13,
-        horaInicio: {
-            hours: 9,
-            minutes: 0
-        },
-        horaCierre: {
-            hours: 12,
-            minutes: 0
-        },
+        horaInicio: "09:00",
+        horaCierre: "12:00"
     },
 ]
