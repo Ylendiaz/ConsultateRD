@@ -45,7 +45,7 @@ const DisponibilidadDoctorScreen = ({ navigation, route }) => {
     }
 
     //Calendario
-    const [selectedStartDate, setSelectedStartDate] = useState(new Date());
+    const [selectedStartDate, setSelectedStartDate] = useState(null);
     const [selectedEndDate, setSelectedEndDate] = useState(null);
 
     const dia = [
@@ -60,10 +60,15 @@ const DisponibilidadDoctorScreen = ({ navigation, route }) => {
     const [horas, sethoras] = useState([])
 
     //Al seleccionar cambia la disponibilidad
-    const onDateChange = (date) => {
-        setSelectedStartDate(date);
+    const onDateChange = (date,type) => {
+        if (type === 'END_DATE') {
+            setSelectedEndDate(date);
+          } else {
+            setSelectedEndDate(null);
+            setSelectedStartDate(date);
+          }
         setdisableButton(true);
-        const selectedDay = selectedStartDate.toString().substring(0, 3); //Dia
+        const selectedDay = date.toString().substring(0, 3); //Dia
         const arrayDia = dia.find(x => x.dia == selectedDay).key; //Dia ID
         const horarioDia = apidataHorarios.filter(x => x.diaId == arrayDia); //Horario de ese dia
 
@@ -87,13 +92,14 @@ const DisponibilidadDoctorScreen = ({ navigation, route }) => {
                 const sumhorario = moment.duration(lee).add(intervaloCitas, 'minute');
                 const pastehorasin = sumhorario.hours().toString() + (sumhorario.minutes().toString() == 0 ? "00" : sumhorario.minutes().toString())//Format
                 const formathora = moment(pastehorasin, "hmm").format("HH:mm"); //Format
-                array.push({ inicio: lee, cierre: formathora });
+                array.push({ inicio: lee, cierre: formathora, fecha: date });
                 lee = formathora
             }
             sethoras(array);
             // console.log(horas);
         }
     }
+
 
     //Accion cuando se selecciona una hora
     const [selectDisponibilidad, setselectDisponibilidad] = useState([])
@@ -102,16 +108,26 @@ const DisponibilidadDoctorScreen = ({ navigation, route }) => {
         setselectDisponibilidad(data);
         disableButtonFunction();
     }
-    
+
     //Funcion desactivar boton Confirmar
-    const disableButtonFunction = () =>{
+    const disableButtonFunction = () => {
         setdisableButton(false);
     }
 
     //Funcion get estado de la cita
     const getEstadoCita = (data) => {
-        var estado = apidataCitas.filter(x => x.citasHoraInicio == data.inicio).map(y => { return y.estadoCitas })
-        return estado;
+        const datafecha = data.fecha.format("YYYY-MM-DD")
+        const cita = apidataCitas.filter(x => x.citaFecha == datafecha & x.citasHoraInicio == data.inicio);
+
+        if (cita.length > 0) {
+            var estado = cita.map(y => { return y.estadoCitas });
+        
+            if (estado == "true")
+                return true
+            else
+                return false
+        } else
+            return false
     }
 
     return <>
@@ -134,7 +150,7 @@ const DisponibilidadDoctorScreen = ({ navigation, route }) => {
                         selectedDayStyle={{ backgroundColor: "#68CCC0" }}
                         selectedDayTextColor="#000000"
                         ScrollView={true}
-                        onDateChange={(date) => onDateChange(date)}
+                        onDateChange={onDateChange}
                     />
                 </View>
                 <View style={styles.viewTitle}>
@@ -142,16 +158,15 @@ const DisponibilidadDoctorScreen = ({ navigation, route }) => {
                         <Text style={{ fontSize: 20, fontWeight: 'bold', color: '#FFFFFF', marginHorizontal: 15, marginVertical: 20, }}>Horarios Disponibles</Text>
                     </View>
                     <View style={styles.viewListDisponibilidad}>
-                        {console.log(horas)}
                         {horas.length == 0
                             ? <Text style={{ marginVertical: 10, alignSelf: 'center', fontSize: 14, fontWeight: 'bold', color: "#504D4C" }}>En este día no se encuentra disponible</Text>
                             : horas.map(data => (
-                                <TouchableOpacity key={data.inicio} style={styles.viewTouch} disabled={getEstadoCita(data) == false ? false : true} onPress={() => selectHour(data)}>
+                                <TouchableOpacity key={data.inicio} style={styles.viewTouch} disabled={getEstadoCita(data) == true ? true : false} onPress={() => selectHour(data)}>
                                     <View style={data == selectDisponibilidad ? styles.radioOff : styles.radioOn}></View>
                                     <Text style={{ fontSize: 14, marginRight: 20 }}>{data.inicio} - {data.cierre}</Text>
-                                    {getEstadoCita(data) == false
-                                        ? <Text style={styles.textDisponible}>Disponible</Text>
-                                        : <Text style={styles.textNoDisponible}>No Disponible</Text>
+                                    {getEstadoCita(data) == true
+                                        ? <Text style={styles.textNoDisponible}>No Disponible</Text>
+                                        : <Text style={styles.textDisponible}>Disponible</Text>
                                     }
                                 </TouchableOpacity>
                             ))
