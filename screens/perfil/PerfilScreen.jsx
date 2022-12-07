@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { SafeAreaView, StyleSheet, Button, Text, View, Image } from 'react-native';
+import { SafeAreaView, StyleSheet, Button, Text, View, Image, ScrollView } from 'react-native';
 import AppNavigator from '../../navigator/Navigator';
 import { NavigationContainer, useNavigation, useRoute } from "@react-navigation/native";
 import StyledButtonIcon from "../../components/StyledButtonIcon";
@@ -28,7 +28,7 @@ const PerfilScreen = (navigation) => {
     // getData();
 
     return <>
-        <View style={{ backgroundColor: "#509F8C", height: "100%" }} >
+        <ScrollView style={{ backgroundColor: "#509F8C", height: "100%" }} >
             <View style={styles.viewTopPerfil}>
                 <Text style={styles.textPerfil}>Perfil</Text>
                 <Image style={styles.viewFoto} source={require("../../assets/avatar.png")}></Image>
@@ -54,10 +54,10 @@ const PerfilScreen = (navigation) => {
                 <View style={{ height: 44, width: 310, marginTop: 15 }}>
                     <StyledButtonIcon content="Cerrar Sesión" bgColor="#900707" ></StyledButtonIcon>
                 </View>
-
+                
             </View>
 
-        </View>
+        </ScrollView>
     </>
 
 }

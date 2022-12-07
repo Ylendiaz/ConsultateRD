@@ -6,7 +6,7 @@ import AppNavigatorLogin from "./navigator/NavigatorLogin";
 import AppNavigator from ".//navigator/Navigator";
 import DoctoresScreen from "./screens/busqueda/DoctoresScreen";
 import GestionCitaScreen from "./screens/citas/GestionCitaScreen";
-import CitasInfoScreen from "./screens/citas/CitasInfoScreen";
+
 
 export default function App() {
   return (

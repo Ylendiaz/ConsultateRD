@@ -127,7 +127,7 @@ const DoctoresScreen = ({ navigation }) => {
 
 
     return <>
-        <View style={{ backgroundColor: "#68CCC0", height: "100%" }} >
+        <View style={{ backgroundColor: "#68CCC0", height: "100%", width: "100%" }} >
             <View style={{ alignItems: 'center' }}>
                 <View style={styles.searchBar}>
                     <AntDesign name="search1" size={15} style={{ marginHorizontal: 10 }}></AntDesign>
@@ -209,12 +209,12 @@ const DoctoresScreen = ({ navigation }) => {
                                     <View style={styles.listTextView}>
                                         <Text style={{ color: "#35AABA", marginBottom: 8 }}>{item.nombreDoctor} {item.apellidoDoctor}</Text>
                                         {item.especialidadesDoctor.map(data => (
-                                            <Text key={item.doctorId} style={{ marginBottom: 5 }}>
+                                            <Text key={item.doctorId} style={{ marginBottom: 5 }} numberOfLines={1}>
                                                 {data.especialidad.nombreEspecialidad}
                                             </Text>
                                         ))}
                                         {item.centroMedicoDoctor.map(data => (
-                                            <Text key={item.doctorId} style={{ marginBottom: 5 }}>
+                                            <Text key={item.doctorId} style={{ marginBottom: 5 }} numberOfLines={1}>
                                                 {data.centroMedico.centroMedicoNombre}
                                             </Text>
                                         ))}
@@ -283,16 +283,17 @@ const styles = StyleSheet.create(
             flexDirection: 'row',
             alignItems: 'center',
             marginHorizontal: 15,
-            marginVertical: 15
+            marginVertical: 15,
         },
 
         listTextView: {
-            marginLeft: 15
+            width: 258,
+            marginLeft: 15,
         },
-        viewFoto:{
-            resizeMode: 'cover', 
+        viewFoto: {
+            resizeMode: 'cover',
             height: 60,
-            width: 60, 
+            width: 60,
             borderRadius: 50
         }
 

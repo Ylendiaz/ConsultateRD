@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { SafeAreaView, StyleSheet, View, Text, FlatList, TouchableOpacity, Button, StatusBar } from 'react-native';
 import CalendarPickerModal from 'react-native-calendar-picker';
 import { withSafeAreaInsets } from 'react-native-safe-area-context';
+import CitasAgendadas from '../../components/CitasAgendadas';
 
 
 const HomeScreen = () => {
@@ -15,6 +16,7 @@ const HomeScreen = () => {
           <Text style={{ fontSize: 20, fontWeight: 'bold', color: '#FFFFFF', marginHorizontal: 15, marginVertical: 20, }}>Citas Agendadas</Text>
         </View>
       </View>
+      <CitasAgendadas citas = {[]}></CitasAgendadas>
     </View>
 
   );
@@ -28,6 +30,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: "#65D1B7",
     height: 210,
+    marginBottom: 50,
     borderBottomWidth: 1,
     borderColor: '#65D1B7',
     shadowColor: "#000",
