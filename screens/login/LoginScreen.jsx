@@ -1,20 +1,58 @@
 import React, { Component, useEffect, useState } from "react";
-import { Image, StyleSheet, Text, View, KeyboardAvoidingView, TextInput } from 'react-native';
+import { Image, StyleSheet, Text, View, KeyboardAvoidingView, TextInput  } from 'react-native';
 import StyledButton from '../../components/StyledButton/Btn';
 import Cookies from "universal-cookie";
 import AppNavigator from "../../navigator/Navigator"; //page stack
 
+//AsyncStorage to save user data across all screens since login
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+
+
+// import userInfoJson from "../../data/loginInfo.json"
+
+    
 // API
 import LoginTbls_GetLoginTblsContent from "../../API/LoginTbls_GetLoginTblsContent";
 
 
 
+const storeData = async (value) => {
+    try {
+      await AsyncStorage.setItem('@userData', value)
+    } catch (e) {
+      // saving error
+    }
+  }
 
+  
+const getData = async () => {
+    try {
+      const value = await AsyncStorage.getItem('@userData')
+      if(value !== null) {
+        // value previously stored
+        console.log(value);
+      }
+    } catch(e) {
+      // error reading value
+    }
+  }
+
+// const removeValue = async () => {
+//     try {
+//       await AsyncStorage.removeItem('@userData')
+//     } catch(e) {
+//       console.log(e);
+//     }
+  
+//     console.log('Done.')
+//   }
 
 
 const LoginScreen = ({ navigation }) => {
 
-
+    // storeData("hello");
+    // removeValue();
     const [username, setName] = useState(''); //get the input (username) of user
     const [password, setPass] = useState(''); //get the input (password) of user
 
@@ -26,9 +64,9 @@ const LoginScreen = ({ navigation }) => {
 
     // when you click the login button
     const iniciarSesion = async () => {
-
+        // console.log(userInfoJson.userInfo);
         try{ //if the user was found
-
+            
             const response = await fetch(url); //fetch the request response from the server
             const json = await response.json(); //create a json file of that response (the data)
             const userInfo= await json[0]; // save in a variable the the info of this specific user
@@ -43,7 +81,9 @@ const LoginScreen = ({ navigation }) => {
                 alert('Ocurrio un error al tratar de comunicarse con el servidor');
             }
             else if (userInfo != null) { //if there was a user found
-
+                // console.log('ok');
+                storeData(JSON.stringify(userInfo));
+                // getData();
                 // console.log(userInfo);
                 alert('Bienvenido');//welcome
                 navigation.navigate("HomeTab", userInfo);// go to home screen and pass the user's info as parameter

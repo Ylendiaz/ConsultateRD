@@ -4,10 +4,28 @@ import AppNavigator from '../../navigator/Navigator';
 import { NavigationContainer, useNavigation, useRoute } from "@react-navigation/native";
 import StyledButtonIcon from "../../components/StyledButtonIcon";
 
+// import AsyncStorage from '@react-native-async-storage/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+let userData = {};
+
+const getData = async () => {
+    try {
+      const value = await AsyncStorage.getItem('@userData')
+      if(value !== null) {
+        // value previously stored
+        console.log('IT WORKS');
+        console.log(value);
+        userData = JSON.parse(value);
+        console.log(userData);
+      }
+    } catch(e) {
+      console.log(e);
+    }
+  }
 
 const PerfilScreen = (navigation) => {
 
-
+    // getData();
 
     return <>
         <View style={{ backgroundColor: "#509F8C", height: "100%" }} >
