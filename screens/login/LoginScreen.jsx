@@ -8,15 +8,6 @@ import AppNavigator from "../../navigator/Navigator"; //page stack
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
-
-// import userInfoJson from "../../data/loginInfo.json"
-
-    
-// API
-import LoginTbls_GetLoginTblsContent from "../../API/LoginTbls_GetLoginTblsContent";
-
-
-
 const storeData = async (value) => {
     try {
       await AsyncStorage.setItem('@userData', value)
