@@ -1,12 +1,39 @@
-import React, { Component } from "react";
+import React, { Component, useEffect } from "react";
 import { SafeAreaView, StyleSheet, Button, Text, View, Image, ScrollView } from 'react-native';
 import AppNavigator from '../../navigator/Navigator';
 import { NavigationContainer, useNavigation, useRoute } from "@react-navigation/native";
 import StyledButtonIcon from "../../components/StyledButtonIcon";
 
+// import AsyncStorage from '@react-native-async-storage/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+
 
 const PerfilScreen = (navigation) => {
 
+    const [userData, setUserData] = React.useState([]);
+    const [num, setNum] = React.useState(0);
+
+    const getData = async (keyname) => {
+        try {
+            const value = await AsyncStorage.getItem(keyname)
+            if(value !== null) {
+                // value previously stored
+                setUserData(JSON.parse(value));
+            }
+        } catch(e) {
+            console.log(e);
+        }
+        
+    }
+
+      
+  
+
+    useEffect(()=> {
+        getData('@userData');
+
+    },[])
 
 
     return <>
@@ -20,7 +47,7 @@ const PerfilScreen = (navigation) => {
             <View style={{ alignItems: 'center', marginTop: 110, }}>
                 <View style={styles.textInfo}>
                     <Text style={{ fontSize: 20, fontWeight: 'bold', marginHorizontal: 20, marginTop: 10, }}>Nombre Apellido</Text>
-                    <Text style={{ fontSize: 16, fontWeight: 'bold', marginHorizontal: 20, marginVertical: 10, marginBottom: 15 }}>correoelectronico@gmail.com</Text>
+                    <Text style={{ fontSize: 16, fontWeight: 'bold', marginHorizontal: 20, marginVertical: 10, marginBottom: 15 }}>{userData.correoElectronico}</Text>
                 </View>
             </View>
             <View style={styles.buttonsContainer}>
