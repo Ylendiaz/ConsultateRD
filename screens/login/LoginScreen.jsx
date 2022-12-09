@@ -1,7 +1,6 @@
-import React, { Component, useEffect, useState } from "react";
-import { Image, StyleSheet, Text, View, KeyboardAvoidingView, TextInput  } from 'react-native';
+import React, {useState } from "react";
+import {Image, StyleSheet, Text, View, TextInput, keyboardAvoidingView  } from 'react-native';
 import StyledButton from '../../components/StyledButton/Btn';
-import Cookies from "universal-cookie";
 import AppNavigator from "../../navigator/Navigator"; //page stack
 
 //AsyncStorage to save user data across all screens since login
@@ -11,6 +10,14 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 const storeData = async (value) => {
     try {
       await AsyncStorage.setItem('@userData', value)
+    } catch (e) {
+      // saving error
+    }
+  }
+
+  const storeTest = async (value) => {
+    try {
+      await AsyncStorage.setItem('@Test', value)
     } catch (e) {
       // saving error
     }
@@ -42,20 +49,18 @@ const getData = async () => {
 
 const LoginScreen = ({ navigation }) => {
 
-    // storeData("hello");
-    // removeValue();
     const [username, setName] = useState(''); //get the input (username) of user
     const [password, setPass] = useState(''); //get the input (password) of user
 
 
-    const url = 'https://consultaterd.azurewebsites.net/api/LoginTbls/' + `${username}/${password}`;
-    // const url = 'https://localhost:7000/api/LoginTbls/' + `${username}/${password}`;
+    const url = 'https://consultaterd.azurewebsites.net/api/LoginTbls/' + `${username}/${password}`;//url of api request for login
+    // const url = 'https://localhost:7000/api/LoginTbls/' + `${username}/${password}`; //local url of api local request for login
 
 
 
     // when you click the login button
     const iniciarSesion = async () => {
-        // console.log(userInfoJson.userInfo);
+
         try{ //if the user was found
             
             const response = await fetch(url); //fetch the request response from the server
@@ -71,11 +76,8 @@ const LoginScreen = ({ navigation }) => {
 
                 alert('Ocurrio un error al tratar de comunicarse con el servidor');
             }
-            else if (userInfo != null) { //if there was a user found
-                // console.log('ok');
+            else if (userInfo != null && (userInfo.correoElectronico == username && userInfo.usuarioContraseña==password)) { //if there was a user found and (username and password matches)
                 storeData(JSON.stringify(userInfo));
-                // getData();
-                // console.log(userInfo);
                 alert('Bienvenido');//welcome
                 navigation.navigate("HomeTab", userInfo);// go to home screen and pass the user's info as parameter
                 
@@ -97,30 +99,33 @@ const LoginScreen = ({ navigation }) => {
 
         <View style={styles.container}>
 
-            <Image style={styles.logo} source={require('../../assets/Consultate-RD-logo.png')} />
 
-            <Text style={styles.textlogo}>Consultate RD</Text>
 
-            <View style={styles.loginBox}>
-                <View style={styles.inputsContainer}>
-                    <TextInput name="username" placeholdertextcolor={'gray'} placeholder="Correo" style={styles.input} onChangeText={(val1) => setName(val1)}></TextInput>
-                    <TextInput type="password" placeholdertextcolor={'gray'} placeholder="Contraseña" name="password" style={styles.input} onChangeText={(val2) => setPass(val2)}></TextInput>
-                </View>
+                <Image style={styles.logo} source={require('../../assets/Consultate-RD-logo.png')} />
 
-                <View style={styles.buttonsContainer}>
+                <Text style={styles.textlogo}>Consultate RD</Text>
 
-                    <View style={{ height: 50, width: "100%" }}>
-                        <StyledButton txtColor="#ffffff" content="Log in" bgColor="#68CCC0" radius="100" onPress={() => iniciarSesion()}></StyledButton>
+                <View style={styles.loginBox}>
+                    <View style={styles.inputsContainer}>
+                        <TextInput name="username" placeholdertextcolor={'gray'} placeholder="Correo" style={styles.input} onChangeText={(val1) => setName(val1)}></TextInput>
+                        <TextInput type="password" placeholdertextcolor={'gray'} placeholder="Contraseña" name="password" style={styles.input} onChangeText={(val2) => setPass(val2)}></TextInput>
                     </View>
 
-                    <View style={{ height: 50, width: "100%", marginTop: 15 }}>
-                        <StyledButton txtColor="#ffffff" content="Registrarse" bgColor="#68CCC0" radius="100" onPress={() => navigation.navigate('Registrarse')}></StyledButton>
-                        {/* <StyledButton txtColor="#ffffff" content = "Registrarse" bgColor="#68CCC0" onPress={() => navigation.navigate('Registrarse')}></StyledButton> */}
+                    <View style={styles.buttonsContainer}>
+
+                        <View style={{ height: 50, width: "100%" }}>
+                            <StyledButton txtColor="#ffffff" content="Log in" bgColor="#68CCC0" radius="100" onPress={() => iniciarSesion()}></StyledButton>
+                        </View>
+
+                        <View style={{ height: 50, width: "100%", marginTop: 15 }}>
+                            <StyledButton txtColor="#ffffff" content="Registrarse" bgColor="#68CCC0" radius="100" onPress={() => navigation.navigate('Registrarse')}></StyledButton>
+                            {/* <StyledButton txtColor="#ffffff" content = "Registrarse" bgColor="#68CCC0" onPress={() => navigation.navigate('Registrarse')}></StyledButton> */}
+                        </View>
+
                     </View>
 
                 </View>
 
-            </View>
         </View>
 
     </>
@@ -142,8 +147,8 @@ const styles = StyleSheet.create(
         },
 
         logo: {
-            width: 300,
-            height: 200,
+            width: 200,
+            height: 150,
             marginTop: 30
         },
 
@@ -158,10 +163,10 @@ const styles = StyleSheet.create(
             justifyContent: "center",
             alignItems: 'center',
             gap: 50,
-            width: "80%",
-            height: "50%",
+            width: 300,
+            height: 300,
             borderRadius: 25,
-            backgroundColor: "white",
+            backgroundColor: "#ffffff",
             padding: '5%',
             shadowColor: '#171717',
             shadowOffset: { width: -2, height: 4 },
@@ -174,22 +179,22 @@ const styles = StyleSheet.create(
 
         inputsContainer: {
             justifyContent: "center",
-            width: "100%",
-            height: "50%",
+            width: 250,
+            height:150,
             alignItems: 'center'
 
         },
         buttonsContainer: {
             justifyContent: "center",
-            width: "100%",
-            height: "50%",
+            width: 250,
+            height: 150,
             alignItems: 'center',
             padding: "5%"
         },
 
         input: {
             textColor: "gray",
-            width: "90%",
+            width: 250,
             height: 50,
             backgroundColor: "#e6e6fa",
             justifyContent: 'center',
@@ -205,4 +210,3 @@ const styles = StyleSheet.create(
 
         },
     });
-

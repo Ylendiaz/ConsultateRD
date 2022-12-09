@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, useEffect } from "react";
 import { SafeAreaView, StyleSheet, Button, Text, View, Image, ScrollView } from 'react-native';
 import AppNavigator from '../../navigator/Navigator';
 import { NavigationContainer, useNavigation, useRoute } from "@react-navigation/native";
@@ -6,26 +6,35 @@ import StyledButtonIcon from "../../components/StyledButtonIcon";
 
 // import AsyncStorage from '@react-native-async-storage/async-storage';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-let userData = {};
 
-const getData = async () => {
-    try {
-      const value = await AsyncStorage.getItem('@userData')
-      if(value !== null) {
-        // value previously stored
-        console.log('IT WORKS');
-        console.log(value);
-        userData = JSON.parse(value);
-        console.log(userData);
-      }
-    } catch(e) {
-      console.log(e);
-    }
-  }
+
 
 const PerfilScreen = (navigation) => {
 
-    // getData();
+    const [userData, setUserData] = React.useState([]);
+    const [num, setNum] = React.useState(0);
+
+    const getData = async (keyname) => {
+        try {
+            const value = await AsyncStorage.getItem(keyname)
+            if(value !== null) {
+                // value previously stored
+                setUserData(JSON.parse(value));
+            }
+        } catch(e) {
+            console.log(e);
+        }
+        
+    }
+
+      
+  
+
+    useEffect(()=> {
+        getData('@userData');
+
+    },[])
+
 
     return <>
         <ScrollView style={{ backgroundColor: "#509F8C", height: "100%" }} >
@@ -38,7 +47,7 @@ const PerfilScreen = (navigation) => {
             <View style={{ alignItems: 'center', marginTop: 110, }}>
                 <View style={styles.textInfo}>
                     <Text style={{ fontSize: 20, fontWeight: 'bold', marginHorizontal: 20, marginTop: 10, }}>Nombre Apellido</Text>
-                    <Text style={{ fontSize: 16, fontWeight: 'bold', marginHorizontal: 20, marginVertical: 10, marginBottom: 15 }}>correoelectronico@gmail.com</Text>
+                    <Text style={{ fontSize: 16, fontWeight: 'bold', marginHorizontal: 20, marginVertical: 10, marginBottom: 15 }}>{userData.correoElectronico}</Text>
                 </View>
             </View>
             <View style={styles.buttonsContainer}>
