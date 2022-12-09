@@ -60,13 +60,13 @@ const DisponibilidadDoctorScreen = ({ navigation, route }) => {
     const [horas, sethoras] = useState([])
 
     //Al seleccionar cambia la disponibilidad
-    const onDateChange = (date,type) => {
+    const onDateChange = (date, type) => {
         if (type === 'END_DATE') {
             setSelectedEndDate(date);
-          } else {
+        } else {
             setSelectedEndDate(null);
             setSelectedStartDate(date);
-          }
+        }
         setdisableButton(true);
         const selectedDay = date.toString().substring(0, 3); //Dia
         const arrayDia = dia.find(x => x.dia == selectedDay).key; //Dia ID
@@ -74,7 +74,6 @@ const DisponibilidadDoctorScreen = ({ navigation, route }) => {
 
         const array = [];
         sethoras(array);
-        // console.log(horas);
         if (horarioDia.length > 0) {
 
             const horain = horarioDia.map(x => { return x.horaInicio }).toString() //Hora inicial del dia
@@ -96,10 +95,8 @@ const DisponibilidadDoctorScreen = ({ navigation, route }) => {
                 lee = formathora
             }
             sethoras(array);
-            // console.log(horas);
         }
     }
-
 
     //Accion cuando se selecciona una hora
     const [selectDisponibilidad, setselectDisponibilidad] = useState([])
@@ -116,12 +113,12 @@ const DisponibilidadDoctorScreen = ({ navigation, route }) => {
 
     //Funcion get estado de la cita
     const getEstadoCita = (data) => {
-        const datafecha = data.fecha.format("YYYY-MM-DD")
+        const datafecha = data.fecha.format("DD-MM-YYYY")
         const cita = apidataCitas.filter(x => x.citaFecha == datafecha & x.citasHoraInicio == data.inicio);
 
         if (cita.length > 0) {
             var estado = cita.map(y => { return y.estadoCitas });
-        
+
             if (estado == "true")
                 return true
             else
@@ -157,22 +154,27 @@ const DisponibilidadDoctorScreen = ({ navigation, route }) => {
                     <View style={styles.boxTitle}>
                         <Text style={{ fontSize: 20, fontWeight: 'bold', color: '#FFFFFF', marginHorizontal: 15, marginVertical: 20, }}>Horarios Disponibles</Text>
                     </View>
-                    <View style={styles.viewListDisponibilidad}>
-                        {horas.length == 0
-                            ? <Text style={{ marginVertical: 10, alignSelf: 'center', fontSize: 14, fontWeight: 'bold', color: "#504D4C" }}>En este día no se encuentra disponible</Text>
-                            : horas.map(data => (
-                                <TouchableOpacity key={data.inicio} style={styles.viewTouch} disabled={getEstadoCita(data) == true ? true : false} onPress={() => selectHour(data)}>
-                                    <View style={data == selectDisponibilidad ? styles.radioOff : styles.radioOn}></View>
-                                    <Text style={{ fontSize: 14, marginRight: 20 }}>{data.inicio} - {data.cierre}</Text>
-                                    {getEstadoCita(data) == true
-                                        ? <Text style={styles.textNoDisponible}>No Disponible</Text>
-                                        : <Text style={styles.textDisponible}>Disponible</Text>
-                                    }
-                                </TouchableOpacity>
-                            ))
-                        }
-                    </View>
-                    <TouchableOpacity style={styles.button} disabled={disableButton}>
+                    {selectedStartDate == null
+                        ? <View style={styles.viewListDisponibilidad}>
+                            <Text style={{ marginVertical: 10, alignSelf: 'center', fontSize: 14, fontWeight: 'bold', color: "#504D4C" }}>Seleccione un día</Text>
+                        </View>
+                        : <View style={styles.viewListDisponibilidad}>
+                            {horas.length == 0
+                                ? <Text style={{ marginVertical: 10, alignSelf: 'center', fontSize: 14, fontWeight: 'bold', color: "#504D4C" }}>En este día no se encuentra disponible</Text>
+                                : horas.map(data => (
+                                    <TouchableOpacity key={data.inicio} style={styles.viewTouch} disabled={getEstadoCita(data) == true ? true : false} onPress={() => selectHour(data)}>
+                                        <View style={data == selectDisponibilidad ? styles.radioOff : styles.radioOn}></View>
+                                        <Text style={{ fontSize: 14, marginRight: 20 }}>{data.inicio} - {data.cierre}</Text>
+                                        {getEstadoCita(data) == true
+                                            ? <Text style={styles.textNoDisponible}>No Disponible</Text>
+                                            : <Text style={styles.textDisponible}>Disponible</Text>
+                                        }
+                                    </TouchableOpacity>
+                                ))
+                            }
+                        </View>
+                    }
+                    <TouchableOpacity style={disableButton == true ? styles.buttonOn : styles.buttonOff} disabled={disableButton}>
                         <Text style={styles.textStyleButton}>Confirmar</Text>
                     </TouchableOpacity>
                 </View>
@@ -247,7 +249,15 @@ const styles = StyleSheet.create({
         shadowRadius: 4,
         elevation: 7,
     },
-    button: {
+    buttonOn: {
+        borderRadius: 10,
+        marginBottom: 50,
+        backgroundColor: "rgba(96, 129, 91, 0.47)",
+        borderWidth: 1,
+        borderColor: "#3E523B",
+        borderRadius: 99,
+    },
+    buttonOff: {
         borderRadius: 10,
         marginBottom: 50,
         backgroundColor: "#60815B",
