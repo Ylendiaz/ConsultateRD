@@ -7,8 +7,10 @@ import GestionCita_Get from '../../API/GestionCita_Get';
 // import Paciente from '../../API/Paciente';
 import AppNavigator from '../../navigator/Navigator';
 import CitasAgendadas from '../../components/CitasAgendadas';
+import moment from 'moment';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
  
-const GestionCitaScreen = ({}) => {
+const GestionCitaScreen = ({navigation}) => {
     const [selectedStartDate, setSelectedStartDate] = useState(null);
     const [selectedEndDate, setSelectedEndDate] = useState(null);
     
@@ -28,14 +30,12 @@ const GestionCitaScreen = ({}) => {
     fetchData(GestionCita_Get);
     }, [])
 
-    const fetchData = async (url) => {
+    const fetchData = (url) => {
         try {
-            //const response = await fetch(url);
-            //const json = await response.json();
-            apisetData(url);
-            apisetFilteredData(url);
-             console.log(url);
-
+            const newarray = url.filter(x => x.estadoCitas == true);
+            apisetData(newarray);
+            apisetFilteredData(newarray);
+            
     } catch (error) {
       console.error(error);
     }
@@ -75,39 +75,33 @@ const GestionCitaScreen = ({}) => {
         setSelectedEndDate(date);
       } else {
         setSelectedEndDate(null);
-        setSelectedStartDate(date);
-        if(type)
-        {}
+        const fecha = date.format("DD-MM-YYYY")
+        setSelectedStartDate(fecha);
+        const newarray = apidata.filter(x => x.citaFecha == fecha);
+        apisetFilteredData(newarray);
+        console.log(newarray);
       }
+      
+
+      // const fechaCita = date.format("DD-MM-YYYY")
+      console.log(selectedStartDate)
     };
+
+    
 
     const AppButton = ({ onPress, title }) => (
       <TouchableOpacity onPress={onPress} style={styles.appButtonContainer}>
         <Text style={styles.appButtonText}>{title}</Text>
       </TouchableOpacity>
     );
-  
+  // QUITAR FILTROS
+    const QuitarFiltros = () => {
+      apisetFilteredData(apidata);
+      
+  }
+      
+      
     
-      // Funcion para filtrar las citas por fecha
-    //   const SearchFilter = (text) => {
-    //     if (text) {
-    //         const newData = apidata.filter((item) => {
-    //             // const itemData = item.nombrePaciente ? item.nombrePaciente.toUpperCase()
-    //             //     : ''.toUpperCase();
-    //                const itemData = {GestionCita_Get}
-                
-    //                 const textData = text.toUpperCase();
-    //             return itemData.indexOf(textData) > -1;
-    //         })
-    //         apisetFilteredData(newData);
-    //         setSearch(text);
-    //     } else {
-    //         apisetFilteredData(apidata);
-    //         setSearch(text);
-    //     }
-    // }
-
-
   return (
 
     <SafeAreaView style={styles.container}>
@@ -148,24 +142,19 @@ const GestionCitaScreen = ({}) => {
           scaleFactor={375}
           onDateChange={onDateChange}
         />
-        {<View style={styles.textStyle}>
-          <Text style={styles.textStyle}>
-            Selected Start Date :
-          </Text>
-          <Text style={styles.textStyle}>
-            {selectedStartDate ? selectedStartDate.toString() : ''}
-
-          </Text>
-        </View>}
+        <TouchableOpacity style={{}} onPress={() => QuitarFiltros()}>
+                        <MaterialCommunityIcons name="filter-off" size={20} color={'#D01B1B'} style={{ marginHorizontal: 100 }}></MaterialCommunityIcons>
+                    </TouchableOpacity>
       </View>
       <View style={styles.container1}>
       <View style={styles.item2}> 
       <AppButton title="Citas Programadas"/>
       </View>
-      <CitasAgendadas citas ={apifilteredData}></CitasAgendadas>
-        
       
-            </View>
+      {apifilteredData.length>0
+      ? <CitasAgendadas citas ={apifilteredData} onPress= {()=>navigation.navigate('InfoCita')}></CitasAgendadas>
+      :<View><Text style = {styles.title}>No hay citas programadas para la fecha seleccionada</Text></View>}
+      </View>
     </SafeAreaView>
   );
 };
@@ -176,7 +165,7 @@ export default GestionCitaScreen;
 const styles = StyleSheet.create({
   container: {
     //flex: 1,
-    paddingTop: 25,
+    paddingTop: 35,
     //backgroundColor: '#ffffff',
 
   },
@@ -232,7 +221,7 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     shadowColor: '#171717',
     shadowOffset: { width: 1, height: 1 },
-    shadowOpacity: 2,
+    shadowOpacity: 2
   },
 
   listViewContent: {

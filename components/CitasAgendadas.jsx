@@ -5,13 +5,17 @@ import CalendarPickerModal from 'react-native-calendar-picker';
 import { withSafeAreaInsets } from 'react-native-safe-area-context';
 
 
+
+
 const CitasAgendadas = (props) => {
 
-    const { citas, login1 } = props;
+   
+    const { citas, login1, fecha, onPress } = props;
     const [apidataPaciente, apisetDataPaciente] = useState([]);
     const login = [{ loginId: 7, rol: true }];
     
-    //const findRol = () => {};
+    
+    
     // ----------------Consumir API tabla Usuario Pacientes-----------------
     useEffect(() => {
         fetchData('https://consultaterd.azurewebsites.net/api/UsuarioPacientes');
@@ -71,16 +75,16 @@ const CitasAgendadas = (props) => {
   
     return (
   
-        <ScrollView style={{ backgroundColor: '#68CCC0', height: "100%" }}>
+        <ScrollView style={{ backgroundColor: '#68CCC0', height: "100%" }} >
         {
             citas.map((item, index) => {
                 return (
 
-                    <TouchableOpacity key={item.citaId} style={styles.listView} onPress={() => navigation.navigate('InfoCita', { item })}>
+                    <TouchableOpacity key={item.citaId} style={styles.listView} onPress={() => onPress()} >
                         <View style={styles.listViewContent}>
                             
                             <View style={styles.listTextView}>
-                                <Text style={{ color: "black", marginBottom: 8 }}>{item.citaFecha}              {item.citasHoraInicio}</Text>
+                                <Text style={{ color: "black", marginBottom: 8 }} >{item.citaFecha}                                            {item.citasHoraInicio}</Text>
                                 
                                 {login.filter(x => x.loginId ==  item.loginId).map(x => {return x.rol})== true
                                 ?    <Text>{apidataDoctores.filter(x => x.doctorId == item.doctorId).map(y => {return y.nombreDoctor + " " + y.apellidoDoctor})}</Text>
@@ -88,9 +92,6 @@ const CitasAgendadas = (props) => {
                                     
                                                                        
                                     <Text>{apidataCentros.filter(x => x.key == item.centroMedicoId).map(y => {return y.value})}</Text>
-
-
-                                
                                 
                                 
                             </View>
@@ -119,9 +120,8 @@ const CitasAgendadas = (props) => {
     },
     
     listViewContent: {
-        //flexDirection: 'row',
+        flexDirection: 'row',
         alignItems: 'center',
-        alignSelf: "center",
         marginHorizontal: 15,
         marginVertical: 15
     },
