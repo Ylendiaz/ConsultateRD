@@ -8,7 +8,10 @@ import PerfilScreen from "../screens/perfil/PerfilScreen";
 import GestionCitaScreen from "../screens/citas/GestionCitaScreen";
 import InfoDoctorScreen from "../screens/busqueda/InfoDoctorScreen";
 import DisponibilidadDoctorScreen from "../screens/busqueda/DisponibilidadDoctorScreen";
+
 import { Entypo, Ionicons, MaterialCommunityIcons, AntDesign } from '@expo/vector-icons';
+import InfoCitaScreen from "../screens/citas/InfoCitaScreen";
+
 
 // import AsyncStorage from '@react-native-async-storage/async-storage';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -54,6 +57,7 @@ function GestionCitaStack() {
     return (
         <Stack.Navigator>
             <Stack.Screen name="GestionCita" component={GestionCitaScreen} options={{ headerShown: false }} />
+            <Stack.Screen name="InfoCita" component={InfoCitaScreen} options={{ title: 'Información de  la cita' }} />
         </Stack.Navigator>
     );
 }

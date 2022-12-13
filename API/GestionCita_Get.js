@@ -1,3 +1,4 @@
+
 export default [
     {
         citaId: 1,
@@ -36,3 +37,4 @@ export default [
         fechaModificacionCita: "2022-10-14T04:33:49.429Z"
     }
 ]
+

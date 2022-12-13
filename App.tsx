@@ -8,6 +8,7 @@ import DoctoresScreen from "./screens/busqueda/DoctoresScreen";
 import GestionCitaScreen from "./screens/citas/GestionCitaScreen";
 
 
+
 export default function App() {
   return (
     //  <AppNavigator></AppNavigator>
@@ -15,7 +16,7 @@ export default function App() {
       <AppNavigatorLogin />
       <StatusBar style="auto" />
     </View>
-    //<CitasInfoScreen></CitasInfoScreen>
+    // <GestionCitaScreen></GestionCitaScreen>
   );
 }
 
