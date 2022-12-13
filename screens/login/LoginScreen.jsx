@@ -1,5 +1,5 @@
 import React, {useState } from "react";
-import {Image, StyleSheet, Text, View, TextInput, keyboardAvoidingView  } from 'react-native';
+import {Image, StyleSheet, Text, View, ScrollView, Dimensions, TextInput} from 'react-native';
 import StyledButton from '../../components/StyledButton/Btn';
 import AppNavigator from "../../navigator/Navigator"; //page stack
 
@@ -78,7 +78,6 @@ const LoginScreen = ({ navigation }) => {
             }
             else if (userInfo != null && (userInfo.correoElectronico == username && userInfo.usuarioContraseña==password)) { //if there was a user found and (username and password matches)
                 storeData(JSON.stringify(userInfo));
-                alert('Bienvenido');//welcome
                 navigation.navigate("HomeTab", userInfo);// go to home screen and pass the user's info as parameter
                 
             }
@@ -96,37 +95,49 @@ const LoginScreen = ({ navigation }) => {
 
     return <>
 
+        {/* container start */}
 
-        <View style={styles.container}>
+        <ScrollView
+        style = {{flex:1, backgroundColor:'#68CCC0'}}
+        showsVerticalScrollIndicator = {false}>
 
+            {/* brand view */}
 
+            <View
+            style = {{height: Dimensions.get('window').height/2.5,
+            }}>
+                <View style={styles.brandView}>
+                    <Image style={styles.logo} source={require('../../assets/Consultate-RD-logo.png')}/>
+                    <Text style={styles.textlogo}>Consultate RD</Text>
+                </View>
+            </View>
 
-                <Image style={styles.logo} source={require('../../assets/Consultate-RD-logo.png')} />
+            {/* bottom view */}
+            <View style={styles.bottomView}>
 
-                <Text style={styles.textlogo}>Consultate RD</Text>
+                {/* loginBox View */}
+                <View style = {styles.loginBox}>
 
-                <View style={styles.loginBox}>
-                    <View style={styles.inputsContainer}>
-                        <TextInput name="username" placeholdertextcolor={'gray'} placeholder="Correo" style={styles.input} onChangeText={(val1) => setName(val1)}></TextInput>
-                        <TextInput type="password" placeholdertextcolor={'gray'} placeholder="Contraseña" name="password" style={styles.input} onChangeText={(val2) => setPass(val2)}></TextInput>
+                    {/* form inputs View */}
+                    <View style={{width:'80%', paddingVertical:15}}>
+                        <TextInput name="username" placeholderTextColor="grey" placeholder="Correo" style={styles.inputs} onChangeText={(val1) => setName(val1)}></TextInput>
+                        <TextInput type="password" placeholderTextColor="grey" placeholder="Contraseña" name="password" style={styles.inputs} onChangeText={(val2) => setPass(val2)}></TextInput>
                     </View>
 
-                    <View style={styles.buttonsContainer}>
-
-                        <View style={{ height: 50, width: "100%" }}>
-                            <StyledButton txtColor="#ffffff" content="Log in" bgColor="#68CCC0" radius="100" onPress={() => iniciarSesion()}></StyledButton>
-                        </View>
-
-                        <View style={{ height: 50, width: "100%", marginTop: 15 }}>
-                            <StyledButton txtColor="#ffffff" content="Registrarse" bgColor="#68CCC0" radius="100" onPress={() => navigation.navigate('Registrarse')}></StyledButton>
-                            {/* <StyledButton txtColor="#ffffff" content = "Registrarse" bgColor="#68CCC0" onPress={() => navigation.navigate('Registrarse')}></StyledButton> */}
-                        </View>
-
+                    {/* form buttons View */}
+                    <View
+                    style={styles.buttonsView}>
+                        <StyledButton txtColor="#ffffff" content="Log in" bgColor="#68CCC0" radius="80"  onPress={() => iniciarSesion()}></StyledButton>
+                        <StyledButton txtColor="#ffffff" content="Registrarse" bgColor="#68CCC0" radius="80" onPress={() => navigation.navigate('Registrarse')}></StyledButton>
                     </View>
 
                 </View>
 
-        </View>
+            </View>
+
+        </ScrollView>
+
+        {/* container end */}
 
     </>
 
@@ -137,76 +148,73 @@ export default LoginScreen;
 
 const styles = StyleSheet.create(
     {
-        container: {
-            flex: 1,
-            alignItems: 'center',
-            backgroundColor: "#68CCC0",
-            width: '100%',
-            height: '100%',
-            paddingTop: '12%',
+        brandView:{
+            flex:1,
+            justifyContent:'center',
+            alignItems:'center',
         },
-
         logo: {
             width: 200,
             height: 150,
             marginTop: 30
         },
-
         textlogo: {
             fontSize: 30,
             fontWeight: 'bold',
             marginTop: 10,
-            marginBottom: 15
+            // marginBottom: 15
+        },
+
+        bottomView:{
+            flex:1.5,
+            // bottom:10,
+            alignItems:'center',
+            textAlign:'center',
+
+
         },
 
         loginBox: {
-            justifyContent: "center",
-            alignItems: 'center',
-            gap: 50,
-            width: 300,
-            height: 300,
-            borderRadius: 25,
+
+            paddingVertical:10,
+            paddingHorizontal:10,
+            alignItems:"center",
             backgroundColor: "#ffffff",
-            padding: '5%',
+
+            width:'80%',
+            marginTop:50,
+
+            borderRadius:40,
             shadowColor: '#171717',
             shadowOffset: { width: -2, height: 4 },
             shadowOpacity: 2,
             shadowRadius: 3,
-            marginTop: 20,
-            marginBottom: 20
 
         },
 
-        inputsContainer: {
-            justifyContent: "center",
-            width: 250,
-            height:150,
-            alignItems: 'center'
-
-        },
-        buttonsContainer: {
-            justifyContent: "center",
-            width: 250,
-            height: 150,
-            alignItems: 'center',
-            padding: "5%"
-        },
-
-        input: {
-            textColor: "gray",
-            width: 250,
-            height: 50,
+        inputs:{
             backgroundColor: "#e6e6fa",
-            justifyContent: 'center',
-            flexDirection: 'row',
-            borderRadius: 10,
-            padding: 15,
-            shadowColor: '#171717',
-            shadowOffset: { width: 1, height: 1 },
-            shadowOpacity: 2,
-            marginTop: 15,
-            borderColor: '#fff'
+            textColor: "gray",
+            marginVertical:10,
+            padding:13,
 
+            borderRadius: 10,
+            borderColor:'#ffffff',
+            shadowColor:'#171717',
+            shadowOffset:{width:1, height:1},
+            shadowOpacity:2,
+
+            width:'100%',
+            placeholdertextcolor:'red',
 
         },
+        buttonsView:{
+            justifyContent:'center',
+            alignItems:'center',
+            height:130,
+            width: '60%',
+            // width:Dimensions.get('window').width/2.5,
+
+        },
+     
     });

@@ -1,5 +1,5 @@
-import React, { Component, useEffect } from "react";
-import { SafeAreaView, StyleSheet, Button, Text, View, Image, ScrollView } from 'react-native';
+import React, {useEffect } from "react";
+import { SafeAreaView, StyleSheet, Button, Text, View, Image, ScrollView} from 'react-native';
 import AppNavigator from '../../navigator/Navigator';
 import { NavigationContainer, useNavigation, useRoute } from "@react-navigation/native";
 import StyledButtonIcon from "../../components/StyledButtonIcon";
@@ -12,7 +12,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 const PerfilScreen = (navigation) => {
 
     const [userData, setUserData] = React.useState([]);
-    const [num, setNum] = React.useState(0);
+
 
     const getData = async (keyname) => {
         try {
