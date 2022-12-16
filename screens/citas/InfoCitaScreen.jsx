@@ -15,6 +15,7 @@ const InfoCitaScreen = ({ route }) => {
  
     const [apidataPaciente, apisetDataPaciente] = useState([]);
     const [apifilteredData, apisetFilteredData] = useState([]); 
+    const [userData, setUserData] = React.useState([]);
       
     // ------------- fetch geston cita
 
@@ -108,32 +109,53 @@ const InfoCitaScreen = ({ route }) => {
       );
 
     return <>
-        <View style={{ backgroundColor: "blue", width: "100%", height: "100%" }}>
-            {
-            <ScrollView style={{ backgroundColor: "#68CCC0", height: "100%" }}> 
-                <View style={{ alignItems: "center" }}>
-                <AppButton title="Informacion de la cita" style ={styles.appButtonContainer}/>
-                <View style={styles.buttonsContainer}>
+        
+            
+            <ScrollView style={{ backgroundColor: "#68CCC0", height: "100%", width: '100%' }}> 
+                <View style={ styles.container1}>
                 
-                <View style={{ backgroundColor: "white"}}>
-                
-                <Text>{apidataDoctores.filter(x => x.doctorId == doctorId).map(y => {return y.nombreDoctor + " " + y.apellidoDoctor})}</Text>
-                <Text>{apidataCentros.filter(x => x.key == centroMedicoId).map(y => {return y.value})}</Text>
-                <Text>{apidataPaciente.filter(x => x.pacienteId == pacienteId).map(y => {return y.nombrePaciente + " " + y.apellidoPaciente})}</Text>
+                <View style ={{ borderBottomWidth: 1, flexDirection: 'row', justifyContent: "space-around", marginBottom: 10}}>
+                <Text style={{ color: "black", marginBottom: 10,  fontWeight: "bold"}} >{citasHoraInicio} - {citaHoraCierre}</Text>
+                <Text style={{ color: "black", marginBottom: 10,  fontWeight: "bold"}} >{citaFecha}</Text>
+                </View>
+
+                <View style ={{ borderBottomWidth: 1, marginBottom: 15, borderColor:'rgba(0, 0, 0, 0.21)' }}>
+                <Text style={{ marginBottom: 6, fontWeight: "bold"}}>Nombre del doctor:</Text>
+                <Text style={{ marginBottom: 6}}>{apidataDoctores.filter(x => x.doctorId == doctorId).map(y => {return y.nombreDoctor + " " + y.apellidoDoctor})}</Text>
+                </View>
+
+                <View style ={{ borderBottomWidth: 1, marginBottom: 15, borderColor:'rgba(0, 0, 0, 0.21)' }}>
+                <Text style={{marginBottom:6, fontWeight: "bold"}}>Nombre del paciente:</Text>
+                <Text style={{ marginBottom: 6}}>{apidataPaciente.filter(x => x.pacienteId == pacienteId).map(y => {return y.nombrePaciente + " " + y.apellidoPaciente})}</Text>
+                </View>
+
+                <View style ={{ borderBottomWidth: 1, marginBottom: 15, borderColor:'rgba(0, 0, 0, 0.21)' }}>
+                <Text style = {{marginBottom: 6, fontWeight: "bold"}}>Centro Medico:</Text>
+                <Text style = {{marginBottom: 6}}>{apidataCentros.filter(x => x.key == centroMedicoId).map(y => {return y.value})}</Text>
+                </View>
+
+                <View style ={{ borderBottomWidth: 1, marginBottom: 15, borderColor:'rgba(0, 0, 0, 0.21)' }}>
+                <Text style={{marginBottom:6, fontWeight: "bold"}}>Número de teléfono del paciente:</Text>
+                <Text style={{ marginBottom: 6}}>{apidataPaciente.filter(x => x.pacienteId == pacienteId).map(y => {return y.telefonoPaciente})}</Text>
+                </View>
 
                 </View>
-                <View style={{ height: 44, width: 310, marginTop: 15 }}>
+
+                <View style={styles.textCitas}>
+                        <Text style={{ fontSize: 20, fontWeight: 'bold', color: '#FFFFFF', marginHorizontal: 15, marginVertical: 20, }}>Información de la cita</Text>
+                </View>
+                
+                    
+                <View style={{ height: 44, width: 310, marginTop: 390, alignSelf: 'center' }}>
                 <StyledButtonIcon content="Modificar Cita" bgColor="#0D0C0C" ></StyledButtonIcon>
                 </View>
-                <View style={{ height: 44, width: 310, marginTop: 15 }}>
+                <View style={{ height: 44, width: 310, marginTop: 20, alignSelf: 'center' }}>
                     <StyledButtonIcon content="Cancelar Cita" bgColor="#900707" ></StyledButtonIcon>
                 </View>
-                
-            </View>
+  
 
-                </View>
             </ScrollView>
-        }</View>
+        
     </>
 
     }
@@ -141,7 +163,23 @@ const InfoCitaScreen = ({ route }) => {
 export default InfoCitaScreen;
 
 const styles = StyleSheet.create({
-
+    listView: {
+        marginHorizontal: 5,
+        marginTop: 5,
+        backgroundColor: "white",
+        borderRadius: 25,
+        shadowColor: '#171717',
+        shadowOffset: { width: 1, height: 1 },
+        shadowOpacity: 2,
+    },
+    
+    listViewContent: {
+        
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginHorizontal: 15,
+        marginVertical: 15
+    },
     
     buttonsContainer: {
         //backgroundColor: "blue",
@@ -151,19 +189,29 @@ const styles = StyleSheet.create({
         padding: "5%"
     }, 
     container1: {
-        flex: 0,
-        backgroundColor: '#68CCC0',
-        marginTop: StatusBar.currentHeight || 35,
-        padding: 25,
-        paddingTop: 25,
-      }, 
-      appButtonContainer: {
-        elevation: 8,
-        backgroundColor: "black",
+        
+        backgroundColor: 'white',
+        // marginTop: StatusBar.currentHeight || 35,
         padding: 30,
         borderRadius: 15,
-        marginVertical: 70,
-        marginHorizontal: 16,
+        marginTop: 60,
+        // marginLeft: 40 ,
+        // marginRight: 40,
+        paddingTop: 60,
+        width: '80%', 
+        alignSelf: 'center'
+        
+        
+      }, 
+      appButtonContainer: {
+        // position: 'absolute',
+        // elevation: 80,
+        backgroundColor: "black",
+        padding: 20,
+        borderRadius: 15,
+        // marginVertical: 20,
+        marginBottom: 300,
+        marginTop: -430,
         shadowColor: '#171717',
         shadowOffset: {width: -2, height: 4},
         shadowOpacity: 2,
@@ -176,5 +224,18 @@ const styles = StyleSheet.create({
         alignSelf: "center",
         textTransform: "uppercase"
       },
+      textCitas: {
+        borderRadius: 10,
+        marginTop: -420,
+        alignSelf: 'center',
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: "#232020",
+        width: "65%",
+        shadowColor: "black",
+        shadowOffset: {
+          width: 0,
+          height: 2,
+        }}
 
 });
