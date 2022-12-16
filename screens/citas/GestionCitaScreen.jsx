@@ -99,12 +99,12 @@ const GestionCitaScreen = ({navigation}) => {
       apisetFilteredData(apidata);
       
   }
-      
-      
+        
     
   return (
 
     <SafeAreaView style={styles.container}>
+      <ScrollView> 
       <View style={styles.container}>
         <CalendarPickerModal
           startFromMonday={true}
@@ -143,19 +143,25 @@ const GestionCitaScreen = ({navigation}) => {
           onDateChange={onDateChange}
         />
         <TouchableOpacity style={{}} onPress={() => QuitarFiltros()}>
-                        <MaterialCommunityIcons name="filter-off" size={20} color={'#D01B1B'} style={{ marginHorizontal: 100 }}></MaterialCommunityIcons>
-                    </TouchableOpacity>
+          <MaterialCommunityIcons name="filter-off" size={20} color={'#D01B1B'} style={{ marginHorizontal: 25, alignSelf: 'flex-end'}}></MaterialCommunityIcons>
+        </TouchableOpacity>
+        
       </View>
+      
       <View style={styles.container1}>
+      
       <View style={styles.item2}> 
       <AppButton title="Citas Programadas"/>
       </View>
       
       {apifilteredData.length>0
-      ? <CitasAgendadas citas ={apifilteredData} onPress= {()=>navigation.navigate('InfoCita')}></CitasAgendadas>
-      :<View><Text style = {styles.title}>No hay citas programadas para la fecha seleccionada</Text></View>}
-      </View>
-    </SafeAreaView>
+      ? <CitasAgendadas citas ={apifilteredData} onPress= {(item)=>navigation.navigate('InfoCita', {item})}></CitasAgendadas>
+      :<View ><Text style = {styles.title}>No hay citas programadas para la fecha seleccionada</Text></View>}
+      
+    </View>
+     </ScrollView> 
+  </SafeAreaView>
+    
   );
 };
 
@@ -183,6 +189,8 @@ const styles = StyleSheet.create({
     marginTop: StatusBar.currentHeight || 35,
     padding: 25,
     paddingTop: 25,
+    height: "100%", 
+    width: "100%"
   },
   // item: {
   //   backgroundColor: '#FFFFFF',
@@ -212,7 +220,8 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 15,
-    textAlign: 'center'
+    textAlign: 'center', 
+    
   },
   listView: {
     marginHorizontal: 15,

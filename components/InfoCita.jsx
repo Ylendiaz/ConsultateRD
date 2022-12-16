@@ -7,13 +7,14 @@ import { withSafeAreaInsets } from 'react-native-safe-area-context';
 
 
 
-const CitasAgendadas = (props) => {
+const InfoCita = (props) => {
 
    
     const { citas, login1, fecha, onPress } = props;
-    const [apidataPaciente, apisetDataPaciente] = useState([]);
     const login = [{ loginId: 7, rol: true }];
     
+   
+    const [apidataPaciente, apisetDataPaciente] = useState([]);
     
     
     // ----------------Consumir API tabla Usuario Pacientes-----------------
@@ -27,7 +28,7 @@ const CitasAgendadas = (props) => {
             const response = await fetch(url);
             const json = await response.json();
             apisetDataPaciente(json);
-            // console.log(json);
+            console.log(json);
 
     } catch (error) {
       console.error(error);
@@ -75,22 +76,21 @@ const CitasAgendadas = (props) => {
   
     return (
   
-        <ScrollView style={{ backgroundColor: '#68CCC0', height: "100%" }} >
+        <ScrollView style={{ backgroundColor: 'white', height: "100%" }} >
         {
             citas.map((item, index) => {
                 return (
 
-                
-                    <TouchableOpacity key={item.citaId} style={styles.listView} onPress={() => onPress({item})} >
+                    <TouchableOpacity key={item.citaId} style={styles.listView} >
                         <View style={styles.listViewContent}>
                             
                             <View style={styles.listTextView}>
                                 <Text style={{ color: "black", marginBottom: 8 }} >{item.citaFecha}                                            {item.citasHoraInicio}</Text>
                                 
-                                {login.filter(x => x.loginId ==  item.loginId).map(x => {return x.rol})== true
+                                {citas.filter(x => x.citaId ==  item.citaId)== true
                                 ?    <Text>{apidataDoctores.filter(x => x.doctorId == item.doctorId).map(y => {return y.nombreDoctor + " " + y.apellidoDoctor})}</Text>
                                     : <Text>{apidataPaciente.filter(x => x.pacienteId == item.pacienteId).map(y => {return y.nombrePaciente + " " + y.apellidoPaciente})}</Text>}
-                                    
+                                    . 
                                                                        
                                     <Text>{apidataCentros.filter(x => x.key == item.centroMedicoId).map(y => {return y.value})}</Text>
                                 
@@ -98,7 +98,6 @@ const CitasAgendadas = (props) => {
                             </View>
                         </View>
                     </TouchableOpacity>
-                
                 )
             })
         }
@@ -107,7 +106,7 @@ const CitasAgendadas = (props) => {
     );
   };
   
-  export default CitasAgendadas;
+  export default InfoCita;
   
   const styles = StyleSheet.create({
   

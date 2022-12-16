@@ -3,19 +3,44 @@ import { StyleSheet, Button, Text, View, Image, ScrollView, TouchableOpacity, St
 import StyledButton from '../../components/StyledButton/Btn';
 import StyledButtonIcon from "../../components/StyledButtonIcon";
 import AppNavigator from '../../navigator/Navigator';
-import CitasAgendadas from "../../components/CitasAgendadas";
+import InfoCita from "../../components/InfoCita";
+import GestionCita_Get from '../../API/GestionCita_Get';
 
-const InfoCitaScreen = ({ navigation }) => {
-
-    // const { citaId, citaFecha, citasHoraInicio, citaHoraCierre, centroMedicoId, pacienteId, doctorId, estadoCitas, fechaCreacionCita, fechaModificacionCita } = route.params.item;
-
-// --------------------------
-
-const [apidataPaciente, apisetDataPaciente] = useState([]);
-    const login = [{ loginId: 7, rol: true }];
+const InfoCitaScreen = ({ route }) => {
     
+    //Informacion de la cita que fue seleccionado
+    const { citaId, citaFecha, citasHoraInicio, citaHoraCierre, centroMedicoId, pacienteId, doctorId, estadoCitas, fechaCreacionCita, fechaModificacionCita } = route.params.item.item;
     
-    
+    console.log(route.params.item.item);
+ 
+    const [apidataPaciente, apisetDataPaciente] = useState([]);
+    const [apifilteredData, apisetFilteredData] = useState([]); 
+      
+    // ------------- fetch geston cita
+
+    const [apidata, apisetData] = useState([]);
+  
+
+    useEffect(() => {
+    //     fetchData('https://consultaterd.azurewebsites.net/api/UsuarioPacientes');
+    // }, [])
+    fetchDataCita(GestionCita_Get);
+    }, [])
+
+    const fetchDataCita = (url) => {
+        try {
+            const newarray = url.filter(x => x.estadoCitas == true);
+            apisetData(newarray);
+            apisetFilteredData(newarray);
+            
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+
+
+
     // ----------------Consumir API tabla Usuario Pacientes-----------------
     useEffect(() => {
         fetchData('https://consultaterd.azurewebsites.net/api/UsuarioPacientes');
@@ -85,10 +110,18 @@ const [apidataPaciente, apisetDataPaciente] = useState([]);
     return <>
         <View style={{ backgroundColor: "blue", width: "100%", height: "100%" }}>
             {
-            <ScrollView style={{ backgroundColor: "#509F8C", height: "100%" }}> 
+            <ScrollView style={{ backgroundColor: "#68CCC0", height: "100%" }}> 
                 <View style={{ alignItems: "center" }}>
                 <AppButton title="Informacion de la cita" style ={styles.appButtonContainer}/>
                 <View style={styles.buttonsContainer}>
+                
+                <View style={{ backgroundColor: "white"}}>
+                
+                <Text>{apidataDoctores.filter(x => x.doctorId == doctorId).map(y => {return y.nombreDoctor + " " + y.apellidoDoctor})}</Text>
+                <Text>{apidataCentros.filter(x => x.key == centroMedicoId).map(y => {return y.value})}</Text>
+                <Text>{apidataPaciente.filter(x => x.pacienteId == pacienteId).map(y => {return y.nombrePaciente + " " + y.apellidoPaciente})}</Text>
+
+                </View>
                 <View style={{ height: 44, width: 310, marginTop: 15 }}>
                 <StyledButtonIcon content="Modificar Cita" bgColor="#0D0C0C" ></StyledButtonIcon>
                 </View>
