@@ -121,7 +121,7 @@ const LoginScreen = ({ navigation }) => {
                     {/* form inputs View */}
                     <View style={{width:'80%', paddingVertical:15}}>
                         <TextInput name="username" placeholderTextColor="grey" placeholder="Correo" style={styles.inputs} onChangeText={(val1) => setName(val1)}></TextInput>
-                        <TextInput type="password" placeholderTextColor="grey" placeholder="Contraseña" name="password" style={styles.inputs} onChangeText={(val2) => setPass(val2)}></TextInput>
+                        <TextInput secureTextEntry={true} placeholderTextColor="grey" placeholder="Contraseña" name="password" style={styles.inputs} onChangeText={(val2) => setPass(val2)}></TextInput>
                     </View>
 
                     {/* form buttons View */}

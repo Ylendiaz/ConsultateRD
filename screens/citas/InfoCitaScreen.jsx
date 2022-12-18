@@ -1,12 +1,35 @@
 import React, { Component, useEffect, useState } from "react";
-import { StyleSheet, Button, Text, View, Image, ScrollView, TouchableOpacity, StatusBar } from 'react-native';
+import { StyleSheet, Button, Text, View, Image, ScrollView, TouchableOpacity, StatusBar, Modal,Dimensions } from 'react-native';
 import StyledButton from '../../components/StyledButton/Btn';
 import StyledButtonIcon from "../../components/StyledButtonIcon";
 import AppNavigator from '../../navigator/Navigator';
 import InfoCita from "../../components/InfoCita";
 import GestionCita_Get from '../../API/GestionCita_Get';
+import {MaterialCommunityIcons} from '@expo/vector-icons';
 
-const InfoCitaScreen = ({ route }) => {
+const InfoCitaScreen = ({navigation, route }) => {
+
+    //sets if the modal popup is open or closed 
+
+    //all of them are false by default (closed)
+    const [modificarModalOpen, setmodificarModalOpen] = useState(false); //popup de confirmacion para modificar
+    const [citaModificadaModalOpen, setCitaModificadaModalOpen] = useState(false);//cita modificada
+    const [cancelarModalOpen, setCancelarModalOpen] = useState(false); // confirmacion para cancelar cita
+    const [citaCanceladaModalOpen, setCitaCanceladaModalOpen] = useState(false); //cita cancelada
+
+    //when the appointment have been caceled
+    function citaCancelada(){
+        setCitaCanceladaModalOpen(false);// hide de popup 
+        navigation.navigate('GestionCita');//reset navigation of the tab
+        navigation.navigate('Home');//and go to the home screen
+    }
+
+    //when the appointment have been modifed
+    function citaModificada(){
+        setCitaModificadaModalOpen(false);// hide de popup 
+        navigation.navigate('GestionCita');//reset navigation of the tab
+        navigation.navigate('Home');//and go to the home screen
+    }
     
     //Informacion de la cita que fue seleccionado
     const { citaId, citaFecha, citasHoraInicio, citaHoraCierre, centroMedicoId, pacienteId, doctorId, estadoCitas, fechaCreacionCita, fechaModificacionCita } = route.params.item.item;
@@ -123,7 +146,7 @@ const InfoCitaScreen = ({ route }) => {
 
                 </View>
                 <View style={{ height: 44, width: 310, marginTop: 15 }}>
-                <StyledButtonIcon content="Modificar Cita" bgColor="#0D0C0C" ></StyledButtonIcon>
+                <StyledButtonIcon content="Modificar Cita" bgColor="#0D0C0C" onPress={setmodificarModalOpen(true)}></StyledButtonIcon>
                 </View>
                 <View style={{ height: 44, width: 310, marginTop: 15 }}>
                     <StyledButtonIcon content="Cancelar Cita" bgColor="#900707" ></StyledButtonIcon>
@@ -134,6 +157,168 @@ const InfoCitaScreen = ({ route }) => {
                 </View>
             </ScrollView>
         }</View>
+
+        {/* Popup confirmacion de modificar cita */}
+        <Modal 
+        visible={modificarModalOpen}
+        animationType='fade'
+        transparent={true}>
+
+            <View style={styles.modalBackground}>
+                <View style={styles.modalView}>
+                    <MaterialCommunityIcons 
+                    name='close'
+                    style={styles.modalClose}
+                    size={24}
+                    visible = {true}
+                    onPress={()=>setmodificarModalOpen(false)}
+                    />
+
+                    <View style= {{alignItems:'center'}}>
+                        <Text style={{textAlign:'center', padding:20,fontSize:18, fontWeight:'bold'}}>¿Seguro que deseas modificar la cita?</Text>
+
+                        <TouchableOpacity
+                        style={[styles.modalButton, {backgroundColor:'#000000'}]}
+                        onPress={()=>{
+                            setCitaModificadaModalOpen(true);
+                            setmodificarModalOpen(false);
+                        }}
+                        >
+                            <Text style = {{color:'#fff', fontSize:15}}>Confirmar</Text>
+                        </TouchableOpacity>
+                    </View>
+
+
+                </View>
+            </View>
+                
+        </Modal>
+        {/* Final del Popup */}
+
+        
+        {/* Popup de cita modificada */}
+        <Modal 
+        visible={modificarModalOpen}
+        animationType='fade'
+        transparent={true}>
+
+            <View style={styles.modalBackground}>
+                <View style={styles.modalView}>
+                    {/* <MaterialCommunityIcons 
+                    name='close'
+                    style={styles.modalClose}
+                    size={24}
+                    visible = {true}
+                    onPress={()=>setFailModalOpen(false)}
+                    /> */}
+
+                    <View style= {{alignItems:'center'}}>
+                        <Text style=
+                        {{textAlign:'center', 
+                        padding:20,
+                        fontSize:18,
+                        fontWeight:'bold'}}
+                        >Se ha modificado la cita satisfactoriamente</Text>
+
+                        <TouchableOpacity
+                        style={[styles.modalButton, {backgroundColor:'#E85959'}]}
+                        onPress={()=>{
+                            setCitaModificadaModalOpen(false);// hide de popup 
+                            navigation.navigate('GestionCita');//reset navigation of the tab
+                            navigation.navigate('Home');//and go to the home screen
+                        }}
+                        >
+                            <Text style = {{color:'#fff', fontSize:15}}>Continuar</Text>
+                        </TouchableOpacity>
+                    </View>
+
+
+                </View>
+            </View>
+                
+        </Modal>
+        {/* Final del Popup */}
+
+        {/* Popup confirmacion de cancelar cita */}
+        <Modal 
+        visible={cancelarModalOpen}
+        animationType='fade'
+        transparent={true}>
+
+            <View style={styles.modalBackground}>
+                <View style={styles.modalView}>
+                    <MaterialCommunityIcons 
+                    name='close'
+                    style={styles.modalClose}
+                    size={24}
+                    visible = {true}
+                    onPress={()=>setCancelarModalOpen(false)}
+                    />
+
+                    <View style= {{alignItems:'center'}}>
+                        <Text style={{textAlign:'center', padding:20,fontSize:18, fontWeight:'bold'}}>¿Seguro que deseas cancelar la cita?</Text>
+
+                        <TouchableOpacity
+                        style={[styles.modalButton, {backgroundColor:'#900707'}]}
+                        onPress={()=>{
+                            setCitaCanceladaModalOpen(true);
+                            setCancelarModalOpen(false);
+                        }}
+                        >
+                            <Text style = {{color:'#fff', fontSize:15}}>Confirmar</Text>
+                        </TouchableOpacity>
+                    </View>
+
+
+                </View>
+            </View>
+                
+        </Modal>
+        {/* Final del Popup */}
+
+        
+        {/* Popup de cita cancelada */}
+        <Modal 
+        visible={citaCancelada}
+        animationType='fade'
+        transparent={true}>
+
+            <View style={styles.modalBackground}>
+                <View style={styles.modalView}>
+                    {/* <MaterialCommunityIcons 
+                    name='close'
+                    style={styles.modalClose}
+                    size={24}
+                    visible = {true}
+                    onPress={()=>setFailModalOpen(false)}
+                    /> */}
+
+                    <View style= {{alignItems:'center'}}>
+                        <Text style=
+                        {{textAlign:'center', 
+                        padding:20,
+                        fontSize:18,
+                        fontWeight:'bold'}}
+                        >La cita ha sido cancelada</Text>
+
+                        <TouchableOpacity
+                        style={[styles.modalButton, {backgroundColor:'#88CC68'}]}
+                        onPress={()=>{
+                            setCitaCanceladaModalOpen(false);// hide de popup 
+                            navigation.navigate('GestionCita');//reset navigation of the tab
+                            navigation.navigate('Home');//and go to the home screen
+                        }}
+                        >
+                            <Text style = {{color:'#fff', fontSize:15}}>Continuar</Text>
+                        </TouchableOpacity>
+                    </View>
+
+
+                </View>
+            </View>
+                
+        </Modal>
+        {/* Final del Popup */}
     </>
 
     }
@@ -175,6 +360,43 @@ const styles = StyleSheet.create({
         fontWeight: "bold",
         alignSelf: "center",
         textTransform: "uppercase"
+      },
+
+
+      //modal styles
+      modalBackground:{
+          flex: 1,
+          justifyContent: "center",
+          alignItems: "center",
+          backgroundColor:'rgba(0,0,0,0.30)',
+          
+      },
+      modalView: {
+          width:Dimensions.get('window').width/1.5,
+          height:Dimensions.get('window').width/1.8,
+          // width:'80%',
+          // height:'40%',
+      
+          backgroundColor: "white",
+      
+          borderRadius: 20,
+          paddingHorizontal:20,
+          paddingVertical:35,
+      
+          shadowColor: "#121212",
+          shadowOffset: {
+              width: 0,
+              height: 2
+          },
+          shadowOpacity: 0.25,
+          shadowRadius: 4,
+      },
+      modalButton: {
+          marginTop:10,
+          borderRadius: 20,
+          padding: 10,
+          paddingHorizontal:50,
+          color:'#fff',
       },
 
 });
