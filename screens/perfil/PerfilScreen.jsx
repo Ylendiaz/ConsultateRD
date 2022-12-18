@@ -1,5 +1,5 @@
-import React, {useEffect } from "react";
-import { SafeAreaView, StyleSheet, Button, Text, View, Image, ScrollView} from 'react-native';
+import React, { useEffect, useState } from "react";
+import { SafeAreaView, StyleSheet, Button, Text, View, Image, ScrollView } from 'react-native';
 import AppNavigator from '../../navigator/Navigator';
 import { NavigationContainer, useNavigation, useRoute } from "@react-navigation/native";
 import StyledButtonIcon from "../../components/StyledButtonIcon";
@@ -12,28 +12,41 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 const PerfilScreen = (navigation) => {
 
     const [userData, setUserData] = React.useState([]);
-
-
     const getData = async (keyname) => {
         try {
             const value = await AsyncStorage.getItem(keyname)
-            if(value !== null) {
+            if (value !== null) {
                 // value previously stored
                 setUserData(JSON.parse(value));
             }
-        } catch(e) {
+        } catch (e) {
             console.log(e);
         }
-        
     }
 
-      
-  
-
-    useEffect(()=> {
+    useEffect(() => {
         getData('@userData');
+    }, [])
 
-    },[])
+
+    // ----------------Consumir API tabla Usuario Pacientes-----------------
+    const [apidataPaciente, apisetDataPaciente] = useState({});
+    useEffect(() => {
+        fetchData('https://consultaterd.azurewebsites.net/api/UsuarioPacientes')
+    }, [])
+
+    const fetchData = async (url) => {
+        try {
+            const response = await fetch(url);
+            const json = await response.json();
+            const newarray = json.find(x => x.loginId == userData.loginId)
+            apisetDataPaciente(newarray);
+
+        } catch (error) {
+            console.error(error)
+        }
+    };
+
 
 
     return <>
@@ -50,21 +63,32 @@ const PerfilScreen = (navigation) => {
                     <Text style={{ fontSize: 16, fontWeight: 'bold', marginHorizontal: 20, marginVertical: 10, marginBottom: 15 }}>{userData.correoElectronico}</Text>
                 </View>
             </View>
-            <View style={styles.buttonsContainer}>
-                <View style={{ height: 44, width: 310, marginTop: 15 }}>
-                    <StyledButtonIcon content="Ver Perfil" bgColor="#0D0C0C" ></StyledButtonIcon>
+            {userData.rol == true ?
+                <View style={styles.buttonsContainer}>
+                    <View style={{ height: 44, width: 310, marginTop: 15 }}>
+                        <StyledButtonIcon content="Ver Perfil" bgColor="#0D0C0C" ></StyledButtonIcon>
+                    </View>
+                    <View style={{ height: 44, width: 310, marginTop: 15 }}>
+                        <StyledButtonIcon content="Información de la cuenta" bgColor="#0D0C0C" ></StyledButtonIcon>
+                    </View>
+                    <View style={{ height: 44, width: 310, marginTop: 15 }}>
+                        <StyledButtonIcon content="Versión Web" bgColor="#0D0C0C" ></StyledButtonIcon>
+                    </View>
+                    <View style={{ height: 44, width: 310, marginTop: 15 }}>
+                        <StyledButtonIcon content="Cerrar Sesión" bgColor="#900707" ></StyledButtonIcon>
+                    </View>
                 </View>
-                <View style={{ height: 44, width: 310, marginTop: 15 }}>
-                    <StyledButtonIcon content="Información de la cuenta" bgColor="#0D0C0C" ></StyledButtonIcon>
-                </View>
-                <View style={{ height: 44, width: 310, marginTop: 15 }}>
-                    <StyledButtonIcon content="Versión Web" bgColor="#0D0C0C" ></StyledButtonIcon>
-                </View>
-                <View style={{ height: 44, width: 310, marginTop: 15 }}>
-                    <StyledButtonIcon content="Cerrar Sesión" bgColor="#900707" ></StyledButtonIcon>
-                </View>
-                
-            </View>
+                : <View style={styles.buttonsContainer}>
+
+                    <View style={{ height: 44, width: 310, marginTop: 15 }}>
+                        <StyledButtonIcon content="Ver Perfil" bgColor="#0D0C0C" ></StyledButtonIcon>
+                    </View>
+                    <View style={{ height: 44, width: 310, marginTop: 15 }}>
+                        <StyledButtonIcon content="Cerrar Sesión" bgColor="#900707" ></StyledButtonIcon>
+                    </View>
+
+                </View>}
+
 
         </ScrollView>
     </>

@@ -3,7 +3,7 @@ import {SafeAreaView, ScrollView, StyleSheet, View, Text, FlatList, TouchableOpa
 import CalendarPickerModal from 'react-native-calendar-picker';
 //import { SafeAreaView } from "react-native-safe-area-context";
 import { withSafeAreaInsets } from 'react-native-safe-area-context';
-
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 
@@ -14,7 +14,22 @@ const CitasAgendadas = (props) => {
     const [apidataPaciente, apisetDataPaciente] = useState([]);
     const login = [{ loginId: 7, rol: true }];
     
-    
+    const [userData, setUserData] = React.useState([]);
+    const getData = async (keyname) => {
+        try {
+            const value = await AsyncStorage.getItem(keyname)
+            if (value !== null) {
+                // value previously stored
+                setUserData(JSON.parse(value));
+            }
+        } catch (e) {
+            console.log(e);
+        }
+    }
+
+    useEffect(() => {
+        getData('@userData');
+    }, [])
     
     // ----------------Consumir API tabla Usuario Pacientes-----------------
     useEffect(() => {
@@ -87,7 +102,7 @@ const CitasAgendadas = (props) => {
                             <View style={styles.listTextView}>
                                 <Text style={{ color: "black", marginBottom: 8 }} >{item.citaFecha}                                            {item.citasHoraInicio}</Text>
                                 
-                                {login.filter(x => x.loginId ==  item.loginId).map(x => {return x.rol})== true
+                                {userData.loginId == true
                                 ?    <Text>{apidataDoctores.filter(x => x.doctorId == item.doctorId).map(y => {return y.nombreDoctor + " " + y.apellidoDoctor})}</Text>
                                     : <Text>{apidataPaciente.filter(x => x.pacienteId == item.pacienteId).map(y => {return y.nombrePaciente + " " + y.apellidoPaciente})}</Text>}
                                     

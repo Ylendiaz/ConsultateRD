@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from 'react';
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { NavigationContainer, useNavigation, useRoute } from "@react-navigation/native";
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -21,24 +21,30 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
-const getData = async () => {
-    try {
-      const value = await AsyncStorage.getItem('@userData')
-      if(value !== null) {
-        // value previously stored
-        console.log('IT WORKS');
-        console.log(value);
-      }
-    } catch(e) {
-      // error reading value
-    }
-  }
+//  //Data Login
+//  const [data, setdata] = useState({});
+//  useEffect(() => {
+//    getData('@userData');
+//  }, [])
+
+//  const getData = async (name) => {
+//    try {
+//      const value = await AsyncStorage.getItem(name)
+//      if (value !== null) {
+//        setdata(JSON.parse(value));
+//        console.log(data)
+//      }
+//    } catch (e) {
+//      console.log(e)
+//    }
+//  }
 
 
 function HomeStack() {
     return (
         <Stack.Navigator initialRouteName="Home">
             <Stack.Screen name="Home" component={HomeScreen} options={{ headerShown: false }} />
+            <Stack.Screen name="InfoCita" component={InfoCitaScreen} options={{ title: 'Información de  la cita' }} />
         </Stack.Navigator>
     );
 }
@@ -75,7 +81,6 @@ function PerfilStack(navigation) {
 export default function AppNavigator(navigation) {
 
     const route = useRoute();
-
     // getData();
 
     return (
@@ -94,7 +99,7 @@ export default function AppNavigator(navigation) {
                         tabBarIcon: ({ color, size }) => (<Entypo name="home" size={size} color={color} />)
                     }} />
 
-                <Tab.Screen name="Buscar" component={DoctoresStack} 
+                <Tab.Screen name="Buscar" component={DoctoresStack}
                     options={{
                         headerShown: false,
                         tabBarIcon: ({ color, size }) => (<MaterialCommunityIcons name="account-search" size={size} color={color} />)

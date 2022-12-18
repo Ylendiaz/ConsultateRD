@@ -23,4 +23,30 @@ export default [
         horaInicio: "09:00",
         horaCierre: "12:00"
     },
+    {
+        horarioId: 4,
+        diaId: 4,
+        doctorId: 8,
+        centroMedicoId: 12,
+        horaInicio: "14:00",
+        horaCierre: "16:00"
+    },
+    {
+        horarioId: 5,
+        diaId: 5,
+        doctorId: 8,
+        centroMedicoId: 12,
+        horaInicio: "16:00",
+        horaCierre: "18:00"
+    },
+    {
+        horarioId: 6,
+        diaId: 3,
+        doctorId: 9,
+        centroMedicoId: 13,
+        horaInicio: "10:00",
+        horaCierre: "13:00"
+    }
+    
+    
 ]

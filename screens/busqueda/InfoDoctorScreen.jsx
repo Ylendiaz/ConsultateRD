@@ -58,12 +58,12 @@ const InfoDoctorScreen = ({ navigation, route }) => {
 
 
     return <>
-        <View style={{ backgroundColor: "blue", width: "100%", height: "100%" }}>
+        <ScrollView style={{ backgroundColor: "#509F8C", width: "100%", height: "100%" }}>
             <View style={{ backgroundColor: "#68CCC0", alignItems: 'center' }}>
                 {imagenDoctor == null ? <Image style={styles.foto} source={require("../../assets/avatar.png")}></Image>
                     : <Image style={styles.foto} source={{ uri: foto }}></Image>}
             </View>
-            <ScrollView style={{ backgroundColor: "#509F8C", height: "100%" }}>
+            <View style={{ backgroundColor: "#509F8C", height: "100%" }}>
                 <View style={{ alignItems: "center", justifyContent: 'center' }}>
                     <Text style={{ marginTop: 20, fontSize: 20, marginBottom: 10, fontWeight: 'bold' }}>
                         {nombreDoctor} {apellidoDoctor}
@@ -102,8 +102,8 @@ const InfoDoctorScreen = ({ navigation, route }) => {
                         <StyledButton txtColor="#ffffff" content="Agendar Cita" bgColor="#88CC68" radius="100" onPress={() => navigation.navigate('DisponibilidadDoctor', { doctorId, intervaloCitas })}></StyledButton>
                     </View>
                 </View>
-            </ScrollView>
-        </View>
+            </View>
+        </ScrollView>
     </>
 
 }

@@ -2,7 +2,7 @@
 export default [
     {
         citaId: 1,
-        citaFecha: "12-12-2022",
+        citaFecha: "19-12-2022",
         citasHoraInicio: "10:30",
         citaHoraCierre: "11:00",
         centroMedicoId: 12,
@@ -14,7 +14,7 @@ export default [
     },
     {
         citaId: 2,
-        citaFecha: "13-12-2022",
+        citaFecha: "20-12-2022",
         citasHoraInicio: "09:30",
         citaHoraCierre: "10:00",
         centroMedicoId: 13,
@@ -26,7 +26,7 @@ export default [
     },
     {
         citaId: 3,
-        citaFecha: "13-12-2022",
+        citaFecha: "20-12-2022",
         citasHoraInicio: "07:30",
         citaHoraCierre: "08:00",
         centroMedicoId: 12,
