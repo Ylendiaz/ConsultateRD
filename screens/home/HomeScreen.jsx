@@ -3,61 +3,57 @@ import { SafeAreaView, StyleSheet, View, Text, FlatList, TouchableOpacity, Butto
 import CalendarPickerModal from 'react-native-calendar-picker';
 import { withSafeAreaInsets } from 'react-native-safe-area-context';
 import CitasAgendadas from '../../components/CitasAgendadas';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+// import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useNavigationBuilder } from '@react-navigation/native';
 
-const HomeScreen = ({ navigation }) => {
+const HomeScreen = ({ navigation, route }) => {
 
-  //Data Login
-  const [data, setdata] = useState({})
-  useEffect(() => {
-    getData('@userData');
-  }, [])
-
-  const getData = async (name) => {
-    try {
-      const value = await AsyncStorage.getItem(name)
-      if (value !== null) {
-        setdata(JSON.parse(value));
-      }
-    } catch (e) {
-      console.log(e)
-    }
-  }
+  let appPacienteID = 0;//here we're going to save the pacient id of the user that is logged in (to fetch appointments informacion)
 
   // ----------------Consumir API tabla Usuario Pacientes-----------------
-  const [apidataPaciente, apisetDataPaciente] = useState([]);
   useEffect(() => {
-    fetchData('https://consultaterd.azurewebsites.net/api/UsuarioPacientes')
-  }, [])
+    //call fetchData passing the GET request url
+    fetchData('https://consultaterd.azurewebsites.net/api/UsuarioPacientes');//pacient users
+  }, []);
 
   const fetchData = async (url) => {
     try {
-      const response = await fetch(url)
-      const json = await response.json();
-      const getid = json.filter(x => x.loginId == data.loginId).map(y => { return y.pacienteId })
-      apisetDataPaciente(getid);
+
+      const response = await fetch(url); //get the request response
+      const json = await response.json(); // transform it to json format
+      const getid = json.filter(x => x.loginId == route.params.loginId).map(y => { return y.pacienteId }); // get the pacient id where the loginId's match
+
+      appPacienteID = getid[0]; // save the pacient id found in a global variable
 
     } catch (error) {
-      console.error(error)
+      console.error(error); // otherwise there was an error in the request
     }
   };
 
-  //-------------Consumir API tabla GestionCitas--------------------
-  const [apidataCitas, apisetDataCitas] = useState([])
-  useEffect(() => {
-    fetchDataCita('https://consultaterd.azurewebsites.net/api/CitasAgendadas');
-  }, [])
 
-  const fetchDataCita = async (url) => {
+  //-------------Consumir API tabla GestionCitas--------------------
+
+  const [apidataCitas, apisetDataCitas] = useState([]); //useState to save the appointments of this specific
+
+  useEffect(() => {
+    //call fetchData passing the GET request url
+    fetchAppointments('https://consultaterd.azurewebsites.net/api/CitasAgendadas'); // appointments
+  }, []);
+
+  const fetchAppointments = async (url) => {
+
     try {
-      const response = await fetch(url)
-      const json = await response.json();
-      const newarray = json.filter(item => item.pacienteId == apidataPaciente)
-      apisetDataCitas(newarray);
+
+      const response = await fetch(url); //get the request response
+      const json = await response.json(); // transform it to json format
+      const appointmentsArray = json.filter(item => item.pacienteId == appPacienteID); //add the appointments with this pacientID to the array
+      apisetDataCitas(appointmentsArray); // save it in the useState variable
+
     } catch (error) {
-      console.error(error);
+      console.error(error);// otherwise there was an error in the request
     }
   }
+
 
   return (
 

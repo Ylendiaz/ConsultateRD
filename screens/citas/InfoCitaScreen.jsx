@@ -39,7 +39,7 @@ const InfoCitaScreen = ({navigation, route }) => {
     //Informacion de la cita que fue seleccionado
     const { citaId, citaFecha, citasHoraInicio, citaHoraCierre, centroMedicoId, pacienteId, doctorId, estadoCitas, fechaCreacionCita, fechaModificacionCita } = route.params.item.item;
     
-    console.log(route.params.item.item);
+    // console.log(route.params.item.item);
  
     const [apidataPaciente, apisetDataPaciente] = useState([]);
     const [apifilteredData, apisetFilteredData] = useState([]); 

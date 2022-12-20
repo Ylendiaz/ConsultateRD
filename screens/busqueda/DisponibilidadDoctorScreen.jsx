@@ -4,10 +4,48 @@ import CalendarPickerModal from 'react-native-calendar-picker';
 import AppNavigator from '../../navigator/Navigator';
 import HorariosDoctors from "../../API/HorariosDoctors";
 import moment from "moment";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 
 const DisponibilidadDoctorScreen = ({ navigation, route }) => {
+
+    //Data Login
+    const [data, setdata] = useState({})
+    useEffect(() => {
+        getData('@userData');
+    }, [])
+
+    const getData = async (name) => {
+        try {
+            const value = await AsyncStorage.getItem(name)
+            if (value !== null) {
+                setdata(JSON.parse(value))
+            }
+        } catch (e) {
+            console.log(e)
+        }
+    }
+
+    // ----------------Consumir API tabla Usuario Pacientes-----------------
+    const [apidataPaciente, apisetDataPaciente] = useState([]);
+    useEffect(() => {
+        fetchData('https://consultaterd.azurewebsites.net/api/UsuarioPacientes')
+    }, [])
+
+    const fetchData = async (url) => {
+        try {
+            const response = await fetch(url)
+            const json = await response.json();
+            const getid = json.filter(x => x.loginId == data.loginId).map(y => { return y.pacienteId })
+            apisetDataPaciente(getid);
+
+        } catch (error) {
+            console.error(error)
+        }
+    };
+
+
 
     //sets if the modal popup is open or closed 
 
@@ -17,7 +55,7 @@ const DisponibilidadDoctorScreen = ({ navigation, route }) => {
 
 
     //Id del doctor (Disponibilidad del doctor en cuestion)
-    const { doctorId, intervaloCitas } = route.params;
+    const { doctorId, intervaloCitas, centroMedicoDoctor } = route.params;
 
     //-------------Consumir API tabla HorariosDoctors--------------------
     const [apidataHorarios, apisetDataHorarios] = useState([]);
@@ -54,11 +92,37 @@ const DisponibilidadDoctorScreen = ({ navigation, route }) => {
         }
     }
 
-    const addCita = () => {
+    //Post de Citas Agendadas a API
+    const postCita = () => {
 
-        return true;
+        var centromedico = centroMedicoDoctor.map(x => { return x.centroMedicoId }).toString();
+        var citafecha = selectDisponibilidad.fecha.format("DD-MM-YYYY");
+
+        fetch('https://consultaterd.azurewebsites.net/api/CitasAgendadas', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                citaFecha: citafecha,
+                citasHoraInicio: selectDisponibilidad.inicio,
+                citaHoraCierre: selectDisponibilidad.cierre,
+                centroMedicoId: centromedico,
+                pacienteId: apidataPaciente.toString(),
+                doctorId: doctorId,
+                estadoCitas: true
+            })
+        })
+            .then(response => {
+                if (response.ok)
+                    setSuccesModalOpen(true)
+                else
+                    setFailModalOpen(true)
+                response.json().then(data => {
+                    console.log(data);
+                });
+            }).catch((error) => {
+                console.error(error);
+            })
     }
-
 
     //Calendario
     const [selectedStartDate, setSelectedStartDate] = useState(null);
@@ -151,7 +215,6 @@ const DisponibilidadDoctorScreen = ({ navigation, route }) => {
                         startFromMonday={true}
                         minDate={new Date()}
                         maxDate={new Date(2050, 6, 3)}
-                        // selectedStartDate={selectedStartDate}
                         weekdays={['Lun', 'Mar', 'Mier', 'Jue', 'Vier', 'Sab', 'Dom']}
                         months={['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre']}
                         previousTitle="Anterior"
@@ -193,8 +256,7 @@ const DisponibilidadDoctorScreen = ({ navigation, route }) => {
                     <TouchableOpacity
                         style={disableButton == true ? styles.buttonOn : styles.buttonOff}
                         disabled={disableButton}
-                        // si se guardo la cita en la base de datos "setSuccesModalOpen(true)" : si no entonces "setFailModalOpen(true)"
-                        onPress={addCita() == true ? () => setSuccesModalOpen(true) : () => setFailModalOpen(true)}>
+                        onPress={() => postCita()}>
                         <Text style={styles.textStyleButton}>Confirmar</Text>
                     </TouchableOpacity>
                 </View>
