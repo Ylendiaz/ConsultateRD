@@ -9,8 +9,8 @@ namespace WebAPI.Models
     {
         public int CitaId { get; set; }
         public DateTime? CitaFecha { get; set; }
-        public TimeSpan CitasHoraInicio { get; set; }
-        public TimeSpan CitaHoraCierre { get; set; }
+        public string CitasHoraInicio { get; set; }
+        public string CitaHoraCierre { get; set; }
         public int CentroMedicoId { get; set; }
         public int PacienteId { get; set; }
         public int DoctorId { get; set; }

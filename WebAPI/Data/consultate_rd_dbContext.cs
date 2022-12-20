@@ -111,9 +111,17 @@ namespace WebAPI.Data
                     .HasColumnName("cita_fecha")
                     .HasDefaultValueSql("(getdate())");
 
-                entity.Property(e => e.CitaHoraCierre).HasColumnName("cita_hora_cierre");
+                entity.Property(e => e.CitaHoraCierre)
+                    .IsRequired()
+                    .HasMaxLength(150)
+                    .IsUnicode(false)
+                    .HasColumnName("cita_hora_cierre");
 
-                entity.Property(e => e.CitasHoraInicio).HasColumnName("citas_hora_inicio");
+                entity.Property(e => e.CitasHoraInicio)
+                 .IsRequired()
+                    .HasMaxLength(150)
+                    .IsUnicode(false)
+                .HasColumnName("citas_hora_inicio");
 
                 entity.Property(e => e.DoctorId).HasColumnName("doctor_id");
 
