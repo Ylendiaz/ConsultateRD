@@ -21,38 +21,25 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
-//  //Data Login
-//  const [data, setdata] = useState({});
-//  useEffect(() => {
-//    getData('@userData');
-//  }, [])
 
-//  const getData = async (name) => {
-//    try {
-//      const value = await AsyncStorage.getItem(name)
-//      if (value !== null) {
-//        setdata(JSON.parse(value));
-//        console.log(data)
-//      }
-//    } catch (e) {
-//      console.log(e)
-//    }
-//  }
+let parametros = {};//save the parameters of the user that is logged in globally in the tab navigator
 
 
 function HomeStack() {
+
     return (
         <Stack.Navigator initialRouteName="Home">
-            <Stack.Screen name="Home" component={HomeScreen} options={{ headerShown: false }} />
+            <Stack.Screen name="Home" component={HomeScreen} initialParams={parametros} options={{ headerShown: false }} />
             <Stack.Screen name="InfoCita" component={InfoCitaScreen} options={{ title: 'Información de  la cita' }} />
         </Stack.Navigator>
     );
 }
 
-function DoctoresStack() {
+function DoctoresStack(navigation) {
+
     return (
         <Stack.Navigator>
-            <Stack.Screen name="DoctoresScreen" component={DoctoresScreen} options={{ headerShown: false }} />
+            <Stack.Screen name="DoctoresScreen" component={DoctoresScreen} initialParams={parametros} options={{ headerShown: false }} />
             <Stack.Screen name="InfoDoctor" component={InfoDoctorScreen} options={{ title: 'Información del Doctor' }} />
             <Stack.Screen name="DisponibilidadDoctor" component={DisponibilidadDoctorScreen} options={{ title: 'Disponibilidad' }} />
         </Stack.Navigator>
@@ -62,17 +49,18 @@ function DoctoresStack() {
 function GestionCitaStack() {
     return (
         <Stack.Navigator>
-            <Stack.Screen name="GestionCita" component={GestionCitaScreen} options={{ headerShown: false }} />
+            <Stack.Screen name="GestionCita" component={GestionCitaScreen} initialParams={navigation.route.params} options={{ headerShown: false }} />
             <Stack.Screen name="InfoCita" component={InfoCitaScreen} options={{ title: 'Información de  la cita' }} />
         </Stack.Navigator>
     );
 }
 
 
-function PerfilStack(navigation) {
+function PerfilStack() {
+
     return (
         <Stack.Navigator>
-            <Stack.Screen name="Perfil" component={PerfilScreen} options={{ headerShown: false }} />
+            <Stack.Screen name="Perfil" component={PerfilScreen} initialParams={parametros} options={{ headerShown: false }} />
         </Stack.Navigator>
     );
 }
@@ -81,8 +69,8 @@ function PerfilStack(navigation) {
 export default function AppNavigator(navigation) {
 
     const route = useRoute();
-    // getData();
 
+    parametros = route.params;
     return (
         <NavigationContainer independent={true}>
 

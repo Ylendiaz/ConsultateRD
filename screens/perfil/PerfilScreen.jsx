@@ -5,42 +5,29 @@ import { NavigationContainer, useNavigation, useRoute } from "@react-navigation/
 import StyledButtonIcon from "../../components/StyledButtonIcon";
 
 // import AsyncStorage from '@react-native-async-storage/async-storage';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 
-const PerfilScreen = (navigation) => {
+const PerfilScreen = ({navigation, route}) => {
 
-    const [userData, setUserData] = React.useState([]);
-    const getData = async (keyname) => {
-        try {
-            const value = await AsyncStorage.getItem(keyname)
-            if (value !== null) {
-                // value previously stored
-                setUserData(JSON.parse(value));
-            }
-        } catch (e) {
-            console.log(e);
-        }
-    }
 
-    useEffect(() => {
-        getData('@userData');
-    }, [])
+    let userData = route.params;
 
 
     // ----------------Consumir API tabla Usuario Pacientes-----------------
     const [apidataPaciente, apisetDataPaciente] = useState({});
+
     useEffect(() => {
-        fetchData('https://consultaterd.azurewebsites.net/api/UsuarioPacientes')
-    }, [])
+        //call fetchData passing the GET request url
+        fetchData('https://consultaterd.azurewebsites.net/api/UsuarioPacientes');//pacient users
+    }, []);
 
     const fetchData = async (url) => {
         try {
             const response = await fetch(url);
             const json = await response.json();
-            const newarray = json.find(x => x.loginId == userData.loginId)
-            apisetDataPaciente(newarray);
+            const pacientInfo = json.find(x => x.loginId == userData.loginId)
+            apisetDataPaciente(pacientInfo);
 
         } catch (error) {
             console.error(error)
