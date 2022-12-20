@@ -45,7 +45,7 @@ const InfoCitaScreen = ({navigation, route }) => {
     const [apifilteredData, apisetFilteredData] = useState([]); 
     const [userData, setUserData] = React.useState([]);
       
-    // ------------- fetch geston cita
+    // ------------- fetch gestion cita
 
     const [apidata, apisetData] = useState([]);
   
@@ -138,7 +138,7 @@ const InfoCitaScreen = ({navigation, route }) => {
 
     return <>
         
-            
+        {/* -----------------Información de la cita--------------- */}
             <ScrollView style={{ backgroundColor: "#68CCC0", height: "100%", width: '100%' }}> 
                 <View style={ styles.container1}>
                 
@@ -162,7 +162,7 @@ const InfoCitaScreen = ({navigation, route }) => {
                 <Text style={{ marginBottom: 6}}>{apidataPaciente.filter(x => x.pacienteId == pacienteId).map(y => {return y.nombrePaciente + " " + y.apellidoPaciente})}</Text>
                 </View>
 
-                
+                {/* Condicion del numero de telefono segun rol del usuario */}
                 {userData.rol = true
                     ?<View style ={{ borderBottomWidth: 1, marginBottom: 15, borderColor:'rgba(0, 0, 0, 0.21)' }}>
                         <Text style={{marginBottom:6, fontWeight: "bold"}}>Número de teléfono del paciente:</Text>
@@ -180,7 +180,7 @@ const InfoCitaScreen = ({navigation, route }) => {
                         <Text style={{ fontSize: 20, fontWeight: 'bold', color: '#FFFFFF', marginHorizontal: 15, marginVertical: 20, }}>Información de la cita</Text>
                 </View>
                 
-                    
+                {/* Botones Modificar y Cancelar  */}
                 <View style={{ height: 44, width: 310, marginTop: 390, alignSelf: 'center' }}>
                 <StyledButtonIcon content="Modificar Cita" bgColor="#0D0C0C" onPress={()=>setmodificarModalOpen(true)}></StyledButtonIcon>
                 </View>
