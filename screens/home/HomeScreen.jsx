@@ -4,9 +4,8 @@ import CalendarPickerModal from 'react-native-calendar-picker';
 import { withSafeAreaInsets } from 'react-native-safe-area-context';
 import CitasAgendadas from '../../components/CitasAgendadas';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import GestionCita_Get from '../../API/GestionCita_Get';
 
-const HomeScreen = ({navigation}) => {
+const HomeScreen = ({ navigation }) => {
 
   //Data Login
   const [data, setdata] = useState({})
@@ -35,7 +34,7 @@ const HomeScreen = ({navigation}) => {
     try {
       const response = await fetch(url)
       const json = await response.json();
-      const getid = json.filter(x => x.loginId == data.loginId).map(y => {return y.pacienteId})
+      const getid = json.filter(x => x.loginId == data.loginId).map(y => { return y.pacienteId })
       apisetDataPaciente(getid);
 
     } catch (error) {
@@ -45,14 +44,15 @@ const HomeScreen = ({navigation}) => {
 
   //-------------Consumir API tabla GestionCitas--------------------
   const [apidataCitas, apisetDataCitas] = useState([])
-  // Mientras la api viene
   useEffect(() => {
-    fetchDataCita(GestionCita_Get);
+    fetchDataCita('https://consultaterd.azurewebsites.net/api/CitasAgendadas');
   }, [])
 
-  const fetchDataCita = (table) => {
+  const fetchDataCita = async (url) => {
     try {
-      const newarray = table.filter(item => item.pacienteId == apidataPaciente);
+      const response = await fetch(url)
+      const json = await response.json();
+      const newarray = json.filter(item => item.pacienteId == apidataPaciente)
       apisetDataCitas(newarray);
     } catch (error) {
       console.error(error);
@@ -69,7 +69,7 @@ const HomeScreen = ({navigation}) => {
         </View>
       </View>
       {apidataCitas.length > 0
-        ? <CitasAgendadas citas={apidataCitas} onPress= {(item)=>navigation.navigate('InfoCita', {item})}></CitasAgendadas>
+        ? <CitasAgendadas citas={apidataCitas} onPress={(item) => navigation.navigate('InfoCita', { item })}></CitasAgendadas>
         : <View style={styles.viewListDisponibilidad}>
           <Text style={{ marginVertical: 10, alignSelf: 'center', fontSize: 14, fontWeight: 'bold', color: "#504D4C" }}>No hay citas agendadas</Text>
         </View>

@@ -1,11 +1,11 @@
 import React, { Component, useState, useEffect } from "react";
-import { StyleSheet, Button, Text, View, ScrollView, TextInput, TouchableOpacity, Modal, Dimensions} from 'react-native';
+import { StyleSheet, Button, Text, View, ScrollView, TextInput, TouchableOpacity, Modal, Dimensions } from 'react-native';
 import CalendarPickerModal from 'react-native-calendar-picker';
 import AppNavigator from '../../navigator/Navigator';
 import HorariosDoctors from "../../API/HorariosDoctors";
-import GestionCita_Get from "../../API/GestionCita_Get";
 import moment from "moment";
-import {MaterialCommunityIcons} from '@expo/vector-icons';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+
 
 const DisponibilidadDoctorScreen = ({ navigation, route }) => {
 
@@ -40,17 +40,25 @@ const DisponibilidadDoctorScreen = ({ navigation, route }) => {
     const [apidataCitas, apisetDataCitas] = useState([]);
     // Mientras la api viene
     useEffect(() => {
-        fetchDataCita(GestionCita_Get);
+        fetchDataCita('https://consultaterd.azurewebsites.net/api/CitasAgendadas');
     }, [])
 
-    const fetchDataCita = (table) => {
+    const fetchDataCita = async (url) => {
         try {
-            const newarray = table.filter(item => item.doctorId == doctorId);
+            const response = await fetch(url)
+            const json = await response.json();
+            const newarray = json.filter(item => item.doctorId == doctorId);
             apisetDataCitas(newarray);
         } catch (error) {
             console.error(error);
         }
     }
+
+    const addCita = () => {
+
+        return true;
+    }
+
 
     //Calendario
     const [selectedStartDate, setSelectedStartDate] = useState(null);
@@ -182,11 +190,11 @@ const DisponibilidadDoctorScreen = ({ navigation, route }) => {
                             }
                         </View>
                     }
-                    <TouchableOpacity 
-                    style={disableButton == true ? styles.buttonOn : styles.buttonOff} 
-                    disabled={disableButton}
-                    // si se guardo la cita en la base de datos "setSuccesModalOpen(true)" : si no entonces "setFailModalOpen(true)"
-                    onPress={true?()=>setSuccesModalOpen(true):()=>setFailModalOpen(true)}>
+                    <TouchableOpacity
+                        style={disableButton == true ? styles.buttonOn : styles.buttonOff}
+                        disabled={disableButton}
+                        // si se guardo la cita en la base de datos "setSuccesModalOpen(true)" : si no entonces "setFailModalOpen(true)"
+                        onPress={addCita() == true ? () => setSuccesModalOpen(true) : () => setFailModalOpen(true)}>
                         <Text style={styles.textStyleButton}>Confirmar</Text>
                     </TouchableOpacity>
                 </View>
@@ -194,10 +202,10 @@ const DisponibilidadDoctorScreen = ({ navigation, route }) => {
         </View>
 
         {/* Popup crear cita satisfactoriamente */}
-        <Modal 
-        visible={succesModalOpen}
-        animationType='fade'
-        transparent={true}>
+        <Modal
+            visible={succesModalOpen}
+            animationType='fade'
+            transparent={true}>
 
             <View style={styles.modalBackground}>
                 <View style={styles.modalView}>
@@ -209,37 +217,37 @@ const DisponibilidadDoctorScreen = ({ navigation, route }) => {
                     onPress={()=>setSuccesModalOpen(false)}
                     /> */}
 
-                    <View style= {{alignItems:'center'}}>
-                        <Text style={{textAlign:'center', padding:20,fontSize:18, fontWeight:'bold'}}>Se ha agendado la cita satisfactoriamente</Text>
+                    <View style={{ alignItems: 'center' }}>
+                        <Text style={{ textAlign: 'center', padding: 20, fontSize: 18, fontWeight: 'bold' }}>Se ha agendado la cita satisfactoriamente</Text>
 
                         <TouchableOpacity
-                        style={[styles.modalButton, {backgroundColor:'#88CC68'}]}
-                        onPress={()=>{
-                            setSuccesModalOpen(false);// hide de popup 
-                            navigation.navigate('DoctoresScreen');//go back to the doctors search screen
-                            navigation.navigate('Home');//and go to the home screen
-                        }}
+                            style={[styles.modalButton, { backgroundColor: '#88CC68' }]}
+                            onPress={() => {
+                                setSuccesModalOpen(false);// hide de popup 
+                                navigation.navigate('DoctoresScreen');//go back to the doctors search screen
+                                navigation.navigate('Home');//and go to the home screen
+                            }}
                         >
-                            <Text style = {{color:'#fff', fontSize:15}}>Continuar</Text>
+                            <Text style={{ color: '#fff', fontSize: 15 }}>Continuar</Text>
                         </TouchableOpacity>
                     </View>
 
 
                 </View>
             </View>
-                
+
         </Modal>
 
         {/* Final del Popup */}
 
-        
+
         {/* Popup el horario no esta disponible */}
 
 
-        <Modal 
-        visible={failModalOpen}
-        animationType='fade'
-        transparent={true}>
+        <Modal
+            visible={failModalOpen}
+            animationType='fade'
+            transparent={true}>
 
             <View style={styles.modalBackground}>
                 <View style={styles.modalView}>
@@ -251,26 +259,28 @@ const DisponibilidadDoctorScreen = ({ navigation, route }) => {
                     onPress={()=>setFailModalOpen(false)}
                     /> */}
 
-                    <View style= {{alignItems:'center'}}>
+                    <View style={{ alignItems: 'center' }}>
                         <Text style=
-                        {{textAlign:'center', 
-                        padding:20,
-                        fontSize:18,
-                        fontWeight:'bold'}}
+                            {{
+                                textAlign: 'center',
+                                padding: 20,
+                                fontSize: 18,
+                                fontWeight: 'bold'
+                            }}
                         >El horario seleccionado no esta disponible</Text>
 
                         <TouchableOpacity
-                        style={[styles.modalButton, {backgroundColor:'#E85959'}]}
-                        onPress={()=>setFailModalOpen(false)}
+                            style={[styles.modalButton, { backgroundColor: '#E85959' }]}
+                            onPress={() => setFailModalOpen(false)}
                         >
-                            <Text style = {{color:'#fff', fontSize:15}}>Continuar</Text>
+                            <Text style={{ color: '#fff', fontSize: 15 }}>Continuar</Text>
                         </TouchableOpacity>
                     </View>
 
 
                 </View>
             </View>
-                
+
         </Modal>
 
         {/* Final del Popup */}
@@ -283,7 +293,7 @@ export default DisponibilidadDoctorScreen;
 const styles = StyleSheet.create({
 
     //modal styles
-    modalBackground:{
+    modalBackground: {
         flex: 1,
         justifyContent: "center",
         alignItems: "center",
@@ -304,10 +314,10 @@ const styles = StyleSheet.create({
         shadowRadius: 4,
         elevation: 5
     },
-    modalClose:{
-        marginTop:20,
-        marginBottom:0,
-        padding:10,
+    modalClose: {
+        marginTop: 20,
+        marginBottom: 0,
+        padding: 10,
     },
     modalButton: {
         borderRadius: 20,
@@ -419,25 +429,25 @@ const styles = StyleSheet.create({
     },
 
     //modal styles
-    modalBackground:{
+    modalBackground: {
         flex: 1,
         justifyContent: "center",
         alignItems: "center",
-        backgroundColor:'rgba(0,0,0,0.30)',
-        
+        backgroundColor: 'rgba(0,0,0,0.30)',
+
     },
     modalView: {
-        width:Dimensions.get('window').width/1.5,
-        height:Dimensions.get('window').width/1.8,
+        width: Dimensions.get('window').width / 1.5,
+        height: Dimensions.get('window').width / 1.8,
         // width:'80%',
         // height:'40%',
-    
+
         backgroundColor: "white",
-    
+
         borderRadius: 20,
-        paddingHorizontal:20,
-        paddingVertical:35,
-    
+        paddingHorizontal: 20,
+        paddingVertical: 35,
+
         shadowColor: "#121212",
         shadowOffset: {
             width: 0,
@@ -447,12 +457,12 @@ const styles = StyleSheet.create({
         shadowRadius: 4,
     },
     modalButton: {
-        marginTop:10,
+        marginTop: 10,
         borderRadius: 20,
         padding: 10,
-        paddingHorizontal:50,
-        color:'#fff',
+        paddingHorizontal: 50,
+        color: '#fff',
     },
 
-    
+
 })
