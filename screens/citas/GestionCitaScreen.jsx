@@ -3,7 +3,7 @@ import { SafeAreaView, ScrollView, StyleSheet, View, Text, FlatList, TouchableOp
 import CalendarPickerModal from 'react-native-calendar-picker';
 //import { SafeAreaView } from "react-native-safe-area-context";
 import { withSafeAreaInsets } from 'react-native-safe-area-context';
-import GestionCita_Get from '../../API/GestionCita_Get';
+
 // import Paciente from '../../API/Paciente';
 import AppNavigator from '../../navigator/Navigator';
 import CitasAgendadas from '../../components/CitasAgendadas';
@@ -25,16 +25,16 @@ const GestionCitaScreen = ({navigation}) => {
   const [apifilteredData, apisetFilteredData] = useState([]);
 
     useEffect(() => {
-    //     fetchData('https://consultaterd.azurewebsites.net/api/UsuarioPacientes');
-    // }, [])
-    fetchData(GestionCita_Get);
+        fetchData('https://consultaterd.azurewebsites.net/api/CitasAgendadas');
     }, [])
-
-    const fetchData = (url) => {
+    
+    const fetchData = async(url) => {
         try {
-            const newarray = url.filter(x => x.estadoCitas == true);
-            apisetData(newarray);
-            apisetFilteredData(newarray);
+            const response = await fetch(url);
+            const json = await response.json();  
+            apisetData(json);
+            apisetFilteredData(json);
+            
             
     } catch (error) {
       console.error(error);
@@ -42,14 +42,7 @@ const GestionCitaScreen = ({navigation}) => {
   };
 
 
-  function citasAgendadas() {
-    const js = GestionCita_Get;
-    useEffect(() => {
-      SetCitasData(js);
-      setFilterCitasData(js);
-    }, [])
-    return citasAgendadas;
-  }
+  
 
     // const ci = Paciente;
     //   useEffect(() => {
@@ -57,7 +50,7 @@ const GestionCitaScreen = ({navigation}) => {
     // }, [])
 
 
-  const citasList = citasAgendadas();
+  // const citasList = citasAgendadas();
 
 
   const renderItem = ({ item }) => (

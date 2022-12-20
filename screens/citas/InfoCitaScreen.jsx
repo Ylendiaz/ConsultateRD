@@ -4,7 +4,7 @@ import StyledButton from '../../components/StyledButton/Btn';
 import StyledButtonIcon from "../../components/StyledButtonIcon";
 import AppNavigator from '../../navigator/Navigator';
 import InfoCita from "../../components/InfoCita";
-import GestionCita_Get from '../../API/GestionCita_Get';
+
 import {MaterialCommunityIcons} from '@expo/vector-icons';
 
 const InfoCitaScreen = ({navigation, route }) => {
@@ -51,16 +51,16 @@ const InfoCitaScreen = ({navigation, route }) => {
   
 
     useEffect(() => {
-    //     fetchData('https://consultaterd.azurewebsites.net/api/UsuarioPacientes');
-    // }, [])
-    fetchDataCita(GestionCita_Get);
+        fetchDataCita('https://consultaterd.azurewebsites.net/api/CitasAgendadas');
     }, [])
+   
 
-    const fetchDataCita = (url) => {
+    const fetchDataCita = async(url) => {
         try {
-            const newarray = url.filter(x => x.estadoCitas == true);
-            apisetData(newarray);
-            apisetFilteredData(newarray);
+            const response = await fetch(url);
+            const json = await response.json();
+            apisetData(json);
+            apisetFilteredData(json);
             
     } catch (error) {
       console.error(error);
@@ -153,22 +153,29 @@ const InfoCitaScreen = ({navigation, route }) => {
                 </View>
 
                 <View style ={{ borderBottomWidth: 1, marginBottom: 15, borderColor:'rgba(0, 0, 0, 0.21)' }}>
-                <Text style={{marginBottom:6, fontWeight: "bold"}}>Nombre del paciente:</Text>
-                <Text style={{ marginBottom: 6}}>{apidataPaciente.filter(x => x.pacienteId == pacienteId).map(y => {return y.nombrePaciente + " " + y.apellidoPaciente})}</Text>
-                </View>
-
-                <View style ={{ borderBottomWidth: 1, marginBottom: 15, borderColor:'rgba(0, 0, 0, 0.21)' }}>
                 <Text style = {{marginBottom: 6, fontWeight: "bold"}}>Centro Medico:</Text>
                 <Text style = {{marginBottom: 6}}>{apidataCentros.filter(x => x.key == centroMedicoId).map(y => {return y.value})}</Text>
                 </View>
 
                 <View style ={{ borderBottomWidth: 1, marginBottom: 15, borderColor:'rgba(0, 0, 0, 0.21)' }}>
-                <Text style={{marginBottom:6, fontWeight: "bold"}}>Número de teléfono del paciente:</Text>
-                <Text style={{ marginBottom: 6}}>{apidataPaciente.filter(x => x.pacienteId == pacienteId).map(y => {return y.telefonoPaciente})}</Text>
+                <Text style={{marginBottom:6, fontWeight: "bold"}}>Nombre del paciente:</Text>
+                <Text style={{ marginBottom: 6}}>{apidataPaciente.filter(x => x.pacienteId == pacienteId).map(y => {return y.nombrePaciente + " " + y.apellidoPaciente})}</Text>
                 </View>
 
+                
+                {userData.rol = true
+                    ?<View style ={{ borderBottomWidth: 1, marginBottom: 15, borderColor:'rgba(0, 0, 0, 0.21)' }}>
+                        <Text style={{marginBottom:6, fontWeight: "bold"}}>Número de teléfono del paciente:</Text>
+                        <Text style={{ marginBottom: 6}}>{apidataPaciente.filter(x => x.pacienteId == pacienteId).map(y => {return y.telefonoPaciente})}</Text>
+                    </View>
+                    :<View style ={{ borderBottomWidth: 1, marginBottom: 15, borderColor:'rgba(0, 0, 0, 0.21)' }}>
+                        <Text style={{marginBottom:6, fontWeight: "bold"}}>Número de teléfono del doctor:</Text>
+                        <Text style={{ marginBottom: 6}}> {apidataDoctores.filter(x => x.doctorId == doctorId).map(y => {return y.telefonoDoctor})}</Text>
+                    </View>}
+    
+    
+    
                 </View>
-
                 <View style={styles.textCitas}>
                         <Text style={{ fontSize: 20, fontWeight: 'bold', color: '#FFFFFF', marginHorizontal: 15, marginVertical: 20, }}>Información de la cita</Text>
                 </View>
