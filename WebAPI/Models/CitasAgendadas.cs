@@ -8,7 +8,7 @@ namespace WebAPI.Models
     public partial class CitasAgendadas
     {
         public int CitaId { get; set; }
-        public DateTime? CitaFecha { get; set; }
+        public string CitaFecha { get; set; }
         public string CitasHoraInicio { get; set; }
         public string CitaHoraCierre { get; set; }
         public int CentroMedicoId { get; set; }

@@ -107,9 +107,10 @@ namespace WebAPI.Data
                 entity.Property(e => e.CentroMedicoId).HasColumnName("centro_medico_id");
 
                 entity.Property(e => e.CitaFecha)
-                    .HasColumnType("datetime")
-                    .HasColumnName("cita_fecha")
-                    .HasDefaultValueSql("(getdate())");
+                    .IsRequired()
+                    .HasMaxLength(150)
+                    .IsUnicode(false)
+                    .HasColumnName("cita_fecha");
 
                 entity.Property(e => e.CitaHoraCierre)
                     .IsRequired()
