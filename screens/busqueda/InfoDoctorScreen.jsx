@@ -99,7 +99,7 @@ const InfoDoctorScreen = ({ navigation, route }) => {
                     </View>
 
                     <View style={{ height: 50, width: "70%", marginVertical: 20 }}>
-                        <StyledButton txtColor="#ffffff" content="Agendar Cita" bgColor="#88CC68" radius="100" onPress={() => navigation.navigate('DisponibilidadDoctor', { doctorId, intervaloCitas })}></StyledButton>
+                        <StyledButton txtColor="#ffffff" content="Agendar Cita" bgColor="#88CC68" radius="100" onPress={() => navigation.navigate('DisponibilidadDoctor', { doctorId, intervaloCitas, centroMedicoDoctor })}></StyledButton>
                     </View>
                 </View>
             </View>
