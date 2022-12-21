@@ -12,7 +12,7 @@ const CitasAgendadas = (props) => {
    
     const { citas, login1, fecha, onPress } = props;
     const [apidataPaciente, apisetDataPaciente] = useState([]);
-    const login = [{ loginId: 7, rol: true }];
+    
     
     const [userData, setUserData] = React.useState([]);
     const getData = async (keyname) => {
@@ -96,13 +96,15 @@ const CitasAgendadas = (props) => {
                 return (
 
                 
-                    <TouchableOpacity key={item.citaId} style={styles.listView} onPress={() => onPress({item})} >
+                    <TouchableOpacity key={item.citaId} style={styles.listView} onPress={() => onPress({item, login1})} >
                         <View style={styles.listViewContent}>
                             
                             <View style={styles.listTextView}>
                                 <Text style={{ color: "black", marginBottom: 8 }} >{item.citaFecha}                                            {item.citasHoraInicio}</Text>
                                 
-                                {userData.loginId == true
+                                {console.log(apidataDoctores.filter(x => x.doctorId == item.doctorId).map(y => {return y.nombreDoctor + " " + y.apellidoDoctor}))}
+                                {console.log(userData.rol)}
+                                {userData.rol == login1 
                                 ?    <Text>{apidataDoctores.filter(x => x.doctorId == item.doctorId).map(y => {return y.nombreDoctor + " " + y.apellidoDoctor})}</Text>
                                     : <Text>{apidataPaciente.filter(x => x.pacienteId == item.pacienteId).map(y => {return y.nombrePaciente + " " + y.apellidoPaciente})}</Text>}
                                     

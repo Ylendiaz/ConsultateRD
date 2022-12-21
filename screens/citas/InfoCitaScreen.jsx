@@ -4,6 +4,7 @@ import StyledButton from '../../components/StyledButton/Btn';
 import StyledButtonIcon from "../../components/StyledButtonIcon";
 import AppNavigator from '../../navigator/Navigator';
 import InfoCita from "../../components/InfoCita";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import {MaterialCommunityIcons} from '@expo/vector-icons';
 
@@ -38,8 +39,9 @@ const InfoCitaScreen = ({navigation, route }) => {
     
     //Informacion de la cita que fue seleccionado
     const { citaId, citaFecha, citasHoraInicio, citaHoraCierre, centroMedicoId, pacienteId, doctorId, estadoCitas, fechaCreacionCita, fechaModificacionCita } = route.params.item.item;
+    const {login1} = route.params.item;
+
     
-    // console.log(route.params.item.item);
  
     const [apidataPaciente, apisetDataPaciente] = useState([]);
     const [apifilteredData, apisetFilteredData] = useState([]); 
@@ -48,7 +50,22 @@ const InfoCitaScreen = ({navigation, route }) => {
     // ------------- fetch gestion cita
 
     const [apidata, apisetData] = useState([]);
-  
+    const getData = async (keyname) => {
+        try {
+            const value = await AsyncStorage.getItem(keyname)
+            if (value !== null) {
+                // value previously stored
+                setUserData(JSON.parse(value));
+            }
+        } catch (e) {
+            console.log(e);
+        }
+    }
+
+    useEffect(() => {
+        getData('@userData');
+    }, [])
+    
 
     useEffect(() => {
         fetchDataCita('https://consultaterd.azurewebsites.net/api/CitasAgendadas');
@@ -163,14 +180,16 @@ const InfoCitaScreen = ({navigation, route }) => {
                 </View>
 
                 {/* Condicion del numero de telefono segun rol del usuario */}
-                {userData.rol = true
+                {console.log({login1})}
+                {console.log(userData.rol)}
+                {userData.rol == login1
                     ?<View style ={{ borderBottomWidth: 1, marginBottom: 15, borderColor:'rgba(0, 0, 0, 0.21)' }}>
+                    <Text style={{marginBottom:6, fontWeight: "bold"}}>Número de teléfono del doctor:</Text>
+                    <Text style={{ marginBottom: 6}}> {apidataDoctores.filter(x => x.doctorId == doctorId).map(y => {return y.telefonoDoctor})}</Text>
+                </View>
+                    :<View style ={{ borderBottomWidth: 1, marginBottom: 15, borderColor:'rgba(0, 0, 0, 0.21)' }}>
                         <Text style={{marginBottom:6, fontWeight: "bold"}}>Número de teléfono del paciente:</Text>
                         <Text style={{ marginBottom: 6}}>{apidataPaciente.filter(x => x.pacienteId == pacienteId).map(y => {return y.telefonoPaciente})}</Text>
-                    </View>
-                    :<View style ={{ borderBottomWidth: 1, marginBottom: 15, borderColor:'rgba(0, 0, 0, 0.21)' }}>
-                        <Text style={{marginBottom:6, fontWeight: "bold"}}>Número de teléfono del doctor:</Text>
-                        <Text style={{ marginBottom: 6}}> {apidataDoctores.filter(x => x.doctorId == doctorId).map(y => {return y.telefonoDoctor})}</Text>
                     </View>}
     
     

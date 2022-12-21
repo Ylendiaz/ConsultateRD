@@ -147,8 +147,8 @@ const GestionCitaScreen = ({navigation}) => {
       <AppButton title="Citas Programadas"/>
       </View>
       
-      {apifilteredData.length>0
-      ? <CitasAgendadas citas ={apifilteredData} onPress= {(item)=>navigation.navigate('InfoCita', {item})}></CitasAgendadas>
+      {apifilteredData.length>0 
+      ? <CitasAgendadas citas ={apifilteredData} login1 = {false} onPress= {(item, login1)=>navigation.navigate('InfoCita', {item, login1})}></CitasAgendadas>
       :<View ><Text style = {styles.title}>No hay citas programadas para la fecha seleccionada</Text></View>}
       
     </View>
