@@ -127,48 +127,48 @@ const GestionCitaScreen = ({ navigation, route }) => {
                 'Sab',
                 'Dom'
               ]}
-            months={[
-              'Enero',
-              'Febrero',
-              'Marzo',
-              'Abril',
-              'Mayo',
-              'Junio',
-              'Julio',
-              'Agosto',
-              'Septiembre',
-              'Octubre',
-              'Noviembre',
-              'Diciembre',
-            ]}
-            previousTitle="Anterior"
-            nextTitle="Siguiente"
-            todayBackgroundColor="#e6ffe6"
-            selectedDayColor="#66ff33"
-            selectedDayTextColor="#000000"
-            scaleFactor={375}
-            onDateChange={onDateChange}
-          />
-          <TouchableOpacity style={{}} onPress={() => QuitarFiltros()}>
-            <MaterialCommunityIcons name="filter-off" size={20} color={'#D01B1B'} style={{ marginHorizontal: 25, alignSelf: 'flex-end' }}></MaterialCommunityIcons>
-          </TouchableOpacity>
-
-        </View>
-
-        <View style={styles.container1}>
-
-          <View style={styles.item2}>
-            <AppButton title="Citas Programadas" />
-          </View>
-
-          {apifilteredData.length > 0
-            ? <CitasAgendadas citas={apifilteredData} login1={false} onPress={(item, login1) => navigation.navigate('InfoCita', { item, login1 })}></CitasAgendadas>
-            : <View ><Text style={styles.title}>No hay citas programadas para la fecha seleccionada</Text></View>}
-
-        </View>
-      </ScrollView>
-    </SafeAreaView>
-
+          months={[
+            'Enero',
+            'Febrero',
+            'Marzo',
+            'Abril',
+            'Mayo',
+            'Junio',
+            'Julio',
+            'Agosto',
+            'Septiembre',
+            'Octubre',
+            'Noviembre',
+            'Diciembre',
+          ]}
+          previousTitle="Anterior"
+          nextTitle="Siguiente"
+          todayBackgroundColor="#e6ffe6"
+          selectedDayColor="#66ff33"
+          selectedDayTextColor="#000000"
+          scaleFactor={375}
+          onDateChange={onDateChange}
+        />
+        <TouchableOpacity style={{}} onPress={() => QuitarFiltros()}>
+          <MaterialCommunityIcons name="filter-off" size={20} color={'#D01B1B'} style={{ marginHorizontal: 25, alignSelf: 'flex-end'}}></MaterialCommunityIcons>
+        </TouchableOpacity>
+        
+      </View>
+      
+      <View style={styles.container1}>
+      
+      <View style={styles.item2}> 
+      <AppButton title="Citas Programadas"/>
+      </View>
+      
+      {apifilteredData.length>0 
+      ? <CitasAgendadas citas ={apifilteredData}  login1 = {false} onPress= {(item, login1)=>navigation.navigate('InfoCita', {item, login1})}></CitasAgendadas>
+      :<View style= {{paddingBottom: 180}}><Text style = {styles.title}>No hay citas programadas para la fecha seleccionada</Text></View>}
+      
+    </View>
+     </ScrollView> 
+  </SafeAreaView>
+    
   );
 };
 
@@ -196,8 +196,10 @@ const styles = StyleSheet.create({
     marginTop: StatusBar.currentHeight || 35,
     padding: 25,
     paddingTop: 25,
-    height: "100%",
-    width: "100%"
+    paddingBottom: 110,
+    height: "100%", 
+    width: "100%",
+    
   },
   // item: {
   //   backgroundColor: '#FFFFFF',
@@ -226,9 +228,11 @@ const styles = StyleSheet.create({
     textTransform: "uppercase"
   },
   title: {
-    fontSize: 15,
-    textAlign: 'center',
-
+    fontSize: 20,
+    textAlign: 'center', 
+    fontWeight: "bold", 
+    paddingTop: 25
+    
   },
   listView: {
     marginHorizontal: 15,

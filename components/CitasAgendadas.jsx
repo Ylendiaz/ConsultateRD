@@ -140,14 +140,16 @@ const styles = StyleSheet.create({
         borderRadius: 15,
         shadowColor: '#171717',
         shadowOffset: { width: 1, height: 1 },
-        shadowOpacity: 2,
+        shadowOpacity: 2        
+        
     },
 
     listViewContent: {
         flexDirection: 'row',
         alignItems: 'center',
         marginHorizontal: 15,
-        marginVertical: 15
+        marginVertical: 15,
+        
     },
 
     // listTextView: {
