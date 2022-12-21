@@ -10,22 +10,10 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 const DisponibilidadDoctorScreen = ({ navigation, route }) => {
 
-    //Data Login
-    const [data, setdata] = useState({})
-    useEffect(() => {
-        getData('@userData');
-    }, [])
-
-    const getData = async (name) => {
-        try {
-            const value = await AsyncStorage.getItem(name)
-            if (value !== null) {
-                setdata(JSON.parse(value))
-            }
-        } catch (e) {
-            console.log(e)
-        }
-    }
+    const {loginId} = route.params.params
+    //Id del doctor (Disponibilidad del doctor en cuestion)
+     const { doctorId, intervaloCitas, centroMedicoDoctor } = route.params;
+    
 
     // ----------------Consumir API tabla Usuario Pacientes-----------------
     const [apidataPaciente, apisetDataPaciente] = useState([]);
@@ -37,7 +25,7 @@ const DisponibilidadDoctorScreen = ({ navigation, route }) => {
         try {
             const response = await fetch(url)
             const json = await response.json();
-            const getid = json.filter(x => x.loginId == data.loginId).map(y => { return y.pacienteId })
+            const getid = json.filter(x => x.loginId == loginId).map(y => { return y.pacienteId })
             apisetDataPaciente(getid);
 
         } catch (error) {
@@ -46,16 +34,12 @@ const DisponibilidadDoctorScreen = ({ navigation, route }) => {
     };
 
 
-
     //sets if the modal popup is open or closed 
 
     //all of them are false by default (closed)
     const [succesModalOpen, setSuccesModalOpen] = useState(false); //popup de creacion de cita
     const [failModalOpen, setFailModalOpen] = useState(false); //popup de fallo al crear la cita
 
-
-    //Id del doctor (Disponibilidad del doctor en cuestion)
-    const { doctorId, intervaloCitas, centroMedicoDoctor } = route.params;
 
     //-------------Consumir API tabla HorariosDoctors--------------------
     const [apidataHorarios, apisetDataHorarios] = useState([]);

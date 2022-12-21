@@ -7,6 +7,7 @@ import HorariosDoctors from "../../API/HorariosDoctors";
 
 const InfoDoctorScreen = ({ navigation, route }) => {
 
+    const {params} = route.params
     //Informacion del doctor que fue seleccionado
     const { doctorId, imagenDoctor, loginId, nombreDoctor, apellidoDoctor, telefonoDoctor,
         sexoDoctor, fechaNacimientoDoctor, infoCreditoId, intervaloCitas, centroMedicoDoctor, especialidadesDoctor
@@ -99,7 +100,7 @@ const InfoDoctorScreen = ({ navigation, route }) => {
                     </View>
 
                     <View style={{ height: 50, width: "70%", marginVertical: 20 }}>
-                        <StyledButton txtColor="#ffffff" content="Agendar Cita" bgColor="#88CC68" radius="100" onPress={() => navigation.navigate('DisponibilidadDoctor', { doctorId, intervaloCitas, centroMedicoDoctor })}></StyledButton>
+                        <StyledButton txtColor="#ffffff" content="Agendar Cita" bgColor="#88CC68" radius="100" onPress={() => navigation.navigate('DisponibilidadDoctor', { doctorId, intervaloCitas, centroMedicoDoctor, params })}></StyledButton>
                     </View>
                 </View>
             </View>

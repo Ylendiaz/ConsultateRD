@@ -46,7 +46,7 @@ const PerfilScreen = ({navigation, route}) => {
             </View>
             <View style={{ alignItems: 'center', marginTop: 110, }}>
                 <View style={styles.textInfo}>
-                    <Text style={{ fontSize: 20, fontWeight: 'bold', marginHorizontal: 20, marginTop: 10, }}>Nombre Apellido</Text>
+                    <Text style={{ fontSize: 20, fontWeight: 'bold', marginHorizontal: 20, marginTop: 10, }}>{apidataPaciente.nombrePaciente} {apidataPaciente.apellidoPaciente}</Text>
                     <Text style={{ fontSize: 16, fontWeight: 'bold', marginHorizontal: 20, marginVertical: 10, marginBottom: 15 }}>{userData.correoElectronico}</Text>
                 </View>
             </View>

@@ -1,4 +1,4 @@
-import React, { Component, useEffect, useLayoutEffect, useState } from 'react';
+import React, { Component, useEffect, useLayoutEffect, useState, useCallback } from 'react';
 import { SafeAreaView, ScrollView, StyleSheet, View, Text, FlatList, TouchableOpacity, Button, StatusBar } from 'react-native';
 import CalendarPickerModal from 'react-native-calendar-picker';
 //import { SafeAreaView } from "react-native-safe-area-context";
@@ -9,48 +9,62 @@ import AppNavigator from '../../navigator/Navigator';
 import CitasAgendadas from '../../components/CitasAgendadas';
 import moment from 'moment';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
- 
-const GestionCitaScreen = ({navigation}) => {
-    const [selectedStartDate, setSelectedStartDate] = useState(null);
-    const [selectedEndDate, setSelectedEndDate] = useState(null);
-    
-    
-    const [CitasData, SetCitasData] = useState([]);
-    const [filterCitasData, setFilterCitasData] = useState([]);
-    const [dataCita, setDataCita] = useState([]);
-    const [search, setSearch] = useState("");
 
+const GestionCitaScreen = ({ navigation, route }) => {
+
+  const [selectedStartDate, setSelectedStartDate] = useState(null);
+  const [selectedEndDate, setSelectedEndDate] = useState(null);
 
   const [apidata, apisetData] = useState([]);
   const [apifilteredData, apisetFilteredData] = useState([]);
 
-    useEffect(() => {
-        fetchData('https://consultaterd.azurewebsites.net/api/CitasAgendadas');
-    }, [])
-    
-    const fetchData = async(url) => {
-        try {
-            const response = await fetch(url);
-            const json = await response.json();  
-            apisetData(json);
-            apisetFilteredData(json);
-            
-            
+  let appDoctorID = 0;//here we're going to save the pacient id of the user that is logged in (to fetch appointments informacion)
+
+  const refresh = useCallback(() => {
+    // Perform any refresh logic here
+    fetchAppointments('https://consultaterd.azurewebsites.net/api/CitasAgendadas'); // appointments
+  }, []);
+
+  useEffect(() => {
+    //call fetchData passing the GET request url
+    fetchDataDoctor('https://consultaterd.azurewebsites.net/api/UsuarioDoctores');//doctor users
+  }, []);
+
+  const fetchDataDoctor = async (url) => {
+    try {
+
+      const response = await fetch(url); //get the request response
+      const json = await response.json(); // transform it to json format
+      const getid = json.filter(x => x.loginId == route.params.loginId).map(y => { return y.doctorId }); // get the pacient id where the loginId's match
+      // setapppacienteid(getid[0])
+      appDoctorID = getid[0]; // save the pacient id found in a global variable
+
     } catch (error) {
-      console.error(error);
+      console.error(error); // otherwise there was an error in the request
     }
   };
 
 
-  
+  useEffect(() => {
+    //call fetchData passing the GET request url
+    fetchAppointments('https://consultaterd.azurewebsites.net/api/CitasAgendadas'); // appointments
 
-    // const ci = Paciente;
-    //   useEffect(() => {
-    //       setDataCita(ci);
-    // }, [])
+    const interval = setInterval(refresh, 5000); // refresh the screen every 5 second
 
+    return () => clearInterval(interval);
+  }, [refresh]);
 
-  // const citasList = citasAgendadas();
+  const fetchAppointments = async (url) => {
+    try {
+      const response = await fetch(url);
+      const json = await response.json();
+      const newarray = json.filter(item => item.doctorId == appDoctorID);
+      apisetData(newarray);
+      apisetFilteredData(newarray);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
 
   const renderItem = ({ item }) => (
@@ -63,98 +77,98 @@ const GestionCitaScreen = ({navigation}) => {
     </View>
   );
 
-    const onDateChange = (date, type) => {
-      if (type === 'END_DATE') {
-        setSelectedEndDate(date);
-      } else {
-        setSelectedEndDate(null);
-        const fecha = date.format("DD-MM-YYYY")
-        setSelectedStartDate(fecha);
-        const newarray = apidata.filter(x => x.citaFecha == fecha);
-        apisetFilteredData(newarray);
-        console.log(newarray);
-      }
-      
+  const onDateChange = (date, type) => {
+    if (type === 'END_DATE') {
+      setSelectedEndDate(date);
+    } else {
+      setSelectedEndDate(null);
+      const fecha = date.format("DD-MM-YYYY")
+      setSelectedStartDate(fecha);
+      const newarray = apidata.filter(x => x.citaFecha == fecha);
+      apisetFilteredData(newarray);
+      console.log(newarray);
+    }
 
-      // const fechaCita = date.format("DD-MM-YYYY")
-      console.log(selectedStartDate)
-    };
 
-    
+    // const fechaCita = date.format("DD-MM-YYYY")
+    console.log(selectedStartDate)
+  };
 
-    const AppButton = ({ onPress, title }) => (
-      <TouchableOpacity onPress={onPress} style={styles.appButtonContainer}>
-        <Text style={styles.appButtonText}>{title}</Text>
-      </TouchableOpacity>
-    );
+
+
+  const AppButton = ({ onPress, title }) => (
+    <TouchableOpacity onPress={onPress} style={styles.appButtonContainer}>
+      <Text style={styles.appButtonText}>{title}</Text>
+    </TouchableOpacity>
+  );
   // QUITAR FILTROS
-    const QuitarFiltros = () => {
-      apisetFilteredData(apidata);
-      
+  const QuitarFiltros = () => {
+    apisetFilteredData(apidata);
+
   }
-        
-    
+
+
   return (
 
     <SafeAreaView style={styles.container}>
-      <ScrollView> 
-      <View style={styles.container}>
-        <CalendarPickerModal
-          startFromMonday={true}
-          minDate={new Date(2018, 1, 1)}
-          maxDate={new Date(2050, 6, 3)}
-          weekdays={
-            [
-              'Lun',
-              'Mar',
-              'Mier',
-              'Jue',
-              'Vier',
-              'Sab',
-              'Dom'
+      <ScrollView>
+        <View style={styles.container}>
+          <CalendarPickerModal
+            startFromMonday={true}
+            minDate={new Date(2018, 1, 1)}
+            maxDate={new Date(2050, 6, 3)}
+            weekdays={
+              [
+                'Lun',
+                'Mar',
+                'Mier',
+                'Jue',
+                'Vier',
+                'Sab',
+                'Dom'
+              ]}
+            months={[
+              'Enero',
+              'Febrero',
+              'Marzo',
+              'Abril',
+              'Mayo',
+              'Junio',
+              'Julio',
+              'Agosto',
+              'Septiembre',
+              'Octubre',
+              'Noviembre',
+              'Diciembre',
             ]}
-          months={[
-            'Enero',
-            'Febrero',
-            'Marzo',
-            'Abril',
-            'Mayo',
-            'Junio',
-            'Julio',
-            'Agosto',
-            'Septiembre',
-            'Octubre',
-            'Noviembre',
-            'Diciembre',
-          ]}
-          previousTitle="Anterior"
-          nextTitle="Siguiente"
-          todayBackgroundColor="#e6ffe6"
-          selectedDayColor="#66ff33"
-          selectedDayTextColor="#000000"
-          scaleFactor={375}
-          onDateChange={onDateChange}
-        />
-        <TouchableOpacity style={{}} onPress={() => QuitarFiltros()}>
-          <MaterialCommunityIcons name="filter-off" size={20} color={'#D01B1B'} style={{ marginHorizontal: 25, alignSelf: 'flex-end'}}></MaterialCommunityIcons>
-        </TouchableOpacity>
-        
-      </View>
-      
-      <View style={styles.container1}>
-      
-      <View style={styles.item2}> 
-      <AppButton title="Citas Programadas"/>
-      </View>
-      
-      {apifilteredData.length>0 
-      ? <CitasAgendadas citas ={apifilteredData} login1 = {false} onPress= {(item, login1)=>navigation.navigate('InfoCita', {item, login1})}></CitasAgendadas>
-      :<View ><Text style = {styles.title}>No hay citas programadas para la fecha seleccionada</Text></View>}
-      
-    </View>
-     </ScrollView> 
-  </SafeAreaView>
-    
+            previousTitle="Anterior"
+            nextTitle="Siguiente"
+            todayBackgroundColor="#e6ffe6"
+            selectedDayColor="#66ff33"
+            selectedDayTextColor="#000000"
+            scaleFactor={375}
+            onDateChange={onDateChange}
+          />
+          <TouchableOpacity style={{}} onPress={() => QuitarFiltros()}>
+            <MaterialCommunityIcons name="filter-off" size={20} color={'#D01B1B'} style={{ marginHorizontal: 25, alignSelf: 'flex-end' }}></MaterialCommunityIcons>
+          </TouchableOpacity>
+
+        </View>
+
+        <View style={styles.container1}>
+
+          <View style={styles.item2}>
+            <AppButton title="Citas Programadas" />
+          </View>
+
+          {apifilteredData.length > 0
+            ? <CitasAgendadas citas={apifilteredData} login1={false} onPress={(item, login1) => navigation.navigate('InfoCita', { item, login1 })}></CitasAgendadas>
+            : <View ><Text style={styles.title}>No hay citas programadas para la fecha seleccionada</Text></View>}
+
+        </View>
+      </ScrollView>
+    </SafeAreaView>
+
   );
 };
 
@@ -182,7 +196,7 @@ const styles = StyleSheet.create({
     marginTop: StatusBar.currentHeight || 35,
     padding: 25,
     paddingTop: 25,
-    height: "100%", 
+    height: "100%",
     width: "100%"
   },
   // item: {
@@ -213,8 +227,8 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 15,
-    textAlign: 'center', 
-    
+    textAlign: 'center',
+
   },
   listView: {
     marginHorizontal: 15,

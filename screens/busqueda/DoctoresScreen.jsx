@@ -7,8 +7,10 @@ import { SelectList } from 'react-native-dropdown-select-list';
 import { AntDesign, MaterialCommunityIcons } from '@expo/vector-icons';
 
 
-const DoctoresScreen = ({ navigation }) => {
+const DoctoresScreen = ({ navigation, route }) => {
 
+    const { params } = route;
+    const [appPacienteID, setapppacienteid] = useState()
     // ----------------Consumir API tabla Usuario Doctores-----------------
     const [apidata, apisetData] = useState([]);
     const [apifilteredData, apisetFilteredData] = useState({
@@ -29,6 +31,9 @@ const DoctoresScreen = ({ navigation }) => {
                 data: json,
                 isLoading: false
             });
+            const getid = json.filter(x => x.loginId == route.params.loginId).map(y => { return y.doctorId }); // get the pacient id where the loginId's match
+            setapppacienteid(getid[0])
+            // appDoctorID = getid[0]; // save the pacient id found in a global variable
 
         } catch (error) {
             console.error(error);
@@ -200,28 +205,30 @@ const DoctoresScreen = ({ navigation }) => {
 
                 {
                     apifilteredData.data.map((item, index) => {
-                        return (
-
-                            <TouchableOpacity key={item.doctorId} style={styles.listView} onPress={() => navigation.navigate('InfoDoctor', { item })}>
-                                <View style={styles.listViewContent}>
-                                    {item.imagenDoctor == null ? <Image style={styles.viewFoto} source={require("../../assets/avatar.png")}></Image>
-                                        : <Image style={styles.viewFoto} source={{ uri: foto }}></Image>}
-                                    <View style={styles.listTextView}>
-                                        <Text style={{ color: "#35AABA", marginBottom: 8 }}>{item.nombreDoctor} {item.apellidoDoctor}</Text>
-                                        {item.especialidadesDoctor.map(data => (
-                                            <Text key={item.doctorId} style={{ marginBottom: 5 }} numberOfLines={1}>
-                                                {data.especialidad.nombreEspecialidad}
-                                            </Text>
-                                        ))}
-                                        {item.centroMedicoDoctor.map(data => (
-                                            <Text key={item.doctorId} style={{ marginBottom: 5 }} numberOfLines={1}>
-                                                {data.centroMedico.centroMedicoNombre}
-                                            </Text>
-                                        ))}
+                        return <>
+                            {item.doctorId != appPacienteID
+                                ? <TouchableOpacity key={item.doctorId} style={styles.listView} onPress={() => navigation.navigate('InfoDoctor', { item, params })}>
+                                    <View style={styles.listViewContent}>
+                                        {item.imagenDoctor == null ? <Image style={styles.viewFoto} source={require("../../assets/avatar.png")}></Image>
+                                            : <Image style={styles.viewFoto} source={{ uri: foto }}></Image>}
+                                        <View style={styles.listTextView}>
+                                            <Text style={{ color: "#35AABA", marginBottom: 8 }}>{item.nombreDoctor} {item.apellidoDoctor}</Text>
+                                            {item.especialidadesDoctor.map(data => (
+                                                <Text key={item.doctorId} style={{ marginBottom: 5 }} numberOfLines={1}>
+                                                    {data.especialidad.nombreEspecialidad}
+                                                </Text>
+                                            ))}
+                                            {item.centroMedicoDoctor.map(data => (
+                                                <Text key={item.doctorId} style={{ marginBottom: 5 }} numberOfLines={1}>
+                                                    {data.centroMedico.centroMedicoNombre}
+                                                </Text>
+                                            ))}
+                                        </View>
                                     </View>
-                                </View>
-                            </TouchableOpacity>
-                        )
+                                </TouchableOpacity>
+                                : null
+                            }
+                        </>
                     })
                 }
             </ScrollView>

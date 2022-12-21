@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { SafeAreaView, StyleSheet, View, Text, FlatList, TouchableOpacity, Button, StatusBar } from 'react-native';
 import CalendarPickerModal from 'react-native-calendar-picker';
 import { withSafeAreaInsets } from 'react-native-safe-area-context';
@@ -9,8 +9,14 @@ import { useNavigationBuilder } from '@react-navigation/native';
 const HomeScreen = ({ navigation, route }) => {
 
   let appPacienteID = 0;//here we're going to save the pacient id of the user that is logged in (to fetch appointments informacion)
-
+  // const [appPacienteID, setapppacienteid] = useState()
   // ----------------Consumir API tabla Usuario Pacientes-----------------
+
+  const refresh = useCallback(() => {
+    // Perform any refresh logic here
+    fetchAppointments('https://consultaterd.azurewebsites.net/api/CitasAgendadas'); // appointments
+  }, []);
+
   useEffect(() => {
     //call fetchData passing the GET request url
     fetchData('https://consultaterd.azurewebsites.net/api/UsuarioPacientes');//pacient users
@@ -22,7 +28,7 @@ const HomeScreen = ({ navigation, route }) => {
       const response = await fetch(url); //get the request response
       const json = await response.json(); // transform it to json format
       const getid = json.filter(x => x.loginId == route.params.loginId).map(y => { return y.pacienteId }); // get the pacient id where the loginId's match
-
+      // setapppacienteid(getid[0])
       appPacienteID = getid[0]; // save the pacient id found in a global variable
 
     } catch (error) {
@@ -38,8 +44,12 @@ const HomeScreen = ({ navigation, route }) => {
   useEffect(() => {
     //call fetchData passing the GET request url
     fetchAppointments('https://consultaterd.azurewebsites.net/api/CitasAgendadas'); // appointments
-  }, []);
 
+    const interval = setInterval(refresh, 5000); // refresh the screen every 5 second
+
+    return () => clearInterval(interval);
+  }, [refresh]);
+  
   const fetchAppointments = async (url) => {
 
     try {
@@ -65,7 +75,7 @@ const HomeScreen = ({ navigation, route }) => {
         </View>
       </View>
       {apidataCitas.length > 0
-        ? <CitasAgendadas citas={apidataCitas} login1={true} onPress={(item) => navigation.navigate('InfoCita', { item }) }></CitasAgendadas>
+        ? <CitasAgendadas citas={apidataCitas} login1={true} onPress={(item) => navigation.navigate('InfoCita', { item })}></CitasAgendadas>
         : <View style={styles.viewListDisponibilidad}>
           <Text style={{ marginVertical: 10, alignSelf: 'center', fontSize: 14, fontWeight: 'bold', color: "#504D4C" }}>No hay citas agendadas</Text>
         </View>
