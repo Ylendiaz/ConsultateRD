@@ -14,14 +14,7 @@ const GestionCitaScreen = ({navigation}) => {
     const [selectedStartDate, setSelectedStartDate] = useState(null);
     const [selectedEndDate, setSelectedEndDate] = useState(null);
     
-    
-    const [CitasData, SetCitasData] = useState([]);
-    const [filterCitasData, setFilterCitasData] = useState([]);
-    const [dataCita, setDataCita] = useState([]);
-    const [search, setSearch] = useState("");
-
-
-  const [apidata, apisetData] = useState([]);
+    const [apidata, apisetData] = useState([]);
   const [apifilteredData, apisetFilteredData] = useState([]);
 
     useEffect(() => {
@@ -40,17 +33,6 @@ const GestionCitaScreen = ({navigation}) => {
       console.error(error);
     }
   };
-
-
-  
-
-    // const ci = Paciente;
-    //   useEffect(() => {
-    //       setDataCita(ci);
-    // }, [])
-
-
-  // const citasList = citasAgendadas();
 
 
   const renderItem = ({ item }) => (
@@ -148,8 +130,8 @@ const GestionCitaScreen = ({navigation}) => {
       </View>
       
       {apifilteredData.length>0 
-      ? <CitasAgendadas citas ={apifilteredData} login1 = {false} onPress= {(item, login1)=>navigation.navigate('InfoCita', {item, login1})}></CitasAgendadas>
-      :<View ><Text style = {styles.title}>No hay citas programadas para la fecha seleccionada</Text></View>}
+      ? <CitasAgendadas citas ={apifilteredData}  login1 = {false} onPress= {(item, login1)=>navigation.navigate('InfoCita', {item, login1})}></CitasAgendadas>
+      :<View style= {{paddingBottom: 180}}><Text style = {styles.title}>No hay citas programadas para la fecha seleccionada</Text></View>}
       
     </View>
      </ScrollView> 
@@ -182,8 +164,10 @@ const styles = StyleSheet.create({
     marginTop: StatusBar.currentHeight || 35,
     padding: 25,
     paddingTop: 25,
+    paddingBottom: 110,
     height: "100%", 
-    width: "100%"
+    width: "100%",
+    
   },
   // item: {
   //   backgroundColor: '#FFFFFF',
@@ -212,8 +196,10 @@ const styles = StyleSheet.create({
     textTransform: "uppercase"
   },
   title: {
-    fontSize: 15,
+    fontSize: 20,
     textAlign: 'center', 
+    fontWeight: "bold", 
+    paddingTop: 25
     
   },
   listView: {

@@ -102,8 +102,6 @@ const CitasAgendadas = (props) => {
                             <View style={styles.listTextView}>
                                 <Text style={{ color: "black", marginBottom: 8 }} >{item.citaFecha}                                            {item.citasHoraInicio}</Text>
                                 
-                                {console.log(apidataDoctores.filter(x => x.doctorId == item.doctorId).map(y => {return y.nombreDoctor + " " + y.apellidoDoctor}))}
-                                {console.log(userData.rol)}
                                 {userData.rol == login1 
                                 ?    <Text>{apidataDoctores.filter(x => x.doctorId == item.doctorId).map(y => {return y.nombreDoctor + " " + y.apellidoDoctor})}</Text>
                                     : <Text>{apidataPaciente.filter(x => x.pacienteId == item.pacienteId).map(y => {return y.nombrePaciente + " " + y.apellidoPaciente})}</Text>}
@@ -135,17 +133,16 @@ const CitasAgendadas = (props) => {
         borderRadius: 15,
         shadowColor: '#171717',
         shadowOffset: { width: 1, height: 1 },
-        shadowOpacity: 2,
+        shadowOpacity: 2        
+        
     },
     
     listViewContent: {
         flexDirection: 'row',
         alignItems: 'center',
         marginHorizontal: 15,
-        marginVertical: 15
+        marginVertical: 15,
+        
     },
     
-    // listTextView: {
-    //     marginLeft: 15
-    // }
   });

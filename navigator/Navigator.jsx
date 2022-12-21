@@ -49,7 +49,7 @@ function DoctoresStack(navigation) {
 function GestionCitaStack() {
     return (
         <Stack.Navigator>
-            <Stack.Screen name="GestionCita" component={GestionCitaScreen} initialParams={navigation.route.params} options={{ headerShown: false }} />
+            <Stack.Screen name="GestionCita" component={GestionCitaScreen} initialParams={parametros} options={{ headerShown: false }} />
             <Stack.Screen name="InfoCita" component={InfoCitaScreen} options={{ title: 'Información de  la cita' }} />
         </Stack.Navigator>
     );
