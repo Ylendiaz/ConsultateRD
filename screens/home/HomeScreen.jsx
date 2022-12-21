@@ -49,7 +49,7 @@ const HomeScreen = ({ navigation, route }) => {
 
     return () => clearInterval(interval);
   }, [refresh]);
-  
+
   const fetchAppointments = async (url) => {
 
     try {
@@ -74,12 +74,15 @@ const HomeScreen = ({ navigation, route }) => {
           <Text style={{ fontSize: 20, fontWeight: 'bold', color: '#FFFFFF', marginHorizontal: 15, marginVertical: 20, }}>Citas Agendadas</Text>
         </View>
       </View>
-      {apidataCitas.length > 0
-        ? <CitasAgendadas citas={apidataCitas} login1={true} onPress={(item) => navigation.navigate('InfoCita', { item })}></CitasAgendadas>
-        : <View style={styles.viewListDisponibilidad}>
-          <Text style={{ marginVertical: 10, alignSelf: 'center', fontSize: 14, fontWeight: 'bold', color: "#504D4C" }}>No hay citas agendadas</Text>
-        </View>
-      }
+      <View style={{ paddingHorizontal: 30}}>
+        {apidataCitas.length > 0
+          ? <CitasAgendadas citas={apidataCitas} login1={true} onPress={(item) => navigation.navigate('InfoCita', { item })}></CitasAgendadas>
+          : <View style={styles.viewListDisponibilidad}>
+            <Text style={{ marginVertical: 10, alignSelf: 'center', fontSize: 14, fontWeight: 'bold', color: "#504D4C" }}>No hay citas agendadas</Text>
+          </View>
+        }
+      </View>
+
     </View>
 
   );

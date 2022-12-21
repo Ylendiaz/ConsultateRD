@@ -94,33 +94,24 @@ const CitasAgendadas = (props) => {
             {
                 citas.map((item, index) => {
                     return (
-
-
                         <TouchableOpacity key={item.citaId} style={styles.listView} onPress={() => onPress({ item, login1 })} >
                             <View style={styles.listViewContent}>
-
                                 <View style={styles.listTextView}>
-                                    <Text style={{ color: "black", marginBottom: 8 }} >{item.citaFecha}                                            {item.citasHoraInicio}</Text>
+                                    <View style={{ borderBottomWidth: 1, flexDirection: 'row', justifyContent: "space-around", marginBottom: 10, borderColor: 'rgba(0, 0, 0, 0.25)' }}>
+                                        <Text style={{ color: "black", marginBottom: 10, fontWeight: "bold" }} >{item.citasHoraInicio} - {item.citaHoraCierre}</Text>
+                                        <Text style={{ color: "black", marginBottom: 10, fontWeight: "bold" }} >{item.citaFecha}</Text>
+                                    </View>
 
                                     {login1 == true
-                                        ? <Text>{apidataDoctores.filter(x => x.doctorId == item.doctorId).map(y => { return y.nombreDoctor + " " + y.apellidoDoctor })}</Text>
+                                        ? <Text  style={{ color: "black", marginBottom: 10}}>{apidataDoctores.filter(x => x.doctorId == item.doctorId).map(y => { return y.nombreDoctor + " " + y.apellidoDoctor })}</Text>
 
-                                        : <Text>{apidataPaciente.filter(x => x.pacienteId == item.pacienteId).map(y => { return y.nombrePaciente + " " + y.apellidoPaciente })}</Text>
+                                        : <Text  style={{ color: "black", marginBottom: 10}}>{apidataPaciente.filter(x => x.pacienteId == item.pacienteId).map(y => { return y.nombrePaciente + " " + y.apellidoPaciente })}</Text>
                                     }
 
-
-                                    {/* {userData.rol == login1
-                                        ? <Text>{apidataDoctores.filter(x => x.doctorId == item.doctorId).map(y => { return y.nombreDoctor + " " + y.apellidoDoctor })}</Text>
-                                        : <Text>{apidataPaciente.filter(x => x.pacienteId == item.pacienteId).map(y => { return y.nombrePaciente + " " + y.apellidoPaciente })}</Text>} */}
-
-
                                     <Text>{apidataCentros.filter(x => x.key == item.centroMedicoId).map(y => { return y.value })}</Text>
-
-
                                 </View>
                             </View>
                         </TouchableOpacity>
-
                     )
                 })
             }
@@ -134,25 +125,26 @@ export default CitasAgendadas;
 const styles = StyleSheet.create({
 
     listView: {
-        marginHorizontal: 15,
+        marginHorizontal: 25,
         marginTop: 15,
         backgroundColor: "white",
         borderRadius: 15,
         shadowColor: '#171717',
         shadowOffset: { width: 1, height: 1 },
-        shadowOpacity: 2        
-        
+        shadowOpacity: 2
+
     },
 
     listViewContent: {
         flexDirection: 'row',
         alignItems: 'center',
-        marginHorizontal: 15,
+        marginHorizontal: 30,
         marginVertical: 15,
-        
+
     },
 
-    // listTextView: {
-    //     marginLeft: 15
-    // }
+    listTextView: {
+        justifyContent: "center",
+        width: "100%",
+    }
 });

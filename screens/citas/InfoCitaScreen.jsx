@@ -39,7 +39,10 @@ const InfoCitaScreen = ({ navigation, route }) => {
             }).catch((error) => {
                 console.error(error);
             })
-        navigation.navigate('Home');//and go to the home screen
+        if (login1 == true)
+            navigation.navigate('Home');//and go to the home screen
+        else
+            navigation.navigate('GestionCita')
     }
 
     function modificarCita() {

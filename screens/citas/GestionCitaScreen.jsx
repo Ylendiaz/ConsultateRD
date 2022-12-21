@@ -214,14 +214,14 @@ const styles = StyleSheet.create({
   // },
   appButtonContainer: {
     elevation: 8,
-    backgroundColor: "black",
-    padding: 30,
+    backgroundColor: "#232020",
+    padding: 20,
     borderRadius: 15,
-    marginVertical: 8,
+    marginBottom: 8,
     marginHorizontal: 16,
   },
   appButtonText: {
-    fontSize: 20,
+    fontSize: 16,
     color: "white",
     fontWeight: "bold",
     alignSelf: "center",
