@@ -58,7 +58,7 @@ const GestionCitaScreen = ({ navigation, route }) => {
     try {
       const response = await fetch(url);
       const json = await response.json();
-      const newarray = json.filter(item => item.doctorId == appDoctorID);
+      const newarray = json.filter(item => item.doctorId == appDoctorID && item.estadoCitas == true);
       apisetData(newarray);
       apisetFilteredData(newarray);
     } catch (error) {

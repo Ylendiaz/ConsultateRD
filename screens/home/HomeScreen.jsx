@@ -56,7 +56,7 @@ const HomeScreen = ({ navigation, route }) => {
 
       const response = await fetch(url); //get the request response
       const json = await response.json(); // transform it to json format
-      const appointmentsArray = json.filter(item => item.pacienteId == appPacienteID); //add the appointments with this pacientID to the array
+      const appointmentsArray = json.filter(item => item.pacienteId == appPacienteID && item.estadoCitas == true); //add the appointments with this pacientID to the array
       apisetDataCitas(appointmentsArray); // save it in the useState variable
 
     } catch (error) {

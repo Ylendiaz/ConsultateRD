@@ -11,7 +11,7 @@ import DisponibilidadDoctorScreen from "../screens/busqueda/DisponibilidadDoctor
 import DisponibilidadDoctorScreenModified from '../screens/citas/DisponibilidadDoctorScreenModified';
 import { Entypo, Ionicons, MaterialCommunityIcons, AntDesign } from '@expo/vector-icons';
 import InfoCitaScreen from "../screens/citas/InfoCitaScreen";
-
+import HistorialScreen from '../screens/perfil/HistorialScreen';
 
 // import AsyncStorage from '@react-native-async-storage/async-storage';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -50,7 +50,7 @@ function GestionCitaStack() {
     return (
         <Stack.Navigator>
             <Stack.Screen name="GestionCita" component={GestionCitaScreen} initialParams={parametros} options={{ headerShown: false }} />
-            <Stack.Screen name="InfoCita" component={InfoCitaScreen} options={{ title: 'Información de  la cita' }} />
+            <Stack.Screen name="InfoCita" component={InfoCitaScreen} options={{ title: 'Información de la cita' }} />
             <Stack.Screen name="DisponibilidadDoctorModified" component={DisponibilidadDoctorScreenModified} options={{ title: 'Disponibilidad' }} />
         </Stack.Navigator>
     );
@@ -62,6 +62,7 @@ function PerfilStack() {
     return (
         <Stack.Navigator>
             <Stack.Screen name="Perfil" component={PerfilScreen} initialParams={parametros} options={{ headerShown: false }} />
+            <Stack.Screen name="Historial" component={HistorialScreen} options={{ title: 'Historial' }}  />
         </Stack.Navigator>
     );
 }

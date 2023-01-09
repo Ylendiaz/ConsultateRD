@@ -4,15 +4,10 @@ import AppNavigator from '../../navigator/Navigator';
 import { NavigationContainer, useNavigation, useRoute } from "@react-navigation/native";
 import StyledButtonIcon from "../../components/StyledButtonIcon";
 
-// import AsyncStorage from '@react-native-async-storage/async-storage';
-
-
 
 const PerfilScreen = ({navigation, route}) => {
 
-
     let userData = route.params;
-
 
     // ----------------Consumir API tabla Usuario Pacientes-----------------
     const [apidataPaciente, apisetDataPaciente] = useState({});
@@ -59,6 +54,9 @@ const PerfilScreen = ({navigation, route}) => {
                         <StyledButtonIcon content="Información de la cuenta" bgColor="#0D0C0C" ></StyledButtonIcon>
                     </View>
                     <View style={{ height: 44, width: 310, marginTop: 15 }}>
+                        <StyledButtonIcon content="Historial de citas" bgColor="#0D0C0C" onPress={() => navigation.navigate('Historial', { userData })} ></StyledButtonIcon>
+                    </View>
+                    <View style={{ height: 44, width: 310, marginTop: 15 }}>
                         <StyledButtonIcon content="Versión Web" bgColor="#0D0C0C" ></StyledButtonIcon>
                     </View>
                     <View style={{ height: 44, width: 310, marginTop: 15 }}>
@@ -69,6 +67,9 @@ const PerfilScreen = ({navigation, route}) => {
 
                     <View style={{ height: 44, width: 310, marginTop: 15 }}>
                         <StyledButtonIcon content="Ver Perfil" bgColor="#0D0C0C" ></StyledButtonIcon>
+                    </View>
+                    <View style={{ height: 44, width: 310, marginTop: 15 }}>
+                        <StyledButtonIcon content="Historial de citas" bgColor="#0D0C0C" onPress={() => navigation.navigate('Historial', { userData })}></StyledButtonIcon>
                     </View>
                     <View style={{ height: 44, width: 310, marginTop: 15 }}>
                         <StyledButtonIcon content="Cerrar Sesión" bgColor="#900707" ></StyledButtonIcon>
