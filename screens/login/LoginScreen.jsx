@@ -212,7 +212,7 @@ const styles = StyleSheet.create(
             justifyContent:'center',
             alignItems:'center',
             height:130,
-            width: '60%',
+            width: '80%',
             // width:Dimensions.get('window').width/2.5,
 
         },

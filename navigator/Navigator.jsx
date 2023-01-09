@@ -8,7 +8,7 @@ import PerfilScreen from "../screens/perfil/PerfilScreen";
 import GestionCitaScreen from "../screens/citas/GestionCitaScreen";
 import InfoDoctorScreen from "../screens/busqueda/InfoDoctorScreen";
 import DisponibilidadDoctorScreen from "../screens/busqueda/DisponibilidadDoctorScreen";
-
+import DisponibilidadDoctorScreenModified from '../screens/citas/DisponibilidadDoctorScreenModified';
 import { Entypo, Ionicons, MaterialCommunityIcons, AntDesign } from '@expo/vector-icons';
 import InfoCitaScreen from "../screens/citas/InfoCitaScreen";
 
@@ -51,7 +51,7 @@ function GestionCitaStack() {
         <Stack.Navigator>
             <Stack.Screen name="GestionCita" component={GestionCitaScreen} initialParams={parametros} options={{ headerShown: false }} />
             <Stack.Screen name="InfoCita" component={InfoCitaScreen} options={{ title: 'Información de  la cita' }} />
-            <Stack.Screen name="DisponibilidadDoctor" component={DisponibilidadDoctorScreen} options={{ title: 'Disponibilidad' }} />
+            <Stack.Screen name="DisponibilidadDoctorModified" component={DisponibilidadDoctorScreenModified} options={{ title: 'Disponibilidad' }} />
         </Stack.Navigator>
     );
 }

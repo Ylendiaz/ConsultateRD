@@ -86,12 +86,12 @@ const GestionCitaScreen = ({ navigation, route }) => {
       setSelectedStartDate(fecha);
       const newarray = apidata.filter(x => x.citaFecha == fecha);
       apisetFilteredData(newarray);
-      console.log(newarray);
+      // console.log(newarray);
     }
 
 
     // const fechaCita = date.format("DD-MM-YYYY")
-    console.log(selectedStartDate)
+    // console.log(selectedStartDate)
   };
 
 
@@ -115,60 +115,41 @@ const GestionCitaScreen = ({ navigation, route }) => {
         <View style={styles.container}>
           <CalendarPickerModal
             startFromMonday={true}
-            minDate={new Date(2018, 1, 1)}
+            minDate={new Date()}
             maxDate={new Date(2050, 6, 3)}
-            weekdays={
-              [
-                'Lun',
-                'Mar',
-                'Mier',
-                'Jue',
-                'Vier',
-                'Sab',
-                'Dom'
-              ]}
-          months={[
-            'Enero',
-            'Febrero',
-            'Marzo',
-            'Abril',
-            'Mayo',
-            'Junio',
-            'Julio',
-            'Agosto',
-            'Septiembre',
-            'Octubre',
-            'Noviembre',
-            'Diciembre',
-          ]}
-          previousTitle="Anterior"
-          nextTitle="Siguiente"
-          todayBackgroundColor="#e6ffe6"
-          selectedDayColor="#66ff33"
-          selectedDayTextColor="#000000"
-          scaleFactor={375}
-          onDateChange={onDateChange}
-        />
-        <TouchableOpacity style={{}} onPress={() => QuitarFiltros()}>
-          <MaterialCommunityIcons name="filter-off" size={20} color={'#D01B1B'} style={{ marginHorizontal: 25, alignSelf: 'flex-end'}}></MaterialCommunityIcons>
-        </TouchableOpacity>
-        
-      </View>
-      
-      <View style={styles.container1}>
-      
-      <View style={styles.item2}> 
-      <AppButton title="Citas Programadas"/>
-      </View>
-      
-      {apifilteredData.length>0 
-      ? <CitasAgendadas citas ={apifilteredData}  login1 = {false} onPress= {(item, login1)=>navigation.navigate('InfoCita', {item, login1})}></CitasAgendadas>
-      :<View style= {{paddingBottom: 180}}><Text style = {styles.title}>No hay citas programadas para la fecha seleccionada</Text></View>}
-      
-    </View>
-     </ScrollView> 
-  </SafeAreaView>
-    
+            weekdays={['Lun', 'Mar', 'Mier', 'Jue', 'Vier', 'Sab', 'Dom']}
+            months={['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre']}
+            previousTitle="Anterior"
+            nextTitle="Siguiente"
+            disabledDates={date => {
+              return date.isBetween(selectedStartDate, selectedEndDate);
+            }}
+            todayBackgroundColor="#e6ffe6"
+            selectedDayStyle={{ backgroundColor: "#68CCC0" }}
+            selectedDayTextColor="#000000"
+            ScrollView={true}
+            onDateChange={onDateChange}
+          />
+          <TouchableOpacity style={{}} onPress={() => QuitarFiltros()}>
+            <MaterialCommunityIcons name="filter-off" size={20} color={'#D01B1B'} style={{ marginHorizontal: 25, alignSelf: 'flex-end' }}></MaterialCommunityIcons>
+          </TouchableOpacity>
+
+        </View>
+
+        <View style={styles.container1}>
+
+          <View style={styles.item2}>
+            <AppButton title="Citas Programadas" />
+          </View>
+
+          {apifilteredData.length > 0
+            ? <CitasAgendadas citas={apifilteredData} login1={false} onPress={(item, login1) => navigation.navigate('InfoCita', { item, login1 })}></CitasAgendadas>
+            : <View style={{ paddingBottom: 180 }}><Text style={styles.title}>No hay citas programadas para la fecha seleccionada</Text></View>}
+
+        </View>
+      </ScrollView>
+    </SafeAreaView>
+
   );
 };
 
@@ -197,9 +178,9 @@ const styles = StyleSheet.create({
     padding: 25,
     paddingTop: 25,
     paddingBottom: 110,
-    height: "100%", 
+    height: "100%",
     width: "100%",
-    
+
   },
   // item: {
   //   backgroundColor: '#FFFFFF',
@@ -229,10 +210,10 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 20,
-    textAlign: 'center', 
-    fontWeight: "bold", 
+    textAlign: 'center',
+    fontWeight: "bold",
     paddingTop: 25
-    
+
   },
   listView: {
     marginHorizontal: 15,

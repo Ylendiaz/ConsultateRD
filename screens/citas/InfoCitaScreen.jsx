@@ -46,7 +46,7 @@ const InfoCitaScreen = ({ navigation, route }) => {
     }
 
     function modificarCita() {
-        navigation.navigate('DisponibilidadDoctor');
+        navigation.navigate('DisponibilidadDoctorModified', { citaId, citaFecha, citasHoraInicio, citaHoraCierre, centroMedicoId, pacienteId, doctorId, estadoCitas, fechaCreacionCita, fechaModificacionCita });
         setmodificarModalOpen(false);
     }
     //when the appointment have been modifed
