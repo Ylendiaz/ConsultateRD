@@ -153,6 +153,12 @@ const InfoCitaScreen = ({ navigation, route }) => {
         }
     };
 
+    //Funcion desactivar boton Confirmar
+    const [disableButton, setdisableButton] = useState(true)
+    const disableButtonFunction = () => {
+        setdisableButton(false);
+    }
+
     return <>
 
         {/* -----------------Información de la cita--------------- */}
@@ -190,8 +196,6 @@ const InfoCitaScreen = ({ navigation, route }) => {
                         <Text style={{ marginBottom: 6 }}>{apidataPaciente.filter(x => x.pacienteId == pacienteId).map(y => { return y.telefonoPaciente })}</Text>
                     </View>}
 
-
-
             </View>
             <View style={styles.textCitas}>
                 <Text style={{ fontSize: 20, fontWeight: 'bold', color: '#FFFFFF', marginHorizontal: 15, marginVertical: 20, }}>Información de la cita</Text>
@@ -205,10 +209,16 @@ const InfoCitaScreen = ({ navigation, route }) => {
                     </View>
                 </View>
                 : <View>
-                    <View style={{ height: 44, width: 310, marginTop: 390, alignSelf: 'center' }}>
+                    <TouchableOpacity
+                        style={disableButton == true ? styles.buttonOn : styles.buttonOff}
+                        disabled={disableButton}
+                        onPress={() => setmodificarModalOpen(true)}>
+                        <Text style={styles.textStyleButton}>Finalizar</Text>
+                    </TouchableOpacity>
+                    <View style={{ height: 44, width: 310, marginTop: 15, alignSelf: 'center' }}>
                         <StyledButtonIcon content="Modificar Cita" bgColor="#0D0C0C" onPress={() => setmodificarModalOpen(true)}></StyledButtonIcon>
                     </View>
-                    <View style={{ height: 44, width: 310, marginTop: 20, alignSelf: 'center' }}>
+                    <View style={{ height: 44, width: 310, marginTop: 15, alignSelf: 'center' }}>
                         <StyledButtonIcon content="Cancelar Cita" bgColor="#900707" onPress={() => setCancelarModalOpen(true)} ></StyledButtonIcon>
                     </View>
                 </View>
@@ -488,6 +498,32 @@ const styles = StyleSheet.create({
         padding: 10,
         paddingHorizontal: 50,
         color: '#fff',
+    },
+    buttonOn: {
+        borderRadius: 10,
+        backgroundColor: "rgba(96, 129, 91, 0.47)",
+        borderRadius: 99,
+        height: 44,
+        width: 310,
+        marginTop: 380,
+        alignSelf: 'center',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    buttonOff: {
+        borderRadius: 10,
+        backgroundColor: "#107A17",
+        borderRadius: 99,
+        height: 44,
+        width: 310,
+        marginTop: 380,
+        alignSelf: 'center',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    textStyleButton: {
+        color: "#FFFFFF",
+        fontSize: 14
     },
 
 });

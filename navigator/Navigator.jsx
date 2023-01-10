@@ -97,7 +97,7 @@ export default function AppNavigator(navigation) {
 
                 {/* solamente si es doctor carga gestion de citas */}
                 {route.params.rol == true
-                    ? <Tab.Screen name="Citas" component={GestionCitaStack}
+                    ? <Tab.Screen name="Calendario" component={GestionCitaStack}
                         options={{
                             headerShown: false,
                             tabBarIcon: ({ color, size }) => (<AntDesign name="calendar" size={size} color={color} />)

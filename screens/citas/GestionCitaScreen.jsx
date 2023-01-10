@@ -2,10 +2,9 @@ import React, { Component, useEffect, useLayoutEffect, useState, useCallback } f
 import { SafeAreaView, ScrollView, StyleSheet, View, Text, FlatList, TouchableOpacity, Button, StatusBar } from 'react-native';
 import CalendarPickerModal from 'react-native-calendar-picker';
 //import { SafeAreaView } from "react-native-safe-area-context";
-import { withSafeAreaInsets } from 'react-native-safe-area-context';
+import StyledButtonIcon from "../../components/StyledButtonIcon";
 
 // import Paciente from '../../API/Paciente';
-import AppNavigator from '../../navigator/Navigator';
 import CitasAgendadas from '../../components/CitasAgendadas';
 import moment from 'moment';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
@@ -111,8 +110,8 @@ const GestionCitaScreen = ({ navigation, route }) => {
   return (
 
     <SafeAreaView style={styles.container}>
-      <ScrollView>
-        <View style={styles.container}>
+      <ScrollView style={{ height: "100%", backgroundColor: '#68CCC0' }}>
+        <View style={{ backgroundColor: '#FFFFFF' }}>
           <CalendarPickerModal
             startFromMonday={true}
             minDate={new Date()}
@@ -130,9 +129,17 @@ const GestionCitaScreen = ({ navigation, route }) => {
             ScrollView={true}
             onDateChange={onDateChange}
           />
-          <TouchableOpacity style={{}} onPress={() => QuitarFiltros()}>
-            <MaterialCommunityIcons name="filter-off" size={20} color={'#D01B1B'} style={{ marginHorizontal: 25, alignSelf: 'flex-end' }}></MaterialCommunityIcons>
-          </TouchableOpacity>
+          <View style={{ flexDirection: 'row', marginTop: 10, alignItems: 'center', justifyContent: 'space-between', marginBottom: 20 }}>
+            <View style={{ height: 30, width: 250, marginHorizontal: 20, }}>
+              <StyledButtonIcon content="Gestionar Calendario" bgColor="#306965" ></StyledButtonIcon>
+              {/* bgColor="#07517A" */}
+            </View>
+            <View style={{}}>
+              <TouchableOpacity style={{}} onPress={() => QuitarFiltros()}>
+                <MaterialCommunityIcons name="filter-off" size={20} color={'#D01B1B'} style={{ marginHorizontal: 25, alignSelf: 'flex-end' }}></MaterialCommunityIcons>
+              </TouchableOpacity>
+            </View>
+          </View>
 
         </View>
 
@@ -144,7 +151,9 @@ const GestionCitaScreen = ({ navigation, route }) => {
 
           {apifilteredData.length > 0
             ? <CitasAgendadas citas={apifilteredData} login1={false} onPress={(item, login1) => navigation.navigate('InfoCita', { item, login1 })}></CitasAgendadas>
-            : <View style={{ paddingBottom: 180 }}><Text style={styles.title}>No hay citas programadas para la fecha seleccionada</Text></View>}
+            : <View style={styles.viewListDisponibilidad}>
+              <Text style={{ marginVertical: 10, alignSelf: 'center', fontSize: 14, fontWeight: 'bold', color: "#504D4C" }}>No hay citas programadas para la fecha seleccionada</Text>
+            </View>}
 
         </View>
       </ScrollView>
@@ -160,7 +169,9 @@ const styles = StyleSheet.create({
   container: {
     //flex: 1,
     paddingTop: 35,
-    //backgroundColor: '#ffffff',
+    height: "100%",
+    width: "100%",
+    backgroundColor: '#ffffff',
 
   },
   textStyle: {
@@ -174,7 +185,6 @@ const styles = StyleSheet.create({
   container1: {
     flex: 0,
     backgroundColor: '#68CCC0',
-    marginTop: StatusBar.currentHeight || 35,
     padding: 25,
     paddingTop: 25,
     paddingBottom: 110,
@@ -182,17 +192,6 @@ const styles = StyleSheet.create({
     width: "100%",
 
   },
-  // item: {
-  //   backgroundColor: '#FFFFFF',
-  //   padding: 20,
-  //   borderRadius: 15,
-  //   marginVertical: 8,
-  //   marginHorizontal: 16,
-  //   shadowColor: '#171717',
-  //   shadowOffset: {width: -2, height: 4},
-  //   shadowOpacity: 2,
-  //   shadowRadius: 3,
-  // },
   appButtonContainer: {
     elevation: 8,
     backgroundColor: "#232020",
@@ -226,7 +225,6 @@ const styles = StyleSheet.create({
   },
 
   listViewContent: {
-    //flexDirection: 'row',
     alignItems: 'center',
     alignSelf: "center",
     marginHorizontal: 15,
@@ -236,6 +234,14 @@ const styles = StyleSheet.create({
   // listTextView: {
   //     marginLeft: 15
   // }
-
+  viewListDisponibilidad: {
+    backgroundColor: '#FFFFFF',
+    marginTop: 20,
+    alignSelf: 'center',
+    paddingHorizontal: 30,
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: '#000000',
+  },
 
 });
