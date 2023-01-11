@@ -11,27 +11,28 @@ const CitasAgendadas = (props) => {
 
 
     const { citas, login1, fecha, onPress } = props;
-    const [apidataPaciente, apisetDataPaciente] = useState([]);
 
 
-    const [userData, setUserData] = React.useState([]);
-    const getData = async (keyname) => {
-        try {
-            const value = await AsyncStorage.getItem(keyname)
-            if (value !== null) {
-                // value previously stored
-                setUserData(JSON.parse(value));
-            }
-        } catch (e) {
-            console.log(e);
-        }
-    }
+    // const [userData, setUserData] = React.useState([]);
+    // const getData = async (keyname) => {
+    //     try {
+    //         const value = await AsyncStorage.getItem(keyname)
+    //         if (value !== null) {
+    //             // value previously stored
+    //             setUserData(JSON.parse(value));
+    //         }
+    //     } catch (e) {
+    //         console.log(e);
+    //     }
+    // }
 
-    useEffect(() => {
-        getData('@userData');
-    }, [])
+    // useEffect(() => {
+    //     getData('@userData');
+    // }, [])
 
     // ----------------Consumir API tabla Usuario Pacientes-----------------
+    const [apidataPaciente, apisetDataPaciente] = useState([]);
+
     useEffect(() => {
         fetchData('https://consultaterd.azurewebsites.net/api/UsuarioPacientes');
     }, [])
@@ -90,23 +91,24 @@ const CitasAgendadas = (props) => {
 
     //Funcion get estado de la cita
     const getEstadoCita = (item) => {
-        let fechaactual = moment().format("DD-MM-YYYY");
-        let horaactual = moment().format("HH:mm");
+        let fechaactual = moment().format("YYYY-MM-DD HH:mm"); // Fecha Actual
+        const citafecha1 = item.citaFecha //Fecha de la Cita
+        //Convertir cita fecha en el formato de la fecha actual
+        let fechacita = citafecha1.toString().substring(6) + "-" + citafecha1.toString().substring(3, 5) + "-" + citafecha1.toString().substring(0, 2);
+        //Concatenar la fecha con la hora inicial de la cita
+        let fechafinal = fechacita + "T" + item.citasHoraInicio
+        //Validar si la fecha actual es despues de la fecha de la cita
+        let validfecha = moment(fechaactual).parseZone().isSameOrAfter(fechafinal);
 
-        let validfecha = moment(fechaactual).isSameOrAfter(item.citaFecha);
-        let validhora = moment(horaactual).isSameOrAfter(item.citasHoraInicio);
 
-        //  console.log(item.citaFecha)
-        // console.log(fechaactual)
-        // console.log(validfecha)
-        // console.log(validhora)
-        
-        if (validfecha == true)
+        // Si está después es que la cita se hizo y el doctor puede finalizarla
+        if (validfecha == true) {
             return true
+        }
         else
             return false
-        
     }
+
 
     return (
 
@@ -120,14 +122,13 @@ const CitasAgendadas = (props) => {
                                     <Text>Ahora</Text>
                                 </View>
                                 : null}
-                            <TouchableOpacity key={item.citaId} style={styles.listView} onPress={() => onPress({ item, login1 })} >
+                            <TouchableOpacity key={item.citaId} style={styles.listView} onPress={() => onPress({ item, login1, livebuttoncita: getEstadoCita(item) })} >
                                 <View style={styles.listViewContent}>
                                     <View style={styles.listTextView}>
                                         <View style={{ borderBottomWidth: 1, flexDirection: 'row', justifyContent: "space-around", marginBottom: 10, borderColor: 'rgba(0, 0, 0, 0.25)' }}>
                                             <Text style={{ color: "black", marginBottom: 10, fontWeight: "bold" }} >{item.citasHoraInicio} - {item.citaHoraCierre}</Text>
                                             <Text style={{ color: "black", marginBottom: 10, fontWeight: "bold" }} >{item.citaFecha}</Text>
                                         </View>
-
                                         {login1 == true
                                             ? <Text style={{ color: "black", marginBottom: 10 }}>{apidataDoctores.filter(x => x.doctorId == item.doctorId).map(y => { return y.nombreDoctor + " " + y.apellidoDoctor })}</Text>
 

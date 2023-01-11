@@ -24,6 +24,7 @@ const GestionCitaScreen = ({ navigation, route }) => {
     fetchAppointments('https://consultaterd.azurewebsites.net/api/CitasAgendadas'); // appointments
   }, []);
 
+
   useEffect(() => {
     //call fetchData passing the GET request url
     fetchDataDoctor('https://consultaterd.azurewebsites.net/api/UsuarioDoctores');//doctor users
@@ -42,7 +43,6 @@ const GestionCitaScreen = ({ navigation, route }) => {
       console.error(error); // otherwise there was an error in the request
     }
   };
-
 
   useEffect(() => {
     //call fetchData passing the GET request url
@@ -85,15 +85,8 @@ const GestionCitaScreen = ({ navigation, route }) => {
       setSelectedStartDate(fecha);
       const newarray = apidata.filter(x => x.citaFecha == fecha);
       apisetFilteredData(newarray);
-      // console.log(newarray);
     }
-
-
-    // const fechaCita = date.format("DD-MM-YYYY")
-    // console.log(selectedStartDate)
   };
-
-
 
   const AppButton = ({ onPress, title }) => (
     <TouchableOpacity onPress={onPress} style={styles.appButtonContainer}>
@@ -105,6 +98,8 @@ const GestionCitaScreen = ({ navigation, route }) => {
     apisetFilteredData(apidata);
 
   }
+
+
 
 
   return (
@@ -152,7 +147,7 @@ const GestionCitaScreen = ({ navigation, route }) => {
           {apifilteredData.length > 0
             ? <CitasAgendadas citas={apifilteredData} login1={false} onPress={(item, login1) => navigation.navigate('InfoCita', { item, login1 })}></CitasAgendadas>
             : <View style={styles.viewListDisponibilidad}>
-              <Text style={{ marginVertical: 10, alignSelf: 'center', fontSize: 14, fontWeight: 'bold', color: "#504D4C" }}>No hay citas programadas para la fecha seleccionada</Text>
+              <Text style={{ marginVertical: 10, alignSelf: 'center', fontSize: 14, fontWeight: 'bold', color: "#504D4C" }}>No hay citas programadas</Text>
             </View>}
 
         </View>

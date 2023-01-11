@@ -12,7 +12,7 @@ const InfoCitaScreen = ({ navigation, route }) => {
 
     //Informacion de la cita que fue seleccionado
     const { citaId, citaFecha, citasHoraInicio, citaHoraCierre, centroMedicoId, pacienteId, doctorId, estadoCitas, fechaCreacionCita, fechaModificacionCita } = route.params.item.item;
-    const { login1 } = route.params.item;
+    const { login1, livebuttoncita } = route.params.item;
 
     //sets if the modal popup is open or closed 
 
@@ -21,12 +21,14 @@ const InfoCitaScreen = ({ navigation, route }) => {
     const [citaModificadaModalOpen, setCitaModificadaModalOpen] = useState(false);//cita modificada
     const [cancelarModalOpen, setCancelarModalOpen] = useState(false); // confirmacion para cancelar cita
     const [citaCanceladaModalOpen, setCitaCanceladaModalOpen] = useState(false); //cita cancelada
+    const [succesModalOpen, setSuccesModalOpen] = useState(false); //popup de finalizar cita
+    const [failModalOpen, setFailModalOpen] = useState(false); //popup de fallo al finalizar la cita
 
     function cancelarCita() {
         setCitaCanceladaModalOpen(true);
         setCancelarModalOpen(false);
     }
-    //when the appointment have been caceled
+    //when the appointment have been canceled
     function citaCancelada() {
         setCitaCanceladaModalOpen(false);// hide de popup 
         fetch('https://consultaterd.azurewebsites.net/api/CitasAgendadas/' + citaId, {
@@ -62,23 +64,6 @@ const InfoCitaScreen = ({ navigation, route }) => {
     // ------------- fetch gestion cita
 
     const [apidata, apisetData] = useState([]);
-    const getData = async (keyname) => {
-        try {
-            const value = await AsyncStorage.getItem(keyname)
-            if (value !== null) {
-                // value previously stored
-                setUserData(JSON.parse(value));
-            }
-        } catch (e) {
-            console.log(e);
-        }
-    }
-
-    useEffect(() => {
-        getData('@userData');
-    }, [])
-
-
     useEffect(() => {
         fetchDataCita('https://consultaterd.azurewebsites.net/api/CitasAgendadas');
     }, [])
@@ -154,9 +139,47 @@ const InfoCitaScreen = ({ navigation, route }) => {
     };
 
     //Funcion desactivar boton Confirmar
+    useEffect(() => {
+        disableButtonFunction(livebuttoncita);
+    }, [])
     const [disableButton, setdisableButton] = useState(true)
-    const disableButtonFunction = () => {
-        setdisableButton(false);
+    const disableButtonFunction = async (estado) => {
+        if (estado == true)
+            setdisableButton(false)
+        else
+            setdisableButton(true);
+    }
+
+    //PUT de FINALIZAR la Cita Agendada (Estado de la cita = false)
+    const finalizarCita = () => {
+
+        fetch('https://consultaterd.azurewebsites.net/api/CitasAgendadas/' + `${citaId}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                citaId: citaId,
+                citaFecha: citaFecha,
+                citasHoraInicio: citasHoraInicio,
+                citaHoraCierre: citaHoraCierre,
+                centroMedicoId: centroMedicoId,
+                pacienteId: pacienteId,
+                doctorId: doctorId,
+                estadoCitas: false,
+                fechaCreacionCita: fechaCreacionCita,
+                fechaModificacionCita: fechaModificacionCita
+            })
+        })
+            .then(response => {
+                if (response.ok)
+                    setSuccesModalOpen(true)
+                else
+                    setFailModalOpen(true)
+                response.json().then(data => {
+                    console.log(data);
+                });
+            }).catch((error) => {
+                console.error(error);
+            })
     }
 
     return <>
@@ -210,9 +233,9 @@ const InfoCitaScreen = ({ navigation, route }) => {
                 </View>
                 : <View>
                     <TouchableOpacity
-                        style={disableButton == true ? styles.buttonOn : styles.buttonOff}
+                        style={disableButton == true ? styles.buttonOff : styles.buttonOn}
                         disabled={disableButton}
-                        onPress={() => setmodificarModalOpen(true)}>
+                        onPress={() => finalizarCita()}>
                         <Text style={styles.textStyleButton}>Finalizar</Text>
                     </TouchableOpacity>
                     <View style={{ height: 44, width: 310, marginTop: 15, alignSelf: 'center' }}>
@@ -223,7 +246,6 @@ const InfoCitaScreen = ({ navigation, route }) => {
                     </View>
                 </View>
             }
-
         </ScrollView>
 
 
@@ -253,17 +275,13 @@ const InfoCitaScreen = ({ navigation, route }) => {
                             <Text style={{ color: '#fff', fontSize: 15 }}>Confirmar</Text>
                         </TouchableOpacity>
                     </View>
-
-
                 </View>
             </View>
-
         </Modal>
         {/* Final del Popup */}
 
 
         {/* Popup de cita modificada */}
-
         <Modal
             visible={citaModificadaModalOpen}
             animationType='fade'
@@ -271,14 +289,6 @@ const InfoCitaScreen = ({ navigation, route }) => {
 
             <View style={styles.modalBackground}>
                 <View style={styles.modalView}>
-                    {/* <MaterialCommunityIcons 
-                    name='close'
-                    style={styles.modalClose}
-                    size={24}
-                    visible = {true}
-                    onPress={()=>setFailModalOpen(false)}
-                    /> */}
-
                     <View style={{ alignItems: 'center' }}>
                         <Text style=
                             {{
@@ -296,11 +306,8 @@ const InfoCitaScreen = ({ navigation, route }) => {
                             <Text style={{ color: '#fff', fontSize: 15 }}>Continuar</Text>
                         </TouchableOpacity>
                     </View>
-
-
                 </View>
             </View>
-
         </Modal>
 
         {/* Final del Popup */}
@@ -331,11 +338,8 @@ const InfoCitaScreen = ({ navigation, route }) => {
                             <Text style={{ color: '#fff', fontSize: 15 }}>Confirmar</Text>
                         </TouchableOpacity>
                     </View>
-
-
                 </View>
             </View>
-
         </Modal>
         {/* Final del Popup */}
 
@@ -373,13 +377,71 @@ const InfoCitaScreen = ({ navigation, route }) => {
                             <Text style={{ color: '#fff', fontSize: 15 }}>Continuar</Text>
                         </TouchableOpacity>
                     </View>
-
-
                 </View>
             </View>
-
         </Modal>
         {/* Final del Popup */}
+
+        {/* Popup finalizar cita satisfactoriamente */}
+        <Modal
+            visible={succesModalOpen}
+            animationType='fade'
+            transparent={true}>
+
+            <View style={styles.modalBackground}>
+                <View style={styles.modalView}>
+
+                    <View style={{ alignItems: 'center' }}>
+                        <Text style={{ textAlign: 'center', padding: 20, fontSize: 18, fontWeight: 'bold' }}>La cita ha sido finalizada</Text>
+
+                        <TouchableOpacity
+                            style={[styles.modalButton, { backgroundColor: '#0D0C0C' }]}
+                            onPress={() => {
+                                setSuccesModalOpen(false);// hide de popup 
+                                navigation.navigate('GestionCita');//go back to the gestion cita screen
+                            }}
+                        >
+                            <Text style={{ color: '#FFFFFF', fontSize: 15 }}>Continuar</Text>
+                        </TouchableOpacity>
+                    </View>
+                </View>
+            </View>
+        </Modal>
+
+        {/* Final del Popup */}
+
+
+        {/* Popup la cita no ha sido finalizada correctamente*/}
+        <Modal
+            visible={failModalOpen}
+            animationType='fade'
+            transparent={true}>
+
+            <View style={styles.modalBackground}>
+                <View style={styles.modalView}>
+
+                    <View style={{ alignItems: 'center' }}>
+                        <Text style=
+                            {{
+                                textAlign: 'center',
+                                padding: 20,
+                                fontSize: 18,
+                                fontWeight: 'bold'
+                            }}>No se pudo finalizar la cita</Text>
+
+                        <TouchableOpacity
+                            style={[styles.modalButton, { backgroundColor: '#E85959' }]}
+                            onPress={() => setFailModalOpen(false)}
+                        >
+                            <Text style={{ color: '#fff', fontSize: 15 }}>Continuar</Text>
+                        </TouchableOpacity>
+                    </View>
+                </View>
+            </View>
+        </Modal>
+        {/* Final del Popup */}
+
+
     </>
 
 }
@@ -501,7 +563,7 @@ const styles = StyleSheet.create({
     },
     buttonOn: {
         borderRadius: 10,
-        backgroundColor: "rgba(96, 129, 91, 0.47)",
+        backgroundColor: "#107A17",
         borderRadius: 99,
         height: 44,
         width: 310,
@@ -512,7 +574,7 @@ const styles = StyleSheet.create({
     },
     buttonOff: {
         borderRadius: 10,
-        backgroundColor: "#107A17",
+        backgroundColor: "rgba(96, 129, 91, 0.47)",
         borderRadius: 99,
         height: 44,
         width: 310,
