@@ -230,7 +230,7 @@ const styles = StyleSheet.create({
   },
 
   listView: {
-    marginHorizontal: 30,
+    marginHorizontal: 25,
     marginTop: 15,
     backgroundColor: "white",
     borderRadius: 15,
