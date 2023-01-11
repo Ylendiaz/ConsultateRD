@@ -9,26 +9,7 @@ import moment from "moment";
 
 const CitasAgendadas = (props) => {
 
-
     const { citas, login1, fecha, onPress } = props;
-
-
-    // const [userData, setUserData] = React.useState([]);
-    // const getData = async (keyname) => {
-    //     try {
-    //         const value = await AsyncStorage.getItem(keyname)
-    //         if (value !== null) {
-    //             // value previously stored
-    //             setUserData(JSON.parse(value));
-    //         }
-    //     } catch (e) {
-    //         console.log(e);
-    //     }
-    // }
-
-    // useEffect(() => {
-    //     getData('@userData');
-    // }, [])
 
     // ----------------Consumir API tabla Usuario Pacientes-----------------
     const [apidataPaciente, apisetDataPaciente] = useState([]);
@@ -143,12 +124,19 @@ const CitasAgendadas = (props) => {
                                             <Text style={{ color: "black", marginBottom: 10, fontWeight: "bold" }} >{item.citaFecha}</Text>
                                         </View>
                                         {login1 == true
-                                            ? <Text style={{ color: "black", marginBottom: 10 }}>{apidataDoctores.filter(x => x.doctorId == item.doctorId).map(y => { return y.nombreDoctor + " " + y.apellidoDoctor })}</Text>
-
-                                            : <Text style={{ color: "black", marginBottom: 10 }}>{apidataPaciente.filter(x => x.pacienteId == item.pacienteId).map(y => { return y.nombrePaciente + " " + y.apellidoPaciente })}</Text>
+                                            ? <Text style={{ color: "black", marginBottom: 10, fontWeight: "bold" }}>Doctor/a:
+                                                <Text>  </Text>
+                                                <Text style={{ color: "black", marginBottom: 10, fontWeight: 'normal' }}>{apidataDoctores.filter(x => x.doctorId == item.doctorId).map(y => { return y.nombreDoctor + " " + y.apellidoDoctor })}</Text>
+                                            </Text>
+                                            : <Text style={{ color: "black", marginBottom: 10, fontWeight: "bold" }}>Paciente:
+                                                <Text>  </Text>
+                                                <Text style={{ color: "black", marginBottom: 10, fontWeight: 'normal' }}>{apidataPaciente.filter(x => x.pacienteId == item.pacienteId).map(y => { return y.nombrePaciente + " " + y.apellidoPaciente })}</Text>
+                                            </Text>
                                         }
-
-                                        <Text>{apidataCentros.filter(x => x.key == item.centroMedicoId).map(y => { return y.value })}</Text>
+                                        <Text style={{ color: "black", marginBottom: 10, fontWeight: "bold" }}>Lugar:
+                                            <Text>  </Text>
+                                            <Text style={{ color: "black", fontWeight: 'normal' }}>{apidataCentros.filter(x => x.key == item.centroMedicoId).map(y => { return y.value })}</Text>
+                                        </Text>
                                     </View>
                                 </View>
                             </TouchableOpacity>

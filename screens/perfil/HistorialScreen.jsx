@@ -138,7 +138,7 @@ const HistorialScreen = ({ navigation, route }) => {
           </View>
         </View>
         : //Con Pacientes
-        <View style={{ width: '95%', alignItems: 'center', alignSelf:'center', marginBottom: 10, }}>
+        <View style={{ width: '95%', alignItems: 'center', alignSelf: 'center', marginBottom: 10, }}>
           <View style={styles.selectView}>
             <SwitchSelector
               initial={0}
@@ -180,8 +180,14 @@ const HistorialScreen = ({ navigation, route }) => {
                       <Text style={{ color: "black", marginBottom: 10, fontWeight: "bold" }} >{item.citasHoraInicio} - {item.citaHoraCierre}</Text>
                       <Text style={{ color: "black", marginBottom: 10, fontWeight: "bold" }} >{item.citaFecha}</Text>
                     </View>
-                    <Text style={{ color: "black", marginBottom: 10 }}>{apidataDoctores.filter(x => x.doctorId == item.doctorId).map(y => { return y.nombreDoctor + " " + y.apellidoDoctor })}</Text>
-                    <Text>{apidataCentros.filter(x => x.key == item.centroMedicoId).map(y => { return y.value })}</Text>
+                    <Text style={{ color: "black", marginBottom: 10, fontWeight: "bold" }}>Doctor/a:
+                      <Text>  </Text>
+                      <Text style={{ color: "black", marginBottom: 10, fontWeight: 'normal' }}>{apidataDoctores.filter(x => x.doctorId == item.doctorId).map(y => { return y.nombreDoctor + " " + y.apellidoDoctor })}</Text>
+                    </Text>
+                    <Text style={{ color: "black", marginBottom: 10, fontWeight: "bold" }}>Lugar:
+                      <Text>  </Text>
+                      <Text style={{ color: "black", fontWeight: 'normal' }}>{apidataCentros.filter(x => x.key == item.centroMedicoId).map(y => { return y.value })}</Text>
+                    </Text>
                   </View>
                 </View>
               </TouchableOpacity>
@@ -205,8 +211,14 @@ const HistorialScreen = ({ navigation, route }) => {
                     <Text style={{ color: "black", marginBottom: 10, fontWeight: "bold" }} >{item.citasHoraInicio} - {item.citaHoraCierre}</Text>
                     <Text style={{ color: "black", marginBottom: 10, fontWeight: "bold" }} >{item.citaFecha}</Text>
                   </View>
-                  <Text style={{ color: "black", marginBottom: 10 }}>{apidataPaciente.filter(x => x.pacienteId == item.pacienteId).map(y => { return y.nombrePaciente + " " + y.apellidoPaciente })}</Text>
-                  <Text>{apidataCentros.filter(x => x.key == item.centroMedicoId).map(y => { return y.value })}</Text>
+                  <Text style={{ color: "black", marginBottom: 10, fontWeight: "bold" }}>Paciente:
+                    <Text>  </Text>
+                    <Text style={{ color: "black", marginBottom: 10, fontWeight: 'normal' }}>{apidataPaciente.filter(x => x.pacienteId == item.pacienteId).map(y => { return y.nombrePaciente + " " + y.apellidoPaciente })}</Text>
+                  </Text>
+                  <Text style={{ color: "black", marginBottom: 10, fontWeight: "bold" }}>Lugar:
+                    <Text>  </Text>
+                    <Text style={{ color: "black", fontWeight: 'normal' }}>{apidataCentros.filter(x => x.key == item.centroMedicoId).map(y => { return y.value })}</Text>
+                  </Text>
                 </View>
               </TouchableOpacity>
             )
