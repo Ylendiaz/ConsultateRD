@@ -74,16 +74,47 @@ const CitasAgendadas = (props) => {
     const getEstadoCita = (item) => {
         let fechaactual = moment().format("YYYY-MM-DD HH:mm"); // Fecha Actual
         const citafecha1 = item.citaFecha //Fecha de la Cita
+
         //Convertir cita fecha en el formato de la fecha actual
         let fechacita = citafecha1.toString().substring(6) + "-" + citafecha1.toString().substring(3, 5) + "-" + citafecha1.toString().substring(0, 2);
         //Concatenar la fecha con la hora inicial de la cita
         let fechafinal = fechacita + "T" + item.citasHoraInicio
         //Validar si la fecha actual es despues de la fecha de la cita
         let validfecha = moment(fechaactual).parseZone().isSameOrAfter(fechafinal);
+        //Concatenar la fecha con la hora final de la cita
+        let fechafinalizada = fechacita + "T" + item.citaHoraCierre
+        //Validar si la fecha actual es despues de la fecha de hora final de la cita (FINALIZAR)
+        let validfechafinalizada = moment(fechaactual).parseZone().isSameOrAfter(fechafinalizada);
 
-
-        // Si está después es que la cita se hizo y el doctor puede finalizarla
+        // Si está después de la hora inicial de la cita, el doctor puede finalizarla
         if (validfecha == true) {
+            // Si está después de la hora final de la cita, se finalizara automaticamente
+            if (validfechafinalizada == true) {
+                fetch('https://consultaterd.azurewebsites.net/api/CitasAgendadas/' + `${item.citaId}`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        citaId: item.citaId,
+                        citaFecha: item.citaFecha,
+                        citasHoraInicio: item.citasHoraInicio,
+                        citaHoraCierre: item.citaHoraCierre,
+                        centroMedicoId: item.centroMedicoId,
+                        pacienteId: item.pacienteId,
+                        doctorId: item.doctorId,
+                        estadoCitas: false,
+                        fechaCreacionCita: item.fechaCreacionCita,
+                        fechaModificacionCita: item.fechaModificacionCita
+                    })
+                })
+                    .then(response => {
+                        response.json().then(data => {
+                            console.log(data);
+                        });
+                    }).catch((error) => {
+                        console.error(error);
+                    })
+            }
+
             return true
         }
         else

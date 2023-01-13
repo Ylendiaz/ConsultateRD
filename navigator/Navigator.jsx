@@ -12,7 +12,7 @@ import DisponibilidadDoctorScreenModified from '../screens/citas/DisponibilidadD
 import { Entypo, Ionicons, MaterialCommunityIcons, AntDesign } from '@expo/vector-icons';
 import InfoCitaScreen from "../screens/citas/InfoCitaScreen";
 import HistorialScreen from '../screens/perfil/HistorialScreen';
-
+import GestionarCalendarioScreen from '../screens/citas/GestionarCalendarioScreen';
 // import AsyncStorage from '@react-native-async-storage/async-storage';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -52,6 +52,7 @@ function GestionCitaStack() {
             <Stack.Screen name="GestionCita" component={GestionCitaScreen} initialParams={parametros} options={{ headerShown: false }} />
             <Stack.Screen name="InfoCita" component={InfoCitaScreen} options={{ title: 'Información de la cita' }} />
             <Stack.Screen name="DisponibilidadDoctorModified" component={DisponibilidadDoctorScreenModified} options={{ title: 'Disponibilidad' }} />
+            <Stack.Screen name="GestionarCalendario" component={GestionarCalendarioScreen} options={{ title: 'Calendario' }} />
         </Stack.Navigator>
     );
 }

@@ -8,31 +8,10 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 
-const DisponibilidadDoctorScreen = ({ navigation, route }) => {
+const GestionarCalendarioScreen = ({ navigation, route }) => {
 
-    const { loginId } = route.params.params
     //Id del doctor (Disponibilidad del doctor en cuestion)
-    const { doctorId, intervaloCitas, centroMedicoDoctor } = route.params;
-
-
-    // ----------------Consumir API tabla Usuario Pacientes-----------------
-    const [apidataPaciente, apisetDataPaciente] = useState([]);
-    useEffect(() => {
-        fetchData('https://consultaterd.azurewebsites.net/api/UsuarioPacientes')
-    }, [])
-
-    const fetchData = async (url) => {
-        try {
-            const response = await fetch(url)
-            const json = await response.json();
-            const getid = json.filter(x => x.loginId == loginId).map(y => { return y.pacienteId })
-            apisetDataPaciente(getid);
-
-        } catch (error) {
-            console.error(error)
-        }
-    };
-
+    const { sessiondoctorid } = route.params;
 
     //sets if the modal popup is open or closed 
 
@@ -50,7 +29,7 @@ const DisponibilidadDoctorScreen = ({ navigation, route }) => {
 
     const fetchDataEspecialidad = (table) => {
         try {
-            const newarray = table.filter(item => item.doctorId == doctorId);
+            const newarray = table.filter(item => item.doctorId == sessiondoctorid);
             apisetDataHorarios(newarray);
 
         } catch (error) {
@@ -69,44 +48,31 @@ const DisponibilidadDoctorScreen = ({ navigation, route }) => {
         try {
             const response = await fetch(url)
             const json = await response.json();
-            const newarray = json.filter(item => item.doctorId == doctorId);
+            const newarray = json.filter(item => item.doctorId == sessiondoctorid);
             apisetDataCitas(newarray);
         } catch (error) {
             console.error(error);
         }
     }
 
-    //Post de Citas Agendadas a API
-    const postCita = () => {
+    // ----------------Consumir API tabla Usuario Doctores-----------------
+    const [intervaloDoctor, setintervaloDoctor] = useState([]);
 
-        var centromedico = centroMedicoDoctor.map(x => { return x.centroMedicoId }).toString();
-        var citafecha = selectDisponibilidad.fecha.format("DD-MM-YYYY");
+    useEffect(() => {
+        fetchDataDoctores('https://consultaterd.azurewebsites.net/api/UsuarioDoctores/' + `${sessiondoctorid}`);
+    }, [])
 
-        fetch('https://consultaterd.azurewebsites.net/api/CitasAgendadas', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                citaFecha: citafecha,
-                citasHoraInicio: selectDisponibilidad.inicio,
-                citaHoraCierre: selectDisponibilidad.cierre,
-                centroMedicoId: centromedico,
-                pacienteId: apidataPaciente.toString(),
-                doctorId: doctorId,
-                estadoCitas: true
-            })
-        })
-            .then(response => {
-                if (response.ok)
-                    setSuccesModalOpen(true)
-                else
-                    setFailModalOpen(true)
-                response.json().then(data => {
-                    console.log(data);
-                });
-            }).catch((error) => {
-                console.error(error);
-            })
-    }
+    const fetchDataDoctores = async (url) => {
+        try {
+            const response = await fetch(url);
+            const json = await response.json();
+            setintervaloDoctor(json.intervaloCitas);
+
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
 
     //Calendario
     const [selectedStartDate, setSelectedStartDate] = useState(null);
@@ -152,7 +118,7 @@ const DisponibilidadDoctorScreen = ({ navigation, route }) => {
 
             var lee = horain;
             for (let i = 0; i < ds; i++) {
-                const sumhorario = moment.duration(lee).add(intervaloCitas, 'minute');
+                const sumhorario = moment.duration(lee).add(intervaloDoctor, 'minute');
                 const pastehorasin = sumhorario.hours().toString() + (sumhorario.minutes().toString() == 0 ? "00" : sumhorario.minutes().toString())//Format
                 const formathora = moment(pastehorasin, "hmm").format("HH:mm"); //Format
                 array.push({ inicio: lee, cierre: formathora, fecha: date });
@@ -190,13 +156,11 @@ const DisponibilidadDoctorScreen = ({ navigation, route }) => {
             return true
         }
 
-        //Si el estado de la cita es true esta NO DISPONiBLE
         if (cita.length > 0) {
             var estado = cita.map(y => { return y.estadoCitas });
 
-            if (estado == "true") {
+            if (estado == "true")
                 return true
-            }
             else
                 return false
         } else
@@ -227,7 +191,7 @@ const DisponibilidadDoctorScreen = ({ navigation, route }) => {
                 </View>
                 <View style={styles.viewTitle}>
                     <View style={styles.boxTitle}>
-                        <Text style={{ fontSize: 20, fontWeight: 'bold', color: '#FFFFFF', marginHorizontal: 15, marginVertical: 20, }}>Horarios Disponibles</Text>
+                        <Text style={{ fontSize: 16, fontWeight: 'bold', color: '#FFFFFF', marginHorizontal: 15, marginVertical: 20, }}>Gestionar Disponibilidad</Text>
                     </View>
                     {selectedStartDate == null
                         ? <View style={styles.viewListDisponibilidad}>
@@ -252,7 +216,7 @@ const DisponibilidadDoctorScreen = ({ navigation, route }) => {
                     <TouchableOpacity
                         style={disableButton == true ? styles.buttonOn : styles.buttonOff}
                         disabled={disableButton}
-                        onPress={() => postCita()}>
+                        onPress={() => putCita()}>
                         <Text style={styles.textStyleButton}>Confirmar</Text>
                     </TouchableOpacity>
                 </View>
@@ -267,26 +231,18 @@ const DisponibilidadDoctorScreen = ({ navigation, route }) => {
 
             <View style={styles.modalBackground}>
                 <View style={styles.modalView}>
-                    {/* <MaterialCommunityIcons 
-                    name='close'
-                    style={styles.modalClose}
-                    size={24}
-                    visible = {true}
-                    onPress={()=>setSuccesModalOpen(false)}
-                    /> */}
 
                     <View style={{ alignItems: 'center' }}>
-                        <Text style={{ textAlign: 'center', padding: 20, fontSize: 18, fontWeight: 'bold' }}>Se ha agendado la cita satisfactoriamente</Text>
+                        <Text style={{ textAlign: 'center', padding: 20, fontSize: 18, fontWeight: 'bold' }}>Se ha modificado la cita correctamente</Text>
 
                         <TouchableOpacity
-                            style={[styles.modalButton, { backgroundColor: '#88CC68' }]}
+                            style={[styles.modalButton, { backgroundColor: '#0D0C0C' }]}
                             onPress={() => {
                                 setSuccesModalOpen(false);// hide de popup 
-                                navigation.navigate('DoctoresScreen');//go back to the doctors search screen
-                                navigation.navigate('Home');//and go to the home screen
+                                navigation.navigate('GestionCita');//go back to the gestion cita screen
                             }}
                         >
-                            <Text style={{ color: '#fff', fontSize: 15 }}>Continuar</Text>
+                            <Text style={{ color: '#FFFFFF', fontSize: 15 }}>Continuar</Text>
                         </TouchableOpacity>
                     </View>
 
@@ -346,7 +302,7 @@ const DisponibilidadDoctorScreen = ({ navigation, route }) => {
     </>
 }
 
-export default DisponibilidadDoctorScreen;
+export default GestionarCalendarioScreen;
 
 const styles = StyleSheet.create({
 

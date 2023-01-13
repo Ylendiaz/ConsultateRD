@@ -11,7 +11,7 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 const DisponibilidadDoctorScreenModified = ({ navigation, route }) => {
 
     //Id del doctor (Disponibilidad del doctor en cuestion)
-     const { citaId, centroMedicoId, pacienteId, doctorId, estadoCitas, fechaCreacionCita, fechaModificacionCita } = route.params;
+    const { citaId, centroMedicoId, pacienteId, doctorId, estadoCitas, fechaCreacionCita, fechaModificacionCita } = route.params;
 
     //sets if the modal popup is open or closed 
 
@@ -55,24 +55,24 @@ const DisponibilidadDoctorScreenModified = ({ navigation, route }) => {
         }
     }
 
-     // ----------------Consumir API tabla Usuario Doctores-----------------
-     const [intervaloDoctor, setintervaloDoctor] = useState([]);
+    // ----------------Consumir API tabla Usuario Doctores-----------------
+    const [intervaloDoctor, setintervaloDoctor] = useState([]);
 
-     useEffect(() => {
-         fetchDataDoctores('https://consultaterd.azurewebsites.net/api/UsuarioDoctores/' + `${doctorId}`);
-     }, [])
- 
-     const fetchDataDoctores = async (url) => {
-         try {
-             const response = await fetch(url);
-             const json = await response.json();
-             setintervaloDoctor(json.intervaloCitas);
- 
-         } catch (error) {
-             console.error(error);
-         }
-     };
- 
+    useEffect(() => {
+        fetchDataDoctores('https://consultaterd.azurewebsites.net/api/UsuarioDoctores/' + `${doctorId}`);
+    }, [])
+
+    const fetchDataDoctores = async (url) => {
+        try {
+            const response = await fetch(url);
+            const json = await response.json();
+            setintervaloDoctor(json.intervaloCitas);
+
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
 
     //PUT de Citas Agendadas a API
     const putCita = () => {
@@ -180,6 +180,16 @@ const DisponibilidadDoctorScreenModified = ({ navigation, route }) => {
         const datafecha = data.fecha.format("DD-MM-YYYY")
         const cita = apidataCitas.filter(x => x.citaFecha == datafecha & x.citasHoraInicio == data.inicio);
 
+        //Validar si está después de la hora inicial de la cita, por lo tanto esta NO DISPONIBLE
+        let fechaactual = moment().format("YYYY-MM-DD HH:mm"); // Fecha Actual
+        let fechacita = datafecha.toString().substring(6) + "-" + datafecha.toString().substring(3, 5) + "-" + datafecha.toString().substring(0, 2);
+        let fechafinal = fechacita + "T" + data.inicio
+        let validfecha = moment(fechaactual).parseZone().isSameOrAfter(fechafinal);
+
+        if (validfecha == true) {
+            return true
+        }
+
         if (cita.length > 0) {
             var estado = cita.map(y => { return y.estadoCitas });
 
@@ -255,7 +265,7 @@ const DisponibilidadDoctorScreenModified = ({ navigation, route }) => {
 
             <View style={styles.modalBackground}>
                 <View style={styles.modalView}>
-                
+
                     <View style={{ alignItems: 'center' }}>
                         <Text style={{ textAlign: 'center', padding: 20, fontSize: 18, fontWeight: 'bold' }}>Se ha modificado la cita correctamente</Text>
 

@@ -24,6 +24,7 @@ const GestionCitaScreen = ({ navigation, route }) => {
     fetchAppointments('https://consultaterd.azurewebsites.net/api/CitasAgendadas'); // appointments
   }, []);
 
+  const [sessiondoctorid, setsessiondoctorid] = useState(null);
 
   useEffect(() => {
     //call fetchData passing the GET request url
@@ -36,7 +37,7 @@ const GestionCitaScreen = ({ navigation, route }) => {
       const response = await fetch(url); //get the request response
       const json = await response.json(); // transform it to json format
       const getid = json.filter(x => x.loginId == route.params.loginId).map(y => { return y.doctorId }); // get the pacient id where the loginId's match
-      // setapppacienteid(getid[0])
+      setsessiondoctorid(getid[0])
       appDoctorID = getid[0]; // save the pacient id found in a global variable
 
     } catch (error) {
@@ -126,7 +127,7 @@ const GestionCitaScreen = ({ navigation, route }) => {
           />
           <View style={{ flexDirection: 'row', marginTop: 10, alignItems: 'center', justifyContent: 'space-between', marginBottom: 20 }}>
             <View style={{ height: 30, width: 250, marginHorizontal: 20, }}>
-              <StyledButtonIcon content="Gestionar Calendario" bgColor="#306965" ></StyledButtonIcon>
+              <StyledButtonIcon content="Gestionar Calendario" bgColor="#306965" onPress={() => navigation.navigate('GestionarCalendario', {sessiondoctorid})}></StyledButtonIcon>
               {/* bgColor="#07517A" */}
             </View>
             <View style={{}}>
