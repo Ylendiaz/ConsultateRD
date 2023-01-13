@@ -11,7 +11,7 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 const InfoCitaScreen = ({ navigation, route }) => {
 
     //Informacion de la cita que fue seleccionado
-    const { citaId, citaFecha, citasHoraInicio, citaHoraCierre, centroMedicoId, pacienteId, doctorId, estadoCitas, fechaCreacionCita, fechaModificacionCita } = route.params.item.item;
+    const { citaId, citaFecha, citasHoraInicio, citaHoraCierre, centroMedicoId, pacienteId, doctorId, estadoCitas, fechaCreacionCita, fechaModificacionCita, descripcion } = route.params.item.item;
     const { login1, livebuttoncita } = route.params.item;
 
     //sets if the modal popup is open or closed 
@@ -186,66 +186,105 @@ const InfoCitaScreen = ({ navigation, route }) => {
 
         {/* -----------------Información de la cita--------------- */}
         <ScrollView style={{ backgroundColor: "#68CCC0", height: "100%", width: '100%' }}>
-            <View style={styles.container1}>
-
-                <View style={{ borderBottomWidth: 1, flexDirection: 'row', justifyContent: "space-around", marginBottom: 10 }}>
-                    <Text style={{ color: "black", marginBottom: 10, fontWeight: "bold" }} >{citasHoraInicio} - {citaHoraCierre}</Text>
-                    <Text style={{ color: "black", marginBottom: 10, fontWeight: "bold" }} >{citaFecha}</Text>
-                </View>
-
-                <View style={{ borderBottomWidth: 1, marginBottom: 15, borderColor: 'rgba(0, 0, 0, 0.21)' }}>
-                    <Text style={{ marginBottom: 6, fontWeight: "bold" }}>Nombre del doctor:</Text>
-                    <Text style={{ marginBottom: 6 }}>{apidataDoctores.filter(x => x.doctorId == doctorId).map(y => { return y.nombreDoctor + " " + y.apellidoDoctor })}</Text>
-                </View>
-
-                <View style={{ borderBottomWidth: 1, marginBottom: 15, borderColor: 'rgba(0, 0, 0, 0.21)' }}>
-                    <Text style={{ marginBottom: 6, fontWeight: "bold" }}>Centro Medico:</Text>
-                    <Text style={{ marginBottom: 6 }}>{apidataCentros.filter(x => x.key == centroMedicoId).map(y => { return y.value })}</Text>
-                </View>
-
-                <View style={{ borderBottomWidth: 1, marginBottom: 15, borderColor: 'rgba(0, 0, 0, 0.21)' }}>
-                    <Text style={{ marginBottom: 6, fontWeight: "bold" }}>Nombre del paciente:</Text>
-                    <Text style={{ marginBottom: 6 }}>{apidataPaciente.filter(x => x.pacienteId == pacienteId).map(y => { return y.nombrePaciente + " " + y.apellidoPaciente })}</Text>
-                </View>
-
-                {/* Condicion del numero de telefono segun rol del usuario */}
-                {login1 == true
-                    ? <View style={{ borderBottomWidth: 1, marginBottom: 15, borderColor: 'rgba(0, 0, 0, 0.21)' }}>
-                        <Text style={{ marginBottom: 6, fontWeight: "bold" }}>Número de teléfono del doctor:</Text>
-                        <Text style={{ marginBottom: 6 }}> {apidataDoctores.filter(x => x.doctorId == doctorId).map(y => { return y.telefonoDoctor })}</Text>
-                    </View>
-                    : <View style={{ borderBottomWidth: 1, marginBottom: 15, borderColor: 'rgba(0, 0, 0, 0.21)' }}>
-                        <Text style={{ marginBottom: 6, fontWeight: "bold" }}>Número de teléfono del paciente:</Text>
-                        <Text style={{ marginBottom: 6 }}>{apidataPaciente.filter(x => x.pacienteId == pacienteId).map(y => { return y.telefonoPaciente })}</Text>
-                    </View>}
-
-            </View>
-            <View style={styles.textCitas}>
-                <Text style={{ fontSize: 20, fontWeight: 'bold', color: '#FFFFFF', marginHorizontal: 15, marginVertical: 20, }}>Información de la cita</Text>
-            </View>
-
-            {/* Botones Modificar y Cancelar  */}
-            {login1 == true
+            {descripcion == null
                 ? <View>
-                    <View style={{ height: 44, width: 310, marginTop: 390, alignSelf: 'center' }}>
-                        <StyledButtonIcon content="Cancelar Cita" bgColor="#900707" onPress={() => setCancelarModalOpen(true)} ></StyledButtonIcon>
+                    <View style={styles.container1}>
+
+                        <View style={{ borderBottomWidth: 1, flexDirection: 'row', justifyContent: "space-around", marginBottom: 10 }}>
+                            <Text style={{ color: "black", marginBottom: 10, fontWeight: "bold" }} >{citasHoraInicio} - {citaHoraCierre}</Text>
+                            <Text style={{ color: "black", marginBottom: 10, fontWeight: "bold" }} >{citaFecha}</Text>
+                        </View>
+
+                        <View style={{ borderBottomWidth: 1, marginBottom: 15, borderColor: 'rgba(0, 0, 0, 0.21)' }}>
+                            <Text style={{ marginBottom: 6, fontWeight: "bold" }}>Nombre del doctor:</Text>
+                            <Text style={{ marginBottom: 6 }}>{apidataDoctores.filter(x => x.doctorId == doctorId).map(y => { return y.nombreDoctor + " " + y.apellidoDoctor })}</Text>
+                        </View>
+
+                        <View style={{ borderBottomWidth: 1, marginBottom: 15, borderColor: 'rgba(0, 0, 0, 0.21)' }}>
+                            <Text style={{ marginBottom: 6, fontWeight: "bold" }}>Centro Medico:</Text>
+                            <Text style={{ marginBottom: 6 }}>{apidataCentros.filter(x => x.key == centroMedicoId).map(y => { return y.value })}</Text>
+                        </View>
+
+                        <View style={{ borderBottomWidth: 1, marginBottom: 15, borderColor: 'rgba(0, 0, 0, 0.21)' }}>
+                            <Text style={{ marginBottom: 6, fontWeight: "bold" }}>Nombre del paciente:</Text>
+                            <Text style={{ marginBottom: 6 }}>{apidataPaciente.filter(x => x.pacienteId == pacienteId).map(y => { return y.nombrePaciente + " " + y.apellidoPaciente })}</Text>
+                        </View>
+
+                        {/* Condicion del numero de telefono segun rol del usuario */}
+                        {login1 == true
+                            ? <View style={{ borderBottomWidth: 1, marginBottom: 15, borderColor: 'rgba(0, 0, 0, 0.21)' }}>
+                                <Text style={{ marginBottom: 6, fontWeight: "bold" }}>Número de teléfono del doctor:</Text>
+                                <Text style={{ marginBottom: 6 }}> {apidataDoctores.filter(x => x.doctorId == doctorId).map(y => { return y.telefonoDoctor })}</Text>
+                            </View>
+                            : <View style={{ borderBottomWidth: 1, marginBottom: 15, borderColor: 'rgba(0, 0, 0, 0.21)' }}>
+                                <Text style={{ marginBottom: 6, fontWeight: "bold" }}>Número de teléfono del paciente:</Text>
+                                <Text style={{ marginBottom: 6 }}>{apidataPaciente.filter(x => x.pacienteId == pacienteId).map(y => { return y.telefonoPaciente })}</Text>
+                            </View>}
                     </View>
+
+                    <View style={styles.textCitas}>
+                        <Text style={{ fontSize: 20, fontWeight: 'bold', color: '#FFFFFF', marginHorizontal: 15, marginVertical: 20, }}>Información de la cita</Text>
+                    </View>
+
+                    {/* Botones Modificar y Cancelar  */}
+                    {login1 == true
+                        ? <View>
+                            <View style={{ height: 44, width: 310, marginTop: 390, alignSelf: 'center' }}>
+                                <StyledButtonIcon content="Cancelar Cita" bgColor="#900707" onPress={() => setCancelarModalOpen(true)} ></StyledButtonIcon>
+                            </View>
+                        </View>
+                        : <View>
+                            <TouchableOpacity
+                                style={disableButton == true ? styles.buttonOff : styles.buttonOn}
+                                disabled={disableButton}
+                                onPress={() => finalizarCita()}>
+                                <Text style={styles.textStyleButton}>Finalizar</Text>
+                            </TouchableOpacity>
+                            <View style={{ height: 44, width: 310, marginTop: 15, alignSelf: 'center' }}>
+                                <StyledButtonIcon content="Modificar Cita" bgColor="#0D0C0C" onPress={() => setmodificarModalOpen(true)}></StyledButtonIcon>
+                            </View>
+                            <View style={{ height: 44, width: 310, marginTop: 15, alignSelf: 'center' }}>
+                                <StyledButtonIcon content="Cancelar Cita" bgColor="#900707" onPress={() => setCancelarModalOpen(true)} ></StyledButtonIcon>
+                            </View>
+                        </View>
+                    }
                 </View>
+
                 : <View>
-                    <TouchableOpacity
-                        style={disableButton == true ? styles.buttonOff : styles.buttonOn}
-                        disabled={disableButton}
-                        onPress={() => finalizarCita()}>
-                        <Text style={styles.textStyleButton}>Finalizar</Text>
-                    </TouchableOpacity>
-                    <View style={{ height: 44, width: 310, marginTop: 15, alignSelf: 'center' }}>
-                        <StyledButtonIcon content="Modificar Cita" bgColor="#0D0C0C" onPress={() => setmodificarModalOpen(true)}></StyledButtonIcon>
+                    <View style={styles.container1}>
+                        <View style={{ borderBottomWidth: 1, flexDirection: 'row', justifyContent: "space-around", marginBottom: 10 }}>
+                            <Text style={{ color: "black", marginBottom: 10, fontWeight: "bold" }} >{citasHoraInicio} - {citaHoraCierre}</Text>
+                            <Text style={{ color: "black", marginBottom: 10, fontWeight: "bold" }} >{citaFecha}</Text>
+                        </View>
+                        <Text style={{ color: "black", marginBottom: 10, fontWeight: "bold" }}>Descripción:
+                            <Text>  </Text>
+                            <Text style={{ color: "black", marginBottom: 10, fontWeight: 'normal' }} >{descripcion}</Text>
+                        </Text>
                     </View>
-                    <View style={{ height: 44, width: 310, marginTop: 15, alignSelf: 'center' }}>
-                        <StyledButtonIcon content="Cancelar Cita" bgColor="#900707" onPress={() => setCancelarModalOpen(true)} ></StyledButtonIcon>
+
+                    <View style={styles.textCitasDescripcion}>
+                        <Text style={{ fontSize: 20, fontWeight: 'bold', color: '#FFFFFF', marginHorizontal: 15, marginVertical: 20, }}>Información de la cita</Text>
                     </View>
+
+                    {/* Botones Modificar y Cancelar  */}
+                    {login1 == true
+                        ? <View>
+                            <View style={{ height: 44, width: 310, marginTop: 390, alignSelf: 'center' }}>
+                                <StyledButtonIcon content="Cancelar Cita" bgColor="#900707" onPress={() => setCancelarModalOpen(true)} ></StyledButtonIcon>
+                            </View>
+                        </View>
+                        : <View>
+                            <View style={{ height: 44, width: 310, marginTop: 400, alignSelf: 'center' }}>
+                                <StyledButtonIcon content="Modificar Cita" bgColor="#0D0C0C" onPress={() => setmodificarModalOpen(true)}></StyledButtonIcon>
+                            </View>
+                            <View style={{ height: 44, width: 310, marginTop: 15, alignSelf: 'center' }}>
+                                <StyledButtonIcon content="Cancelar Cita" bgColor="#900707" onPress={() => setCancelarModalOpen(true)} ></StyledButtonIcon>
+                            </View>
+                        </View>
+                    }
                 </View>
             }
+
         </ScrollView>
 
 
@@ -524,7 +563,20 @@ const styles = StyleSheet.create({
             height: 2,
         }
     },
-
+    textCitasDescripcion: {
+        borderRadius: 10,
+        marginTop: -190,
+        alignSelf: 'center',
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: "#232020",
+        width: "65%",
+        shadowColor: "black",
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        }
+    },
 
     //modal styles
     modalBackground: {

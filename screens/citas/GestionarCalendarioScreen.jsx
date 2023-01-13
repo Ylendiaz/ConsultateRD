@@ -11,14 +11,16 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 const GestionarCalendarioScreen = ({ navigation, route }) => {
 
     //Id del doctor (Disponibilidad del doctor en cuestion)
-    const { sessiondoctorid } = route.params;
+    const { sessiondoctorid, pacientedoctorid } = route.params;
 
     //sets if the modal popup is open or closed 
 
     //all of them are false by default (closed)
     const [succesModalOpen, setSuccesModalOpen] = useState(false); //popup de creacion de cita
     const [failModalOpen, setFailModalOpen] = useState(false); //popup de fallo al crear la cita
+    const [descripcionModalOpen, setDescripcionModalOpen] = useState(false); //popup de poner descripcion de la cita
 
+    const [descripcion, setDescripcion] = useState('No disponible en este horario'); //get input descripcion
 
     //-------------Consumir API tabla HorariosDoctors--------------------
     const [apidataHorarios, apisetDataHorarios] = useState([]);
@@ -57,16 +59,22 @@ const GestionarCalendarioScreen = ({ navigation, route }) => {
 
     // ----------------Consumir API tabla Usuario Doctores-----------------
     const [intervaloDoctor, setintervaloDoctor] = useState([]);
+    const [centroid, setcentroid] = useState([]);
 
     useEffect(() => {
-        fetchDataDoctores('https://consultaterd.azurewebsites.net/api/UsuarioDoctores/' + `${sessiondoctorid}`);
+        fetchDataDoctores('https://consultaterd.azurewebsites.net/api/UsuarioDoctores/GetDoctoresContent');
     }, [])
 
     const fetchDataDoctores = async (url) => {
         try {
             const response = await fetch(url);
             const json = await response.json();
-            setintervaloDoctor(json.intervaloCitas);
+
+            const findintervalo = json.find(x => x.doctorId == sessiondoctorid)
+            setintervaloDoctor(findintervalo.intervaloCitas);
+
+            const findcentroid = json.find(x => x.doctorId == sessiondoctorid).centroMedicoDoctor.map(y => { return y.centroMedicoId })
+            setcentroid(findcentroid[0])
 
         } catch (error) {
             console.error(error);
@@ -167,6 +175,38 @@ const GestionarCalendarioScreen = ({ navigation, route }) => {
             return false
     }
 
+    //Post de Citas Agendadas a API
+    const postCita = () => {
+
+        var citafecha = selectDisponibilidad.fecha.format("DD-MM-YYYY");
+
+        fetch('https://consultaterd.azurewebsites.net/api/CitasAgendadas', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                citaFecha: citafecha,
+                citasHoraInicio: selectDisponibilidad.inicio,
+                citaHoraCierre: selectDisponibilidad.cierre,
+                centroMedicoId: centroid,
+                pacienteId: pacientedoctorid,
+                doctorId: sessiondoctorid,
+                estadoCitas: true,
+                descripcion: descripcion
+            })
+        })
+            .then(response => {
+                if (response.ok)
+                    setSuccesModalOpen(true)
+                else
+                    setFailModalOpen(true)
+                response.json().then(data => {
+                    console.log(data);
+                });
+            }).catch((error) => {
+                console.error(error);
+            })
+    }
+
     return <>
         <View style={{ width: "100%", height: "100%" }}>
             <ScrollView style={{ height: "100%", backgroundColor: '#68CCC0' }}>
@@ -216,12 +256,46 @@ const GestionarCalendarioScreen = ({ navigation, route }) => {
                     <TouchableOpacity
                         style={disableButton == true ? styles.buttonOn : styles.buttonOff}
                         disabled={disableButton}
-                        onPress={() => putCita()}>
-                        <Text style={styles.textStyleButton}>Confirmar</Text>
+                        onPress={() => setDescripcionModalOpen(true)}>
+                        <Text style={styles.textStyleButton}>Agendar</Text>
                     </TouchableOpacity>
                 </View>
             </ScrollView>
         </View>
+
+
+        <Modal
+            visible={descripcionModalOpen}
+            animationType='fade'
+            transparent={true}>
+            <View style={styles.modalBackground}>
+                <View style={[styles.modalView, { width: Dimensions.get('window').width / 1.1, height: Dimensions.get('window').width / 1 }]}>
+                    <MaterialCommunityIcons
+                        name='close'
+                        style={styles.modalClose}
+                        size={24}
+                        visible={true}
+                        onPress={() => setDescripcionModalOpen(false)}
+                    />
+
+                    <View style={{ alignItems: 'center' }}>
+                        <Text style={{ textAlign: 'center', paddingTop: 20, fontSize: 18, fontWeight: 'bold', paddingBottom: 10 }}>Ingrese una descripción (Opcional)</Text>
+
+                        <TextInput multiline={true} name="descripcion" placeholderTextColor="grey" placeholder="Ej: Reunion con junta directiva" style={styles.descripcion} onChangeText={(inputValue) => setDescripcion(inputValue)}></TextInput>
+
+                        <TouchableOpacity
+                            style={[styles.modalButton, { backgroundColor: '#88CC68' }]}
+                            onPress={() => {
+                                postCita();
+                                setDescripcionModalOpen(false);
+                            }}
+                        >
+                            <Text style={{ color: '#fff', fontSize: 15 }}>Confirmar</Text>
+                        </TouchableOpacity>
+                    </View>
+                </View>
+            </View>
+        </Modal>
 
         {/* Popup crear cita satisfactoriamente */}
         <Modal
@@ -233,7 +307,7 @@ const GestionarCalendarioScreen = ({ navigation, route }) => {
                 <View style={styles.modalView}>
 
                     <View style={{ alignItems: 'center' }}>
-                        <Text style={{ textAlign: 'center', padding: 20, fontSize: 18, fontWeight: 'bold' }}>Se ha modificado la cita correctamente</Text>
+                        <Text style={{ textAlign: 'center', padding: 20, fontSize: 18, fontWeight: 'bold' }}>Se ha agendado correctamente</Text>
 
                         <TouchableOpacity
                             style={[styles.modalButton, { backgroundColor: '#0D0C0C' }]}
@@ -245,16 +319,9 @@ const GestionarCalendarioScreen = ({ navigation, route }) => {
                             <Text style={{ color: '#FFFFFF', fontSize: 15 }}>Continuar</Text>
                         </TouchableOpacity>
                     </View>
-
-
                 </View>
             </View>
-
         </Modal>
-
-        {/* Final del Popup */}
-
-
         {/* Popup el horario no esta disponible */}
 
 
@@ -265,14 +332,6 @@ const GestionarCalendarioScreen = ({ navigation, route }) => {
 
             <View style={styles.modalBackground}>
                 <View style={styles.modalView}>
-                    {/* <MaterialCommunityIcons 
-                    name='close'
-                    style={styles.modalClose}
-                    size={24}
-                    visible = {true}
-                    onPress={()=>setFailModalOpen(false)}
-                    /> */}
-
                     <View style={{ alignItems: 'center' }}>
                         <Text style=
                             {{
@@ -280,8 +339,7 @@ const GestionarCalendarioScreen = ({ navigation, route }) => {
                                 padding: 20,
                                 fontSize: 18,
                                 fontWeight: 'bold'
-                            }}
-                        >El horario seleccionado no esta disponible</Text>
+                            }}>El horario seleccionado no esta disponible</Text>
 
                         <TouchableOpacity
                             style={[styles.modalButton, { backgroundColor: '#E85959' }]}
@@ -290,14 +348,11 @@ const GestionarCalendarioScreen = ({ navigation, route }) => {
                             <Text style={{ color: '#fff', fontSize: 15 }}>Continuar</Text>
                         </TouchableOpacity>
                     </View>
-
-
                 </View>
             </View>
-
         </Modal>
-
         {/* Final del Popup */}
+
 
     </>
 }
@@ -477,6 +532,22 @@ const styles = StyleSheet.create({
         paddingHorizontal: 50,
         color: '#fff',
     },
+    descripcion: {
+        textAlignVertical: 'top',
+        backgroundColor: "#e6e6fa",
+        textColor: "gray",
+        marginVertical: 10,
+        padding: 13,
 
+        borderRadius: 10,
+        borderColor: '#ffffff',
+        shadowColor: '#171717',
+        shadowOffset: { width: 1, height: 1 },
+        shadowOpacity: 2,
+
+        width: '100%',
+        height: 90,
+        placeholdertextcolor: 'red',
+    },
 
 })

@@ -44,8 +44,16 @@ export default [
         diaId: 3,
         doctorId: 9,
         centroMedicoId: 13,
-        horaInicio: "10:00",
-        horaCierre: "13:00"
+        horaInicio: "07:00",
+        horaCierre: "10:00"
+    },
+    {
+        horarioId: 7,
+        diaId: 3,
+        doctorId: 8,
+        centroMedicoId: 13,
+        horaInicio: "07:00",
+        horaCierre: "10:00"
     }
     
     

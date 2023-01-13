@@ -19,11 +19,6 @@ const GestionCitaScreen = ({ navigation, route }) => {
 
   let appDoctorID = 0;//here we're going to save the pacient id of the user that is logged in (to fetch appointments informacion)
 
-  const refresh = useCallback(() => {
-    // Perform any refresh logic here
-    fetchAppointments('https://consultaterd.azurewebsites.net/api/CitasAgendadas'); // appointments
-  }, []);
-
   const [sessiondoctorid, setsessiondoctorid] = useState(null);
 
   useEffect(() => {
@@ -45,6 +40,31 @@ const GestionCitaScreen = ({ navigation, route }) => {
     }
   };
 
+  const [pacientedoctorid, setpacientedoctorid] = useState(null);
+  useEffect(() => {
+
+    fetchDataDoctorPaciente('https://consultaterd.azurewebsites.net/api/UsuarioPacientes');
+  }, []);
+
+  const fetchDataDoctorPaciente = async (url) => {
+    try {
+
+      const response = await fetch(url); //get the request response
+      const json = await response.json(); // transform it to json format
+      const getid = json.filter(x => x.loginId == route.params.loginId).map(y => { return y.pacienteId }); // get the pacient id where the loginId's match
+      setpacientedoctorid(getid[0])
+
+    } catch (error) {
+      console.error(error); // otherwise there was an error in the request
+    }
+  };
+
+  const refresh = useCallback(() => {
+    // Perform any refresh logic here
+    fetchAppointments('https://consultaterd.azurewebsites.net/api/CitasAgendadas'); // appointments
+  }, []);
+
+
   useEffect(() => {
     //call fetchData passing the GET request url
     fetchAppointments('https://consultaterd.azurewebsites.net/api/CitasAgendadas'); // appointments
@@ -59,8 +79,9 @@ const GestionCitaScreen = ({ navigation, route }) => {
       const response = await fetch(url);
       const json = await response.json();
       const newarray = json.filter(item => item.doctorId == appDoctorID && item.estadoCitas == true);
-      apisetData(newarray);
       apisetFilteredData(newarray);
+      apisetData(newarray);
+
     } catch (error) {
       console.error(error);
     }
@@ -96,6 +117,8 @@ const GestionCitaScreen = ({ navigation, route }) => {
   );
   // QUITAR FILTROS
   const QuitarFiltros = () => {
+    // setSelectedStartDate(null)
+    // setSelectedEndDate(null);
     apisetFilteredData(apidata);
 
   }
@@ -127,7 +150,7 @@ const GestionCitaScreen = ({ navigation, route }) => {
           />
           <View style={{ flexDirection: 'row', marginTop: 10, alignItems: 'center', justifyContent: 'space-between', marginBottom: 20 }}>
             <View style={{ height: 30, width: 250, marginHorizontal: 20, }}>
-              <StyledButtonIcon content="Gestionar Calendario" bgColor="#306965" onPress={() => navigation.navigate('GestionarCalendario', {sessiondoctorid})}></StyledButtonIcon>
+              <StyledButtonIcon content="Gestionar Calendario" bgColor="#306965" onPress={() => navigation.navigate('GestionarCalendario', { sessiondoctorid, pacientedoctorid })}></StyledButtonIcon>
               {/* bgColor="#07517A" */}
             </View>
             <View style={{}}>

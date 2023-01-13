@@ -129,48 +129,79 @@ const CitasAgendadas = (props) => {
                 citas.map((item, index) => {
                     return (
                         <View>
-                            <TouchableOpacity key={item.citaId} style={styles.listView} onPress={() => onPress({ item, login1, livebuttoncita: getEstadoCita(item) })} >
-                                <View style={styles.listViewContent}>
-                                    <View style={styles.listTextView}>
-                                        <View style={{ flexDirection: 'row', marginBottom: 15, }}>
-                                            {login1 == true
-                                                ?
-                                                <View style={{ borderRadius: 10, alignSelf: 'center', alignItems: 'center', backgroundColor: "#0C7A28", }}>
-                                                    <Text style={{ fontSize: 12, fontWeight: 'bold', color: '#FFFFFF', marginHorizontal: 30, marginVertical: 5, }}>Cita</Text>
-                                                </View>
+                            {item.descripcion == null
+                                ? <TouchableOpacity key={item.citaId} style={styles.listView} onPress={() => onPress({ item, login1, livebuttoncita: getEstadoCita(item) })} >
+                                    <View style={styles.listViewContent}>
+                                        <View style={styles.listTextView}>
+                                            <View style={{ flexDirection: 'row', marginBottom: 15, }}>
+                                                {login1 == true
+                                                    ?
+                                                    <View style={{ borderRadius: 10, alignSelf: 'center', alignItems: 'center', backgroundColor: "#0C7A28", }}>
+                                                        <Text style={{ fontSize: 12, fontWeight: 'bold', color: '#FFFFFF', marginHorizontal: 30, marginVertical: 5, }}>Cita</Text>
+                                                    </View>
 
-                                                : <View style={{ borderRadius: 10, alignSelf: 'center', alignItems: 'center', backgroundColor: "#2B95FF", }}>
-                                                    <Text style={{ fontSize: 12, fontWeight: 'bold', color: '#FFFFFF', marginHorizontal: 30, marginVertical: 5, }}>Con Paciente</Text>
-                                                </View>
+                                                    : <View style={{ borderRadius: 10, alignSelf: 'center', alignItems: 'center', backgroundColor: "#2B95FF", }}>
+                                                        <Text style={{ fontSize: 12, fontWeight: 'bold', color: '#FFFFFF', marginHorizontal: 30, marginVertical: 5, }}>Con Paciente</Text>
+                                                    </View>
+                                                }
+                                                <Text style={{ marginHorizontal: 5, }}></Text>
+                                                {getEstadoCita(item) == true
+                                                    ? <View style={{ borderRadius: 10, alignSelf: 'center', alignItems: 'center', backgroundColor: "#900707", }}>
+                                                        <Text style={{ fontSize: 12, fontWeight: 'bold', color: '#FFFFFF', marginHorizontal: 30, marginVertical: 5, }}>En vivo</Text>
+                                                    </View>
+                                                    : null}
+                                            </View>
+                                            <View style={{ borderBottomWidth: 1, flexDirection: 'row', justifyContent: "space-around", marginBottom: 10, borderColor: 'rgba(0, 0, 0, 0.25)' }}>
+                                                <Text style={{ color: "black", marginBottom: 10, fontWeight: "bold" }} >{item.citasHoraInicio} - {item.citaHoraCierre}</Text>
+                                                <Text style={{ color: "black", marginBottom: 10, fontWeight: "bold" }} >{item.citaFecha}</Text>
+                                            </View>
+                                            {login1 == true
+                                                ? <Text style={{ color: "black", marginBottom: 10, fontWeight: "bold" }}>Doctor/a:
+                                                    <Text>  </Text>
+                                                    <Text style={{ color: "black", marginBottom: 10, fontWeight: 'normal' }}>{apidataDoctores.filter(x => x.doctorId == item.doctorId).map(y => { return y.nombreDoctor + " " + y.apellidoDoctor })}</Text>
+                                                </Text>
+                                                : <Text style={{ color: "black", marginBottom: 10, fontWeight: "bold" }}>Paciente:
+                                                    <Text>  </Text>
+                                                    <Text style={{ color: "black", marginBottom: 10, fontWeight: 'normal' }}>{apidataPaciente.filter(x => x.pacienteId == item.pacienteId).map(y => { return y.nombrePaciente + " " + y.apellidoPaciente })}</Text>
+                                                </Text>
                                             }
-                                            <Text style={{ marginHorizontal: 5, }}></Text>
-                                            {getEstadoCita(item) == true
-                                                ? <View style={{ borderRadius: 10, alignSelf: 'center', alignItems: 'center', backgroundColor: "#900707", }}>
-                                                    <Text style={{ fontSize: 12, fontWeight: 'bold', color: '#FFFFFF', marginHorizontal: 30, marginVertical: 5, }}>En vivo</Text>
-                                                </View>
-                                                : null}
-                                        </View>
-                                        <View style={{ borderBottomWidth: 1, flexDirection: 'row', justifyContent: "space-around", marginBottom: 10, borderColor: 'rgba(0, 0, 0, 0.25)' }}>
-                                            <Text style={{ color: "black", marginBottom: 10, fontWeight: "bold" }} >{item.citasHoraInicio} - {item.citaHoraCierre}</Text>
-                                            <Text style={{ color: "black", marginBottom: 10, fontWeight: "bold" }} >{item.citaFecha}</Text>
-                                        </View>
-                                        {login1 == true
-                                            ? <Text style={{ color: "black", marginBottom: 10, fontWeight: "bold" }}>Doctor/a:
+                                            <Text style={{ color: "black", marginBottom: 10, fontWeight: "bold" }}>Lugar:
                                                 <Text>  </Text>
-                                                <Text style={{ color: "black", marginBottom: 10, fontWeight: 'normal' }}>{apidataDoctores.filter(x => x.doctorId == item.doctorId).map(y => { return y.nombreDoctor + " " + y.apellidoDoctor })}</Text>
+                                                <Text style={{ color: "black", fontWeight: 'normal' }}>{apidataCentros.filter(x => x.key == item.centroMedicoId).map(y => { return y.value })}</Text>
                                             </Text>
-                                            : <Text style={{ color: "black", marginBottom: 10, fontWeight: "bold" }}>Paciente:
-                                                <Text>  </Text>
-                                                <Text style={{ color: "black", marginBottom: 10, fontWeight: 'normal' }}>{apidataPaciente.filter(x => x.pacienteId == item.pacienteId).map(y => { return y.nombrePaciente + " " + y.apellidoPaciente })}</Text>
-                                            </Text>
-                                        }
-                                        <Text style={{ color: "black", marginBottom: 10, fontWeight: "bold" }}>Lugar:
-                                            <Text>  </Text>
-                                            <Text style={{ color: "black", fontWeight: 'normal' }}>{apidataCentros.filter(x => x.key == item.centroMedicoId).map(y => { return y.value })}</Text>
-                                        </Text>
+                                        </View>
                                     </View>
-                                </View>
-                            </TouchableOpacity>
+                                </TouchableOpacity>
+
+                                : login1 == true
+                                    ? null
+                                    : <TouchableOpacity key={item.citaId} style={styles.listView} onPress={() => onPress({ item, login1, livebuttoncita: getEstadoCita(item) })} >
+                                        <View style={styles.listViewContent}>
+                                            <View style={styles.listTextView}>
+                                                <View style={{ flexDirection: 'row', marginBottom: 15, }}>
+                                                    <View style={{ borderRadius: 10, alignSelf: 'center', alignItems: 'center', backgroundColor: "#FF7433", }}>
+                                                        <Text style={{ fontSize: 12, fontWeight: 'bold', color: '#FFFFFF', marginHorizontal: 30, marginVertical: 5, }}>Personal</Text>
+                                                    </View>
+                                                    <Text style={{ marginHorizontal: 5, }}></Text>
+                                                    {getEstadoCita(item) == true
+                                                        ? <View style={{ borderRadius: 10, alignSelf: 'center', alignItems: 'center', backgroundColor: "#900707", }}>
+                                                            <Text style={{ fontSize: 12, fontWeight: 'bold', color: '#FFFFFF', marginHorizontal: 30, marginVertical: 5, }}>En vivo</Text>
+                                                        </View>
+                                                        : null}
+                                                </View>
+                                                <View style={{ borderBottomWidth: 1, flexDirection: 'row', justifyContent: "space-around", marginBottom: 10, borderColor: 'rgba(0, 0, 0, 0.25)' }}>
+                                                    <Text style={{ color: "black", marginBottom: 10, fontWeight: "bold" }} >{item.citasHoraInicio} - {item.citaHoraCierre}</Text>
+                                                    <Text style={{ color: "black", marginBottom: 10, fontWeight: "bold" }} >{item.citaFecha}</Text>
+                                                </View>
+                                                <Text style={{ color: "black", marginBottom: 10, fontWeight: "bold" }}>Descripción:
+                                                    <Text>  </Text>
+                                                    <Text style={{ color: "black", marginBottom: 10, fontWeight: 'normal' }} >{item.descripcion}</Text>
+                                                </Text>
+
+                                            </View>
+                                        </View>
+                                    </TouchableOpacity>
+                            }
                         </View>
                     )
                 })
