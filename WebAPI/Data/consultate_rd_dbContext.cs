@@ -140,6 +140,11 @@ namespace WebAPI.Data
                     .HasColumnName("fecha_modificacion_cita")
                     .HasDefaultValueSql("(getdate())");
 
+                entity.Property(e => e.Descripcion)
+                    .HasMaxLength(250)
+                    .IsUnicode(false)
+                    .HasColumnName("Descripcion");
+
                 entity.Property(e => e.PacienteId).HasColumnName("paciente_id");
 
                 entity.HasOne(d => d.CentroMedico)

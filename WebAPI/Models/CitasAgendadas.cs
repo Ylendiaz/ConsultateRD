@@ -17,6 +17,7 @@ namespace WebAPI.Models
         public bool? EstadoCitas { get; set; }
         public DateTime? FechaCreacionCita { get; set; }
         public DateTime? FechaModificacionCita { get; set; }
+        public string Descripcion { get; set; }
 
         public virtual CentroMedico CentroMedico { get; set; }
         public virtual UsuarioDoctor Doctor { get; set; }
