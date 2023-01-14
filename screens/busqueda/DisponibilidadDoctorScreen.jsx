@@ -470,7 +470,7 @@ const styles = StyleSheet.create({
         fontSize: 14
     },
     textDisponible: {
-        width: 100,
+        width: 110,
         color: "#60815B",
         fontSize: 14,
         fontWeight: 'bold',
@@ -478,7 +478,7 @@ const styles = StyleSheet.create({
         marginRight: 20
     },
     textNoDisponible: {
-        width: 100,
+        width: 110,
         color: "#CC2222",
         fontSize: 14,
         fontWeight: 'bold',

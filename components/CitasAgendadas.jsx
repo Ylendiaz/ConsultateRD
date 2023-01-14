@@ -128,7 +128,7 @@ const CitasAgendadas = (props) => {
             {
                 citas.map((item, index) => {
                     return (
-                        <View>
+                        <View style={{ paddingLeft: 5, paddingRight: 5 }}>
                             {item.descripcion == null
                                 ? <TouchableOpacity key={item.citaId} style={styles.listView} onPress={() => onPress({ item, login1, livebuttoncita: getEstadoCita(item) })} >
                                     <View style={styles.listViewContent}>

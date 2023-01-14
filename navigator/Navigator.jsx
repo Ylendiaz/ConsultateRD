@@ -13,6 +13,7 @@ import { Entypo, Ionicons, MaterialCommunityIcons, AntDesign } from '@expo/vecto
 import InfoCitaScreen from "../screens/citas/InfoCitaScreen";
 import HistorialScreen from '../screens/perfil/HistorialScreen';
 import GestionarCalendarioScreen from '../screens/citas/GestionarCalendarioScreen';
+import VerPerfilScreen from '../screens/perfil/VerPerfilScreen';
 // import AsyncStorage from '@react-native-async-storage/async-storage';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -63,6 +64,7 @@ function PerfilStack() {
     return (
         <Stack.Navigator>
             <Stack.Screen name="Perfil" component={PerfilScreen} initialParams={parametros} options={{ headerShown: false }} />
+            <Stack.Screen name="VerPerfil" component={VerPerfilScreen} options={{ title: 'Editar Perfil' }}  />
             <Stack.Screen name="Historial" component={HistorialScreen} options={{ title: 'Historial' }}  />
         </Stack.Navigator>
     );
