@@ -5,7 +5,7 @@ import { NavigationContainer, useNavigation, useRoute } from "@react-navigation/
 import StyledButtonIcon from "../../components/StyledButtonIcon";
 
 
-const PerfilScreen = ({navigation, route}) => {
+const PerfilScreen = ({ navigation, route }) => {
 
     let userData = route.params;
 
@@ -48,7 +48,7 @@ const PerfilScreen = ({navigation, route}) => {
             {userData.rol == true ?
                 <View style={styles.buttonsContainer}>
                     <View style={{ height: 44, width: 310, marginTop: 15 }}>
-                        <StyledButtonIcon content="Ver Perfil" bgColor="#0D0C0C" ></StyledButtonIcon>
+                        <StyledButtonIcon content="Ver Perfil" bgColor="#0D0C0C" onPress={() => navigation.navigate('VerPerfil', { userData })}></StyledButtonIcon>
                     </View>
                     <View style={{ height: 44, width: 310, marginTop: 15 }}>
                         <StyledButtonIcon content="Información de la cuenta" bgColor="#0D0C0C" ></StyledButtonIcon>
@@ -66,7 +66,7 @@ const PerfilScreen = ({navigation, route}) => {
                 : <View style={styles.buttonsContainer}>
 
                     <View style={{ height: 44, width: 310, marginTop: 15 }}>
-                        <StyledButtonIcon content="Ver Perfil" bgColor="#0D0C0C" ></StyledButtonIcon>
+                        <StyledButtonIcon content="Ver Perfil" bgColor="#0D0C0C" onPress={() => navigation.navigate('VerPerfil', { userData })}></StyledButtonIcon>
                     </View>
                     <View style={{ height: 44, width: 310, marginTop: 15 }}>
                         <StyledButtonIcon content="Historial de citas" bgColor="#0D0C0C" onPress={() => navigation.navigate('Historial', { userData })}></StyledButtonIcon>
