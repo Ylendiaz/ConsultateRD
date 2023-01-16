@@ -14,6 +14,19 @@ const RegistrarseScreen = ({ navigation }) => {
     //Para el Switch Selector
     const [showHide, setShowHide] = useState(false);
 
+    //inputs for all users
+    const [nombres, setNombres] = useState('');
+    const [apellidos, setApellidos] = useState('');
+    const [telefono, setTelefono] = useState('');
+    const [sexo, setSexo] = useState('');
+    const [fechaDeNacimiento, setFechaDeNacimiento] = useState('');
+    const [contraseña, setContraseña] = useState('');
+    const [confirmContraseña, setConfirmContraseña] = useState('');
+
+    //inputs for the doctor
+    const [centroMedico, setCentroMedico] = useState('');
+    const [especilidad, setEspeciales] = useState('');
+
     //Para el dropdown
     const [selectedSexo, setSelectedSexo] = useState("");
     const data = [{ key: '1', value: 'Masculino' }, { key: '2', value: 'Femenino' }];
@@ -93,9 +106,9 @@ const RegistrarseScreen = ({ navigation }) => {
                     ? //Pacientes
                     <View style={styles.container}>
                         <View style={styles.inputsContainer}>
-                            <TextInput placeholderTextColor={'gray'} placeholder="Nombres" label="Nombres" style={styles.input} ></TextInput>
-                            <TextInput placeholderTextColor={'gray'} placeholder="Apellidos" label="Apellidos" style={styles.input} ></TextInput>
-                            <TextInput placeholderTextColor={'gray'} placeholder="Teléfono" label="Teléfono" keyboardType="numeric" style={styles.input} ></TextInput>
+                            <TextInput placeholderTextColor={'gray'} placeholder="Nombres" label="Nombres" style={styles.input} onChangeText={(val1) => setNombres(val1)}></TextInput>
+                            <TextInput placeholderTextColor={'gray'} placeholder="Apellidos" label="Apellidos" style={styles.input} onChangeText={(val1) => setApellidos(val1)}></TextInput>
+                            <TextInput placeholderTextColor={'gray'} placeholder="Teléfono" label="Teléfono" keyboardType="numeric" style={styles.input} onChangeText={(val1) => setTelefono(val1)}></TextInput>
                             <View style={{ width: "80%" }}>
                                 <SelectList
                                     setSelected={setSelectedSexo}
@@ -114,7 +127,7 @@ const RegistrarseScreen = ({ navigation }) => {
                             <TextInput placeholderTextColor={'gray'} placeholder="Email" label="Email" keyboardType="email-address" style={styles.input} ></TextInput>
                             {/* <Text style={styles.inputText}>Contraseña: </Text> */}
                             <TextInput placeholderTextColor={'gray'} placeholder="Contraseña" label="Password" secureTextEntry={true} style={styles.input} ></TextInput>
-                            <TextInput placeholderTextColor={'gray'} placeholder="Repite Contraseña" label="Password" secureTextEntry={true} style={styles.input} ></TextInput>
+                            <TextInput placeholderTextColor={'gray'} placeholder="Confirme la Contraseña" label="Password" secureTextEntry={true} style={styles.input} ></TextInput>
                         </View>
 
                         <View style={{ marginTop: 40, flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
@@ -158,7 +171,7 @@ const RegistrarseScreen = ({ navigation }) => {
                             <TextInput placeholderTextColor={'gray'} placeholder="Email" label="Email" keyboardType="email-address" style={styles.input} ></TextInput>
                             {/* <Text style={styles.inputText}>Contraseña: </Text> */}
                             <TextInput placeholderTextColor={'gray'} placeholder="Contraseña" label="Password" secureTextEntry={true} style={styles.input} ></TextInput>
-                            <TextInput placeholderTextColor={'gray'} placeholder="Repite Contraseña" label="Password" secureTextEntry={true} style={styles.input} ></TextInput>
+                            <TextInput placeholderTextColor={'gray'} placeholder="Confirme la Contraseña" label="Password" secureTextEntry={true} style={styles.input} ></TextInput>
                             <View style={{ width: "80%" }}>
                                 <SelectList
                                     setSelected={setSelectedCentro}
