@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { SafeAreaView, StyleSheet, Button, Text, View, Image, ScrollView, TouchableOpacity, TextInput } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import moment from "moment";
+import { Feather, MaterialCommunityIcons } from '@expo/vector-icons';
 
 const VerPerfilScreen = ({ navigation, route }) => {
 
@@ -35,6 +36,9 @@ const VerPerfilScreen = ({ navigation, route }) => {
     return <>
         <ScrollView style={{ backgroundColor: "#509F8C", height: "100%" }} >
             <View style={styles.viewTopPerfil}>
+                <TouchableOpacity style={{width: '100%'}} >
+                    <Feather name="check-square" size={28} color={'black'} style={{ marginTop: 15, marginHorizontal: 15, alignSelf:'flex-end' }} />
+                </TouchableOpacity>
                 <Image style={styles.viewFoto} source={require("../../assets/avatar.png")}></Image>
                 <TouchableOpacity>
                     <Text style={{ marginTop: 10 }}>Editar foto de perfil</Text>
@@ -93,7 +97,6 @@ const styles = StyleSheet.create({
     },
     viewFoto: {
         resizeMode: 'cover',
-        marginTop: 55,
         height: 175,
         width: 175,
         borderRadius: 100,

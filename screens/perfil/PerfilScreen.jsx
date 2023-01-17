@@ -29,6 +29,25 @@ const PerfilScreen = ({ navigation, route }) => {
         }
     };
 
+     // ----------------Consumir API tabla Usuario Pacientes-----------------
+     const [apidataDoctor, apisetDataDoctor] = useState({});
+
+     useEffect(() => {
+         //call fetchData passing the GET request url
+         fetchDataDoctor('https://consultaterd.azurewebsites.net/api/UsuarioDoctores');//pacient users
+     }, []);
+ 
+     const fetchDataDoctor = async (url) => {
+         try {
+             const response = await fetch(url);
+             const json = await response.json();
+             const doctorInfoId = json.filter(x => x.loginId == userData.loginId).map(y => { return y.doctorId });
+             apisetDataDoctor(doctorInfoId);
+ 
+         } catch (error) {
+             console.error(error)
+         }
+     };
 
 
     return <>
@@ -51,7 +70,7 @@ const PerfilScreen = ({ navigation, route }) => {
                         <StyledButtonIcon content="Ver Perfil" bgColor="#0D0C0C" onPress={() => navigation.navigate('VerPerfil', { userData })}></StyledButtonIcon>
                     </View>
                     <View style={{ height: 44, width: 310, marginTop: 15 }}>
-                        <StyledButtonIcon content="Información de la cuenta" bgColor="#0D0C0C" ></StyledButtonIcon>
+                        <StyledButtonIcon content="Información de la cuenta" bgColor="#0D0C0C" onPress={() => navigation.navigate('InfoCuenta', { userData, apidataDoctor })}></StyledButtonIcon>
                     </View>
                     <View style={{ height: 44, width: 310, marginTop: 15 }}>
                         <StyledButtonIcon content="Historial de citas" bgColor="#0D0C0C" onPress={() => navigation.navigate('Historial', { userData })} ></StyledButtonIcon>

@@ -14,6 +14,7 @@ import InfoCitaScreen from "../screens/citas/InfoCitaScreen";
 import HistorialScreen from '../screens/perfil/HistorialScreen';
 import GestionarCalendarioScreen from '../screens/citas/GestionarCalendarioScreen';
 import VerPerfilScreen from '../screens/perfil/VerPerfilScreen';
+import InfoCuentaScreen from '../screens/perfil/InfoCuentaScreen';
 // import AsyncStorage from '@react-native-async-storage/async-storage';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -66,6 +67,7 @@ function PerfilStack() {
             <Stack.Screen name="Perfil" component={PerfilScreen} initialParams={parametros} options={{ headerShown: false }} />
             <Stack.Screen name="VerPerfil" component={VerPerfilScreen} options={{ title: 'Editar Perfil' }}  />
             <Stack.Screen name="Historial" component={HistorialScreen} options={{ title: 'Historial' }}  />
+            <Stack.Screen name="InfoCuenta" component={InfoCuentaScreen} options={{ title: 'Información de la cuenta' }}  />
         </Stack.Navigator>
     );
 }
