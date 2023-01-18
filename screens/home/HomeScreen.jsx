@@ -73,7 +73,7 @@ const HomeScreen = ({ navigation, route }) => {
         </View>
       </View>
       <View style={{ paddingHorizontal: 30 }}>
-        {apidataCitas.length > 0
+        {apidataCitas.length > 0 && apidataCitas.map(x => {return x.descripcion})[0] == null
           ? <CitasAgendadas citas={apidataCitas} login1={true} onPress={(item, login1) => navigation.navigate('InfoCita', { item, login1 })}></CitasAgendadas>
           : <View style={styles.viewListDisponibilidad}>
             <Text style={{ marginVertical: 10, alignSelf: 'center', fontSize: 14, fontWeight: 'bold', color: "#504D4C" }}>No hay citas agendadas</Text>

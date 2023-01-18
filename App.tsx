@@ -6,13 +6,14 @@ import AppNavigatorLogin from "./navigator/NavigatorLogin";
 import AppNavigator from ".//navigator/Navigator";
 import DoctoresScreen from "./screens/busqueda/DoctoresScreen";
 import GestionCitaScreen from "./screens/citas/GestionCitaScreen";
-
-
+import { LogBox } from 'react-native';
+LogBox.ignoreLogs(['Warning: ...']); // Ignore log notification by message
+LogBox.ignoreAllLogs();//Ignore all log notifications
 
 export default function App() {
   return (
     //  <AppNavigator></AppNavigator>
-      <View style={styles.container}>
+    <View style={styles.container}>
       <AppNavigatorLogin />
       <StatusBar style="auto" />
     </View>
